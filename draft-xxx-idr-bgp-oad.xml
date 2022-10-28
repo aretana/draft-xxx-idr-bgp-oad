@@ -1,88 +1,32 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@aretana
-ietf-tools /
-rfcxml-templates-and-schemas
-Public
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-
-    Insights
-
-rfcxml-templates-and-schemas/draft-rfcxml-general-template-standard-00.xml
-@JayDaley
-JayDaley Added <dl> to standard template
-Latest commit 52cdcba on Mar 9
-History
-2 contributors
-@JayDaley
-@jrlevine
-252 lines (213 sloc) 9.23 KB
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-     draft-rfcxml-general-template-standard-00
-  
-     This template includes examples of the most commonly used features of RFCXML with comments 
-     explaining how to customise them. This template can be quickly turned into an I-D by editing 
-     the examples provided. Look for [REPLACE], [REPLACE/DELETE], [CHECK] and edit accordingly.
-     Note - 'DELETE' means delete the element or attribute, not just the contents.
-     
-     Documentation is at https://authors.ietf.org/en/templates-and-schemas
--->
-<?xml-model href="rfc7991bis.rnc"?>  <!-- Required for schema validation and schema-aware editing -->
-<!-- <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?> -->
-<!-- This third-party XSLT can be enabled for direct transformations in XML processors, including most browsers -->
-
-
+<?xml-model href="rfc7991bis.rnc"?>
 <!DOCTYPE rfc [
   <!ENTITY nbsp    "&#160;">
   <!ENTITY zwsp   "&#8203;">
   <!ENTITY nbhy   "&#8209;">
   <!ENTITY wj     "&#8288;">
 ]>
-<!-- If further character entities are required then they should be added to the DOCTYPE above.
-     Use of an external entity file is not recommended. -->
-
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
-  category="info"
-  docName="draft-rfcxml-general-template-standard-00"
+  category="std"
+  docName="draft-xxx-idr-bgp-oad-00"
   ipr="trust200902"
   obsoletes=""
   updates=""
   submissionType="IETF"
   xml:lang="en"
   version="3">
-<!-- [REPLACE] 
-       * docName with name of your draft
-     [CHECK] 
-       * category should be one of std, bcp, info, exp, historic
-       * ipr should be one of trust200902, noModificationTrust200902, noDerivativesTrust200902, pre5378Trust200902
-       * updates can be an RFC number as NNNN
-       * obsoletes can be an RFC number as NNNN 
--->
-
   <front>
-    <title abbrev="Abbreviated Title">Title [REPLACE]</title>
-    <!--  [REPLACE/DELETE] abbrev. The abbreviated title is required if the full title is longer than 39 characters -->
+    <title abbrev="One Administrative Domain">One Administrative Domain using BGP</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rfcxml-general-template-standard-00 [REPLACE]"/>
-   
+    <seriesInfo name="Internet-Draft" value="draft-xxx-idr-bgp-oad-00"/>
+
     <author fullname="fullname [REPLACE]" initials="Initials [REPLACE]" role="editor" surname="Surname [REPLACE]">
       <!-- [CHECK]
              * initials should not include an initial for the surname
              * role="editor" is optional -->
     <!-- Can have more than one author -->
-      
+
     <!-- all of the following elements are optional -->
       <organization>Organization [REPLACE/DELETE]</organization>
       <address>
@@ -94,44 +38,45 @@ History
           <code>Postal code [REPLACE/DELETE]</code>
           <country>Country [REPLACE/DELETE]</country>
           <!-- Uses two letter country code -->
-        </postal>        
+        </postal>
         <phone>Phone [REPLACE/DELETE]</phone>
-        <email>Email [REPLACE/DELETE]</email>  
+        <email>Email [REPLACE/DELETE]</email>
         <!-- Can have more than one <email> element -->
         <uri>URI [REPLACE/DELETE]</uri>
       </address>
     </author>
-   
+
     <date year="2022"/>
-    <!-- On draft subbmission:
-         * If only the current year is specified, the current day and month will be used.
-         * If the month and year are both specified and are the current ones, the current day will
-           be used
-         * If the year is not the current one, it is necessary to specify at least a month and day="1" will be used.
-    -->
 
-    <area>General</area>
-    <workgroup>Internet Engineering Task Force</workgroup>
-    <!-- "Internet Engineering Task Force" is fine for individual submissions.  If this element is 
-          not present, the default is "Network Working Group", which is used by the RFC Editor as 
-          a nod to the history of the RFC Series. -->
+    <area>Routing</area>
+    <workgroup>Inter-Domain Routing</workgroup>
 
-    <keyword>keyword</keyword>
-    <!-- [REPLACE/DELETE]. Multiple allowed.  Keywords are incorporated into HTML output files for 
-         use by search engines. -->
+    <keyword>BGP OAD Confederation</keyword>
 
     <abstract>
-      <t>Abstract [REPLACE]</t>
+      <t>
+        RFC 5065 describes an extension to BGP that may be used to create a
+        confederation of autonomous systems that is represented as a single
+        autonomous system to BGP peers external to the confederation, thereby
+        removing the "full mesh" requirement.  This documents relaxes the
+        single-autonomous-system representation to provide more flexibility for
+        networks that span more than one autonomous system.  These networks are
+        known as One Administrative Domain (OAD).
+      </t>
     </abstract>
- 
+
   </front>
 
   <middle>
-    
     <section>
       <name>Introduction</name>
-      <t>Introductory text [REPLACE]</t>
-      
+      <t>
+        This documents relaxes the single-autonomous-system representation
+        defined in <xref target="RFC5065"/> to provide more flexibility for
+        networks that span more than one autonomous system.  These networks are
+        known as One Administrative Domain (OAD).
+      </t>
+
       <section>
         <name>Requirements Language</name>
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
@@ -141,78 +86,176 @@ History
           <xref target="RFC8174"/> when, and only when, they appear in
           all capitals, as shown here.</t>
       </section>
-      <!-- [CHECK] The 'Requirements Language' section is optional -->
-
     </section>
-    
+
     <section>
-      <name>Body [REPLACE]</name>
-      <t>Body text [REPLACE]</t>
-      
-      <ol>
-        <li>Ordered list item [REPLACE/DELETE]</li>
-      </ol>
-      
-      <ul>
-        <li>Bulleted list item [REPLACE/DELETE]</li>
-      </ul>
-      
-      <dl newline="true">
-        <!-- Omit newline="true" if you want each definition to start on the same line as the corresponding term -->
-        <dt>First term: [REPLACE/DELETE]</dt>
-        <dd>Definition of the first term [REPLACE/DELETE]</dd>
-        <dt>Second term: [REPLACE/DELETE]</dt>
-        <dd>Definition of the second term [REPLACE/DELETE]</dd>
-      </dl>
-      
-      <table>
-        <thead>
-        <!-- [REPLACE/DELETE] a table header is optional -->
-          <tr><th>Column 1 [REPLACE]</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Cell [REPLACE]</td></tr>
-        </tbody>
-      </table>
+      <name>Discussion</name>
+      <t>[Justification TBD. Point at use cases, etc.]</t>
+    </section>
 
-      <figure>
-        <name>Source [REPLACE]</name>
-        <sourcecode name="suggested filename [REPLACE/DELETE]" type="language [REPLACE/DELETE]" markers="true">
-          <![CDATA[
-source code goes here [REPLACE]
-          ]]>
-        </sourcecode>
-        <!-- [CHECK] markers="true" means that the rendered file will have <CODE BEGINS> and <CODE ENDS> added -->
-      </figure>
+    <section>
+      <name>Operation</name>
+      <t>
+        The use of the AS Confederation Identifier <xref target="RFC5065"/> is
+        OPTIONAL.  If it is configured, it MAY be used in transactions with
+        peers that are not members of the OAD.
+      </t>
+      <t>
+        A member of the OAD MUST use its Member-AS Number in all transactions
+        with peers that are members of the same OAD.
+      </t>
+      <t>
+        A BGP speaker receiving an AS_PATH attribute containing an autonomous
+        system matching its own AS Confederation Identifier MAY treat the path
+        in the same fashion as if it had received a path containing its own AS
+        number.
+      </t>
+      <t>
+        [More about Loop Detection]
+      </t>
+      <t>
+        AS_CONFED_SEQUENCE and AS_CONFED_SET <xref target="RFC5065"/> MUST NOT
+        be used by members of an OAD.  The use of BGP confederations
+        <xref target="RFC5065"/> inside a member of an OAD is outside the scope
+        of this document.
+      </t>
 
-      <figure>
-        <name>Diagram [REPLACE]</name>
-        <artset>
-        <!-- This <artset> includes two <artwork> elements, each of a different type -->
-          <artwork type="svg" src="https://www.rfc-editor.org/materials/format/svg/stream.svg" />
-          <!-- [REPLACE] src points to either a local file or a URI. -->
-          <artwork type="ascii-art" name="stream.txt">
-            <!-- [REPLACE/DELETE] name recommends a filename to use if the diagram is extracted -->  
-            <![CDATA[
- ascii-art diagram goes here [REPLACE]
-            ]]>
-          </artwork>
-        </artset>
-      </figure>
-    </section>   
-    
+
+      <section>
+        <name>AS_PATH Modification Rules</name>
+        <t>
+          If the AS Confederation Identifier is not used for transactions with
+          peers that are not members of the local OAD, the procedures specified
+          in Section 5.1.2 of <xref target="RFC4271"/> do not change.
+        </t>
+        <t>
+          [Add text about OPTIONAL modifications to the AS-PATH.]
+        </t>
+        </section>
+
+        <section>
+          <name>One Routing Domain</name>
+          <t>
+            It is reasonable for Member Autonomous Systems of an OAD to share a
+            common administration and Interior Gateway Protocol (IGP)
+            information for the entire domain.  It is also reasonable for each
+            Member-AS to run an independent IGP.  In the latter case, the
+            NEXT_HOP may need to be set using policy (i.e., by default it is unchanged).
+          </t>
+          <t>
+            In both cases, all iBGP attributes are propagated to other peers in
+            the same OAD.
+          </t>
+      </section>
+
+      <section>
+        <name>MED and LOCAL_PREF Handling</name>
+        <t>
+          It SHALL be legal for a BGP speaker to advertise an unchanged
+          NEXT_HOP and MULTI_EXIT_DISC (MED) attribute to peers in a
+          neighboring Member-AS of the local OAD.
+        </t>
+        <t>
+          An implementation MAY compare MEDs from different Member Autonomous
+          Systems of the same OAD.
+        </t>
+        <t>
+          In addition, the restriction against sending the LOCAL_PREF attribute
+          to peers in a neighboring autonomous system within the same OAD is
+          removed.
+        </t>
+     </section>
+
+
+     <section>
+       <name>AS_PATH and Path Selection</name>
+       <t>
+         Path selection criteria for information received from members inside
+         an OAD MUST follow the same rules used for information received from
+         peers inside the same autonomous system, as specified in
+         <xref target="RFC4271"/>.
+       </t>
+       <t>
+         In addition, the following rules SHALL be applied:
+       </t>
+       <ol>
+         <li>
+           If the AS_PATH is internal to the OAD, consider the neighbor AS to
+           be the local AS. [???]
+         </li>
+         <li>
+           Otherwise, consider the neighbor AS to be the leftmost AS_SEQUENCE
+           AS.
+         </li>
+         <li>
+           [Adapt for "transparent" OAD.] When comparing routes using AS_PATH
+           length, CONFED_SEQUENCE and CONFED_SETs SHOULD NOT be counted.
+         </li>
+         <li>
+           When comparing routes using the internal (IBGP learned) versus
+           external (EBGP learned) rules, treat a route that is learned from a
+           peer that is in the same OAD (not necessarily the same Member-AS) as
+           "internal".
+         </li>
+       </ol>
+     </section>
+    </section>
+
+    <section>
+      <name>Deployment Considerations</name>
+      <t>
+        Improper configuration of BGP confederations can cause routing
+        information within an AS to be duplicated unnecessarily.  This
+        duplication of information will waste system resources, cause
+        unnecessary route flaps, and delay convergence.
+      </t>
+      <t>
+        [LCs won't cause duplication, but they may cause inconsistencies
+        if AS_PATH modifications (or use of the OAD ID) is not configured
+        uniformly...the same with loop detection.]
+      </t>
+      <t>
+        Care should be taken to manually filter duplicate advertisements
+        caused by reachability information being relayed through multiple
+        Member Autonomous Systems based upon the topology and redundancy
+        requirements of the confederation. [Manual filtering ??]
+      </t>
+      <t>
+        Additionally, OADs (as well as BGP confederations), by excluding
+        different reachability information from consideration, have been shown
+        <xref target="RFC3345"/> to cause permanent oscillation between
+        candidate routes when using the tie-breaking rules required by BGP
+        <xref target="RFC4271"/>.  Care must be taken when selecting MED values
+        and tie-breaking policy to avoid these situations.
+      </t>
+      <t>
+        One potential way to avoid this is by configuring inter-Member-AS IGP
+        metrics higher than intra-Member-AS IGP metrics and/or using other tie-
+        breaking policies to avoid BGP route selection based on incomparable
+        MEDs.
+      </t>
+      <t>
+        [Management / Configuration Text needed.]
+      </t>
+    </section>
+
     <section anchor="IANA">
-    <!-- All drafts are required to have an IANA considerations section. See RFC 8126 for a guide.-->
       <name>IANA Considerations</name>
       <t>This memo includes no request to IANA. [CHECK]</t>
     </section>
-    
+
     <section anchor="Security">
-      <!-- All drafts are required to have a security considerations section. See RFC 3552 for a guide. -->
-      <name>Security Considerations</name>
-      <t>This document should not affect the security of the Internet. [CHECK]</t>
+        <name>Security Considerations</name>
+        <t>
+          This extension to BGP does not change the underlying security issues
+          inherent in the existing BGP protocol, such as those described in
+          <xref target="RFC4271"/> and <xref target="RFC4272"/>.
+        </t>
+        <t>
+          [Add more.]
+        </t>
     </section>
-    
+
     <!-- NOTE: The Acknowledgements and Contributors sections are at the end of this template -->
   </middle>
 
@@ -221,79 +264,34 @@ source code goes here [REPLACE]
       <name>References</name>
       <references>
         <name>Normative References</name>
-        
+
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3345.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5065.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
-        <!-- The recommended and simplest way to include a well known reference -->
-        
       </references>
- 
+
       <references>
         <name>Informative References</name>
-       
-        <reference anchor="exampleRefMin">
-        <!-- [REPLACE/DELETE] Example minimum reference -->
-          <front>
-            <title>Title [REPLACE]</title>
-            <author initials="Initials [REPLACE]" surname="Surname [REPLACE]">
-              <organization/>
-            </author>
-            <date year="2006"/>
-            <!-- [CHECK] -->
-          </front>
-        </reference>
 
-        <reference anchor="exampleRefOrg" target="http://www.example.com/">
-        <!-- [REPLACE/DELETE] Example reference written by an organization not a person -->
-          <front>
-            <title>Title [REPLACE]</title>
-            <author>
-              <organization>Organization [REPLACE]</organization>
-            </author>
-            <date year="1984"/>
-            <!-- [CHECK] -->
-          </front>
-        </reference>       
-       
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4272.xml"/>
       </references>
+
     </references>
-    
-    <section>
-      <name>Appendix 1 [REPLACE/DELETE]</name>
-      <t>This becomes an Appendix [REPLACE]</t>
-    </section>
 
     <section anchor="Acknowledgements" numbered="false">
       <!-- [REPLACE/DELETE] an Acknowledgements section is optional -->
       <name>Acknowledgements</name>
-      <t>This template uses extracts from templates written by Pekka Savola, Elwyn Davies and 
-        Henrik Levkowetz. [REPLACE]</t>
+      <t>
+        This document borrows heavily from the text in
+        <xref target="RFC5065"/>.  We would like to thank the authors of that
+        document as well as everyone who contributed to it.
+      </t>
+      <t>
+        The authors would like to thank ...  for ...
+      </t>
     </section>
-    
-    <section anchor="Contributors" numbered="false">
-      <!-- [REPLACE/DELETE] a Contributors section is optional -->
-      <name>Contributors</name>
-      <t>Thanks to all of the contributors. [REPLACE]</t>
-      <!-- [CHECK] it is optional to add a <contact> record for some or all contributors -->
-    </section>
-    
+
  </back>
 </rfc>
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-rfcxml-templates-and-schemas/draft-rfcxml-general-template-standard-00.xml at main · ietf-tools/rfcxml-templates-and-schemas
-rfcxml-templates-and-schemas/draft-rfcxml-general-template-standard-00.xml at main · ietf-tools/rfcxml-templates-and-schemas
