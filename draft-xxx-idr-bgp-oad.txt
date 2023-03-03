@@ -4,8 +4,8 @@
 
 Inter-Domain Routing          Initials [REPLACE]. Surname [REPLACE], Ed.
 Internet-Draft                             Organization [REPLACE/DELETE]
-Intended status: Standards Track                        16 February 2023
-Expires: 20 August 2023
+Intended status: Standards Track                            3 March 2023
+Expires: 4 September 2023
 
 
                   One Administrative Domain using BGP
@@ -13,15 +13,9 @@ Expires: 20 August 2023
 
 Abstract
 
-   RFC 5065 describes an extension to BGP that may be used to create a
-   confederation of autonomous systems that is represented as a single
-   autonomous system to BGP peers external to the confederation, thereby
-   removing the "full mesh" requirement.  The confederations were
-   designed to aid in policy administration and reduce the management
-   complexity of maintaining a large autonomous system.  This documents
-   relaxes the single-autonomous-system representation to provide more
-   flexibility for networks that span more than one autonomous system.
-   These networks are known as One Administrative Domain (OAD).
+   This document defines a new External BGP (EBGP) peering type known as
+   BGP-OAD.  BGP-OAD peering is used between two EBGP peers that are
+   part of the same One Administrative Domain (OAD).
 
 Status of This Memo
 
@@ -38,7 +32,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 August 2023.
+   This Internet-Draft will expire on 4 September 2023.
 
 Copyright Notice
 
@@ -60,16 +54,10 @@ Table of Contents
      1.1.  Requirements Language
    2.  Discussion
    3.  Operation
-     3.1.  AS_PATH Modification Rules
-       3.1.1.  AS_PATH and Path Selection
-     3.2.  Nexthop Handling
-     3.3.  MED and LOCAL_PREF Handling
-     3.4.  AIGP Handling
-     3.5.  Communities Handling
-     3.6.  Non-Transitive Extended Communities Handling
-     3.7.  Label Allocation and Label Handling
-     3.8.  BGPSec Attribute Handling
-     3.9.  RPKI Validation
+     3.1.  Nexthop Handling
+     3.2.  MULTI_EXIT_DISC (MED) Handling
+     3.3.  ORIGINATOR_ID Handling
+     3.4.  Label Allocation and Label Handling
    4.  Deployment Considerations
    5.  IANA Considerations
    6.  Security Considerations
@@ -81,23 +69,19 @@ Table of Contents
 
 1.  Introduction
 
-   This documents relaxes the single-autonomous-system representation
-   defined in [RFC5065] to provide more flexibility for networks that
-   span more than one autonomous system.  These networks are known as
-   One Administrative Domain (OAD).
+   At each EBGP boundary, BGP path attributes are modified as per
+   standard BGP rules [RFC4271].  This includes prepending the AS_PATH
+   attribute with the autonomous-system number of the BGP speaker and
+   stripping any IBGP-only attibutes.
 
-   Typically, at each External BGP boundary, BGP path attributes
-   [RFC4271] are modified as per standard BGP rules.  This includes
-   prepending the AS_PATH attribute with the autonomous-system number of
-   the BGP speaker that is announcing prefixes and stripping of IBGP
-   attibutes that is local to any autonomous-system.
-
-   It is desiable to carry these IBGP attributes across EBGP peering
-   when EBGP peers are part on OAD for the purpose of efficient Traffic
-   Engineering.  This document defines a new EBGP peering known as a
-   BGP-OAD peering.  BGP-OAD peering is used between two External BGP
-   peers that are part of a same OAD.  This document also defines rules
-   for route announcement and processing for EBGP-OAD peers.
+   Some networks span more than one autonomous sytem and require more
+   flexibility in the propagation of path attributes.  These networks
+   are said to belong to One Administrative Domain (OAD).  It is
+   desiable to carry IBGP attributes across EBGP peering when the peers
+   are part on OAD.  This document defines a new EBGP peering type known
+   as BGP-OAD.  BGP-OAD peering is used between two EBGP peers that are
+   part of the same OAD.  This document also defines rules for route
+   announcement and processing for EBGP-OAD peers.
 
 1.1.  Requirements Language
 
@@ -113,10 +97,9 @@ Table of Contents
 
 3.  Operation
 
-   [RFC4271] defines various types of BGP peering used to establish the
-   BGP protocol connection.  As part of the extensions defined in this
-   document, the EBGP peering defined in [RFC4271] is divided into two
-   groups:
+   [RFC4271] defines two types of BGP peering used during a BGP protocol
+   session.  As part of the extensions defined in this document, the
+   EBGP peering is divided into two groups:
 
    1.  EBGP as defined in [RFC4271].
 
@@ -128,135 +111,63 @@ Table of Contents
    EBGP-OAD speakers follow the route advertisement, route processing,
    EBGP path attribute announcement and EBGP path attribute processing
    rules of the EBGP speakers as defined in [RFC4271].  However, the
-   extensions defined in this document also allows EBGP-OAD speakers to
-   announce and receive any IBGP attributes that were restricted to
-   annoucements within an Autonomous Systems across the Autonomous
-   System boundary [RFC4271].
+   extensions defined in this document also allow EBGP-OAD speakers to
+   announce and receive any IBGP-only attributes that were restricted to
+   remain within an Autonomous System [RFC4271].
 
    The only IBGP feature extension that is not permitted across EBGP-OAD
    peers and is outside the scope of this document is the support for
    the Confederations [RFC5065].  Both the AS_CONFED_SEQUENCE and
-   AS_CONFED_SET [RFC5065] MUST NOT be used by any members of an OAD.
+   AS_CONFED_SET [RFC5065] MUST NOT be used by members of an OAD.
 
-   The EBGP-OAD peering can be enabled for any BGP AFI/SAFI using a
-   peering configuration.  A EBGP-OAD speaker supporting the extensions
-   defined in this document assumes the support of Four-Octet Autonomous
-   System (AS) Number Space [RFC6793] and the support of Revised Error
-   handling for BGP Update messages [RFC7606].
+   [Route Reflectors -- MUST NOT Cluster_List.]
 
-   Following sections describe modifications to route advertisements and
-   path attribute announcements that are specific to the BGP-OAD
+   Unless explicitly specified, all path attributes MAY be advertised
+   over an EBGP-OAD session.  The reception of any path atrribute over
+   an EBGP-OAD session MUST NOT result in an error, unless it is
+   malformed.  It SHOULD NOT be ignored by the receiver, unless directed
+   to by local policy.
+
+   Unless explicitly specified, the modification of path attributes sent
+   through an EBGP session remains unchanged when advertised through an
+   EBGP-OAD peering.  For example, the AS_PATH is modified as specified
+   in [RFC4271].
+
+   The following sections describe modifications to route advertisements
+   and path attribute announcements that are specific to the EBGP-OAD
    peering.
 
-3.1.  AS_PATH Modification Rules
+3.1.  Nexthop Handling
 
-   A BGP speaker supporting OAD extensions MUST use its Member-AS Number
-   in all transactions with its peers of the same OAD.  A BGP speaker
-   receiving an AS_PATH attribute containing an autonomous system
-   matching its own AS Confederation Identifier or its Local AS MAY
-   treat the path in the same fashion as if it had received a path
-   containing its own AS number.  A BGP speaker receiving an AS4_PATH
-   attribute containing an autonomous system matching its own AS
-   Confederation Identifier or its local AS MAY treat the path in the
-   same fashion as if it had received a path containing its own AS
-   number.
+   It is reasonable for EBGP-OAD peers to share a common Interior
+   Gateway Protocol (IGP).  In such a case, NEXT_HOP attribute and the
+   Next Hop in the MP_REACH_NLRI attribute [RFC4760] MAY be left
+   unchanged.
 
-   If the AS Confederation Identifier is not used for transactions with
-   peers that are not members of the local OAD, the procedures specified
-   in Section 5.1.2 of [RFC4271] do not change.
+3.2.  MULTI_EXIT_DISC (MED) Handling
 
-3.1.1.  AS_PATH and Path Selection
+   The determination of the neighboring AS for the purpose of BGP Route
+   Selection [RFC4271] MAY also consider the ASN of the EBGP-OAD peer.
+   If so, all the peers in the receiving ASN MUST be conifigured to use
+   the same criteria.  [Clarify + Example]
 
-   Path selection criteria for information received from members inside
-   an OAD MUST follow the same rules used for information received from
-   peers inside the same autonomous system, as specified in [RFC4271].
+3.3.  ORIGINATOR_ID Handling
 
-   In addition, the following rules SHALL be applied:
-
-   1.  If the AS_PATH is internal to the OAD, consider the neighbor AS
-       to be the local AS. [???]
-
-   2.  Otherwise, consider the neighbor AS to be the leftmost
-       AS_SEQUENCE AS.
-
-   3.  [Adapt for "transparent" OAD.]  When comparing routes using
-       AS_PATH length, CONFED_SEQUENCE and CONFED_SETs SHOULD NOT be
-       counted.
-
-   4.  When comparing routes using the internal (IBGP learned) versus
-       external (EBGP learned) rules, treat a route that is learned from
-       a peer that is in the same OAD (not necessarily the same Member-
-       AS) as "internal".
-
-3.2.  Nexthop Handling
-
-   It is reasonable for Member Autonomous Systems of an OAD to share a
-   common administration and Interior Gateway Protocol (IGP) information
-   for the entire domain.  In such a case, NEXT_HOP attribute and the
-   Next Hop in the MP_REACH_NLRI attribute SHOULD be left unchanged.  It
-   is also reasonable for each Member-AS to run an independent IGP.  In
-   such cases, the NEXT_HOP attribute and the Next Hop in MP_REACH_NLRI
-   attribute MAY need to be set using a policy (i.e., by default it is
-   unchanged).
-
-3.3.  MED and LOCAL_PREF Handling
-
-   It SHALL be legal for a BGP speaker to advertise an unchanged
-   LOCAL_PREF and MULTI_EXIT_DISC (MED) attribute to peers in a
-   neighboring Member-AS of the local OAD.
-
-   An implementation MAY compare MEDs from different Member Autonomous
-   Systems of the same OAD.
-
-   In addition, the restriction against sending the LOCAL_PREF attribute
-   to peers in a neighboring autonomous system within the same OAD is
-   removed.
-
-3.4.  AIGP Handling
-
-3.5.  Communities Handling
-
-3.6.  Non-Transitive Extended Communities Handling
-
-3.7.  Label Allocation and Label Handling
-
-3.8.  BGPSec Attribute Handling
-
-3.9.  RPKI Validation
+3.4.  Label Allocation and Label Handling
 
 4.  Deployment Considerations
 
-   Improper configuration of BGP confederations can cause routing
-   information within an AS to be duplicated unnecessarily.  This
-   duplication of information will waste system resources, cause
-   unnecessary route flaps, and delay convergence.
-
-   [LCs won't cause duplication, but they may cause inconsistencies if
-   AS_PATH modifications (or use of the OAD ID) is not configured
-   uniformly...the same with loop detection.]
-
-   Care should be taken to manually filter duplicate advertisements
-   caused by reachability information being relayed through multiple
-   Member Autonomous Systems based upon the topology and redundancy
-   requirements of the confederation.  [Manual filtering ??]
-
-   Additionally, OADs (as well as BGP confederations), by excluding
-   different reachability information from consideration, have been
-   shown [RFC3345] to cause permanent oscillation between candidate
-   routes when using the tie-breaking rules required by BGP [RFC4271].
-   Care must be taken when selecting MED values and tie-breaking policy
-   to avoid these situations.
-
-   One potential way to avoid this is by configuring inter-Member-AS IGP
-   metrics higher than intra-Member-AS IGP metrics and/or using other
-   tie- breaking policies to avoid BGP route selection based on
-   incomparable MEDs.
+   If multiple peerings exist between two autonomous systems in the same
+   OAD, all SHOULD be configued consistently.  Improper configuration
+   may result in inconsistent or unexpected forwarding.  The
+   inconsistent use of EBGP-OAD sessions is out of scope of this
+   document.
 
    [Management / Configuration Text needed.]
 
 5.  IANA Considerations
 
-   This memo includes no request to IANA.  [CHECK]
+   This memo includes no request to IANA.
 
 6.  Security Considerations
 
@@ -264,7 +175,7 @@ Table of Contents
    inherent in the existing BGP protocol, such as those described in
    [RFC4271] and [RFC4272].
 
-   [Add more.]
+   [Add more.  Backwards -- one sided!]
 
 7.  References
 
@@ -274,11 +185,6 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-   [RFC3345]  McPherson, D., Gill, V., Walton, D., and A. Retana,
-              "Border Gateway Protocol (BGP) Persistent Route
-              Oscillation Condition", RFC 3345, DOI 10.17487/RFC3345,
-              August 2002, <https://www.rfc-editor.org/info/rfc3345>.
 
    [RFC4271]  Rekhter, Y., Ed., Li, T., Ed., and S. Hares, Ed., "A
               Border Gateway Protocol 4 (BGP-4)", RFC 4271,
@@ -290,16 +196,6 @@ Table of Contents
               DOI 10.17487/RFC5065, August 2007,
               <https://www.rfc-editor.org/info/rfc5065>.
 
-   [RFC6793]  Vohra, Q. and E. Chen, "BGP Support for Four-Octet
-              Autonomous System (AS) Number Space", RFC 6793,
-              DOI 10.17487/RFC6793, December 2012,
-              <https://www.rfc-editor.org/info/rfc6793>.
-
-   [RFC7606]  Chen, E., Ed., Scudder, J., Ed., Mohapatra, P., and K.
-              Patel, "Revised Error Handling for BGP UPDATE Messages",
-              RFC 7606, DOI 10.17487/RFC7606, August 2015,
-              <https://www.rfc-editor.org/info/rfc7606>.
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
@@ -310,11 +206,12 @@ Table of Contents
               RFC 4272, DOI 10.17487/RFC4272, January 2006,
               <https://www.rfc-editor.org/info/rfc4272>.
 
-Acknowledgements
+   [RFC4760]  Bates, T., Chandra, R., Katz, D., and Y. Rekhter,
+              "Multiprotocol Extensions for BGP-4", RFC 4760,
+              DOI 10.17487/RFC4760, January 2007,
+              <https://www.rfc-editor.org/info/rfc4760>.
 
-   This document borrows heavily from the text in [RFC5065].  We would
-   like to thank the authors of that document as well as everyone who
-   contributed to it.
+Acknowledgements
 
    The authors would like to thank ...  for ...
 
