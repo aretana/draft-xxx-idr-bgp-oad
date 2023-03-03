@@ -93,7 +93,20 @@ Table of Contents
 
 2.  Discussion
 
-   [Justification TBD.  Point at use cases, etc.]
+   Networks have traditionally been demarcated by a BGP border which
+   correlates to an administrative boundary.  This paradigm no longer
+   serves the needs of network designers or customers due to the
+   decoupling of IGP from BGP, BGP LU in the underlay, the use of BGP to
+   facilitate multiple service overlays ( L2 VPN, L3VPN ...) where said
+   overlays span multiple regions and AS domains, and the instantiation
+   of customer sites on multiple CSPs.  For a given service i.e RFC 4364
+   a customer may have VPN sites distributed across different AS
+   domains, in some cases the administrator of said VPN prefer that some
+   attributes which by default are non-transitive become transitive.  An
+   example could be Local-Pref which is a non-transitive attribute, for
+   a VPN spanning multiple AS domains under a given administrative
+   authority the administrator of said VPN may desire LP setting to be
+   honored across eBGP boundaries.
 
 3.  Operation
 
