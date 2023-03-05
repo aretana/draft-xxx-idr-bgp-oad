@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-03-02T01:52:50.836980+00:00",
+  "timestamp": "2023-03-05T01:59:28.456295+00:00",
   "repo": "aretana/draft-xxx-idr-bgp-oad",
   "labels": [
     {
@@ -50,5 +50,34 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOIVB7-s5LPokY",
+      "title": "Update draft-xxx-idr-bgp-oad.xml",
+      "url": "https://github.com/aretana/draft-xxx-idr-bgp-oad/pull/1",
+      "state": "MERGED",
+      "author": "aretana",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Took out confederation references + clean up to only reflect changes.",
+      "createdAt": "2023-03-03T17:05:44Z",
+      "updatedAt": "2023-03-03T17:06:25Z",
+      "baseRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "baseRefName": "main",
+      "baseRefOid": "bc834d58ebb286400616376f53286c3b01ff5f09",
+      "headRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "headRefName": "oad-alvaro",
+      "headRefOid": "92a205f2da3d6068792c9dbafb916275c5874b68",
+      "closedAt": "2023-03-03T17:06:25Z",
+      "mergedAt": "2023-03-03T17:06:24Z",
+      "mergedBy": "aretana",
+      "mergeCommit": {
+        "oid": "795f30a961699497e2fc6802a35a2d1b632d65c8"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
