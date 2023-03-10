@@ -2,10 +2,22 @@
 
 
 
-Inter-Domain Routing          Initials [REPLACE]. Surname [REPLACE], Ed.
-Internet-Draft                             Organization [REPLACE/DELETE]
-Intended status: Standards Track                           10 March 2023
-Expires: 11 September 2023
+Inter-Domain Routing                                           J. Uttaro
+Internet-Draft                                                A. Lingala
+Intended status: Standards Track                                    AT&T
+Expires: 11 September 2023                                      K. Patel
+                                                            Arrcus, Inc.
+                                                                  D. Rao
+                                                           Cisco Systems
+                                                                  B. Wen
+                                                                 Comcast
+                                                               A. Retana
+                                            Futurewei Technologies, Inc.
+                                                               S. Sangli
+                                                        Juniper Networks
+                                                            P. Mohapatra
+                                                        Sproute Networks
+                                                           10 March 2023
 
 
                   One Administrative Domain using BGP
@@ -57,7 +69,6 @@ Table of Contents
      3.1.  Next Hop Handling
      3.2.  MULTI_EXIT_DISC (MED) Handling
      3.3.  Route Reflection
-     3.4.  Label Allocation and Label Handling
    4.  Deployment and Operational Considerations
    5.  IANA Considerations
    6.  Security Considerations
@@ -65,14 +76,14 @@ Table of Contents
      7.1.  Normative References
      7.2.  Informative References
    Acknowledgements
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
    At each EBGP boundary, BGP path attributes are modified as per
    standard BGP rules [RFC4271].  This includes prepending the AS_PATH
    attribute with the autonomous-system number of the BGP speaker and
-   stripping any IBGP-only attibutes.
+   stripping any IBGP-only attributes.
 
    Some networks span more than one autonomous system and require more
    flexibility in the propagation of path attributes.  These networks
@@ -123,11 +134,11 @@ Table of Contents
    EBGP-OAD speakers follow the EBGP route advertisement, route
    processing, path attribute announcement and processing rules as
    defined in [RFC4271].  However, EBGP-OAD speakers are also allowed to
-   announce and receive any IBGP-only attributes that were restricted to
-   remain within an Autonomous System [RFC4271].
+   announce and receive any IBGP-only or non-transitive attributes that
+   were restricted to remain within an Autonomous System [RFC4271].
 
    Unless explicitly specified, all path attributes MAY be advertised
-   over an EBGP-OAD session.  The reception of any path atrribute over
+   over an EBGP-OAD session.  The reception of any path attribute over
    an EBGP-OAD session MUST NOT result in an error, unless it is
    malformed.  Received path attributes SHOULD NOT be ignored by the
    receiver, unless directed to by local policy.
@@ -139,6 +150,9 @@ Table of Contents
    the AS_PATH attribute is modified as specified in Section 5.1.2 of
    [RFC4271], bullet b ("BGP speaker advertises the route to an external
    peer").
+
+   An EBGP-OAD speaker MUST support four-octet AS numbers and avertize
+   the "support for four-octet AS number capability" [RFC6793] .
 
    The following sections describe modifications to route advertisements
    and path attribute announcements that are specific to the EBGP-OAD
@@ -155,17 +169,15 @@ Table of Contents
 
    The determination of the neighboring AS for the purpose of BGP Route
    Selection [RFC4271] MAY also consider the ASN of the EBGP-OAD peer.
-   If so, all the peers in the receiving ASN MUST be conifigured to use
+   If so, all the peers in the receiving ASN MUST be configured to use
    the same criteria.
 
 3.3.  Route Reflection
 
    BGP Route Reflection [RFC4456] is an alternative to full-mesh IBGP.
    The ORIGINATOR_ID and CLUSTER_LIST attributes MUST NOT be advertised
-   over an EBGP-OAD session.  If received, the procedure in [RFC7606]
-   applies.
-
-3.4.  Label Allocation and Label Handling
+   over an EBGP-OAD session.  If received, the procedures in [RFC7606]
+   apply.
 
 4.  Deployment and Operational Considerations
 
@@ -174,6 +186,17 @@ Table of Contents
    speaker is configured that way, and the other uses an EBGP session,
    the result is that some path attributes may be ignored and others
    will be discarded, but the BGP session will remain operational.
+
+   The default BGP peering type for a session that is across autonomous
+   systems SHOULD be EBGP.  BGP implementation SHOULD provide a
+   configuration-time option to enable the EBGP-OAD session type.  If
+   the session type is changed once the BGP connection has been
+   established, the BGP speaker MUST readvertise its entire Adj-RIB-Out
+   to its peer.  Requesting a route refresh [RFC7313] is RECOMMENDED.
+
+   The requirement that Import and Export Policies exist [RFC8212]
+   SHOULD be disabled if both peers are configured with the EBGP-OAD
+   session type.
 
    If multiple peerings exist between two autonomous systems that belong
    to OAD, all SHOULD be configured consistently.  Improper
@@ -186,13 +209,11 @@ Table of Contents
    confederations with an EBGP-OAD peering is out of scope of this
    document.
 
-   The default BGP peering type for a session that is across autonomous
-   systems SHOULD be EBGP.  BGP implementation SHOULD provide a
-   configuration-time option to enable the EBGP-OAD session type.  The
-   configuration can be in the form of a global statement listing the
-   ASNs that belong to the OAD.  Or, the configuration can be specified
-   as a type on per-peer basis.  An implementation may also choose to
-   support this peering type option per AFI/SAFI.
+   The consideration of the ASN of the EBGP-OAD peer to determine the
+   neighboring AS for MED comparison Section 3.2 may result in the
+   creation persistent route oscillations, similar to the Type II Churn
+   described in [RFC3345].  [RFC7964] provides solutions and
+   recommendations to address this issue.
 
 5.  IANA Considerations
 
@@ -240,6 +261,16 @@ Table of Contents
               DOI 10.17487/RFC5065, August 2007,
               <https://www.rfc-editor.org/info/rfc5065>.
 
+   [RFC6793]  Vohra, Q. and E. Chen, "BGP Support for Four-Octet
+              Autonomous System (AS) Number Space", RFC 6793,
+              DOI 10.17487/RFC6793, December 2012,
+              <https://www.rfc-editor.org/info/rfc6793>.
+
+   [RFC7313]  Patel, K., Chen, E., and B. Venkatachalapathy, "Enhanced
+              Route Refresh Capability for BGP-4", RFC 7313,
+              DOI 10.17487/RFC7313, July 2014,
+              <https://www.rfc-editor.org/info/rfc7313>.
+
    [RFC7606]  Chen, E., Ed., Scudder, J., Ed., Mohapatra, P., and K.
               Patel, "Revised Error Handling for BGP UPDATE Messages",
               RFC 7606, DOI 10.17487/RFC7606, August 2015,
@@ -249,7 +280,17 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+   [RFC8212]  Mauch, J., Snijders, J., and G. Hankins, "Default External
+              BGP (EBGP) Route Propagation Behavior without Policies",
+              RFC 8212, DOI 10.17487/RFC8212, July 2017,
+              <https://www.rfc-editor.org/info/rfc8212>.
+
 7.2.  Informative References
+
+   [RFC3345]  McPherson, D., Gill, V., Walton, D., and A. Retana,
+              "Border Gateway Protocol (BGP) Persistent Route
+              Oscillation Condition", RFC 3345, DOI 10.17487/RFC3345,
+              August 2002, <https://www.rfc-editor.org/info/rfc3345>.
 
    [RFC4272]  Murphy, S., "BGP Security Vulnerabilities Analysis",
               RFC 4272, DOI 10.17487/RFC4272, January 2006,
@@ -264,20 +305,56 @@ Table of Contents
               DOI 10.17487/RFC4760, January 2007,
               <https://www.rfc-editor.org/info/rfc4760>.
 
+   [RFC7964]  Walton, D., Retana, A., Chen, E., and J. Scudder,
+              "Solutions for BGP Persistent Route Oscillation",
+              RFC 7964, DOI 10.17487/RFC7964, September 2016,
+              <https://www.rfc-editor.org/info/rfc7964>.
+
    [RFC8277]  Rosen, E., "Using BGP to Bind MPLS Labels to Address
               Prefixes", RFC 8277, DOI 10.17487/RFC8277, October 2017,
               <https://www.rfc-editor.org/info/rfc8277>.
 
 Acknowledgements
 
-   The authors would like to thank ...  for ...
+   TBD
 
-Author's Address
+Authors' Addresses
 
-   fullname [REPLACE] (editor)
-   Organization [REPLACE/DELETE]
-   Street [REPLACE/DELETE]
-   City [REPLACE/DELETE]
-   Phone: Phone [REPLACE/DELETE]
-   Email: Email [REPLACE/DELETE]
-   URI:   URI [REPLACE/DELETE]
+   Jim Uttaro
+   AT&T
+   Email: ju1738@att.com
+
+
+   Avinash Lingala
+   AT&T
+   Email: ar977m@att.com
+
+
+   Keyur Patel
+   Arrcus, Inc.
+   Email: keyur@arrcus.com
+
+
+   Dhananjaya Rao
+   Cisco Systems
+   Email: dhrao@cisco.com
+
+
+   Bin Wen
+   Comcast
+   Email: bin_wen@comcast.com
+
+
+   Alvaro Retana
+   Futurewei Technologies, Inc.
+   Email: alvaro.retana@futurewei.com
+
+
+   Srihari Sangli
+   Juniper Networks
+   Email: ssangli@juniper.net
+
+
+   Pradosh Mohapatra
+   Sproute Networks
+   Email: pradosh@sproute.com

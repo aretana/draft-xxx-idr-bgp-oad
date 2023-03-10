@@ -5,7 +5,14 @@
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>One Administrative Domain using BGP</title>
-<meta content="fullname [REPLACE]" name="author">
+<meta content="Jim Uttaro" name="author">
+<meta content="Avinash Lingala" name="author">
+<meta content="Keyur Patel" name="author">
+<meta content="Dhananjaya Rao" name="author">
+<meta content="Bin Wen" name="author">
+<meta content="Alvaro Retana" name="author">
+<meta content="Srihari Sangli" name="author">
+<meta content="Pradosh Mohapatra" name="author">
 <meta content="
        
         This document defines a new External BGP (EBGP) peering type known as
@@ -1054,7 +1061,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">March 2023</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Surname [REPLACE]</td>
+<td class="left">Uttaro, et al.</td>
 <td class="center">Expires 11 September 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1074,12 +1081,39 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2023-09-11">11 September 2023</time></dd>
-<dt class="label-authors">Author:</dt>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">Initials [REPLACE]. Surname [REPLACE], <span class="editor">Ed.</span>
+      <div class="author-name">J. Uttaro</div>
+<div class="org">AT&amp;T</div>
 </div>
-<div class="org">Organization [REPLACE/DELETE]</div>
+<div class="author">
+      <div class="author-name">A. Lingala</div>
+<div class="org">AT&amp;T</div>
+</div>
+<div class="author">
+      <div class="author-name">K. Patel</div>
+<div class="org">Arrcus, Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Rao</div>
+<div class="org">Cisco Systems</div>
+</div>
+<div class="author">
+      <div class="author-name">B. Wen</div>
+<div class="org">Comcast</div>
+</div>
+<div class="author">
+      <div class="author-name">A. Retana</div>
+<div class="org">Futurewei Technologies, Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Sangli</div>
+<div class="org">Juniper Networks</div>
+</div>
+<div class="author">
+      <div class="author-name">P. Mohapatra</div>
+<div class="org">Sproute Networks</div>
 </div>
 </dd>
 </dl>
@@ -1163,9 +1197,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-route-reflection" class="internal xref">Route Reflection</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-label-allocation-and-label-" class="internal xref">Label Allocation and Label Handling</a></p>
-</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
@@ -1192,7 +1223,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1206,7 +1237,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         At each EBGP boundary, BGP path attributes are modified as per standard
         BGP rules <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.  This includes prepending the
         AS_PATH attribute with the autonomous-system number of the BGP speaker
-        and stripping any IBGP-only attibutes.<a href="#section-1-1" class="pilcrow">¶</a></p>
+        and stripping any IBGP-only attributes.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">
         Some networks span more than one autonomous system and require more
         flexibility in the propagation of path attributes. These networks are
@@ -1269,12 +1300,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
         EBGP-OAD speakers follow the EBGP route advertisement, route
         processing, path attribute announcement and processing rules as defined
         in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>. However, EBGP-OAD speakers are also
-        allowed to announce and receive any IBGP-only attributes that were
-        restricted to remain within an Autonomous System
+        allowed to announce and receive any IBGP-only or non-transitive
+        attributes that were restricted to remain within an Autonomous System
         <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">
         Unless explicitly specified, all path attributes MAY be advertised over
-        an EBGP-OAD session.  The reception of any path atrribute over an
+        an EBGP-OAD session.  The reception of any path attribute over an
         EBGP-OAD session MUST NOT result in an error, unless it is malformed.
         Received path attributes SHOULD NOT be ignored by the receiver, unless
         directed to by local policy.<a href="#section-3-4" class="pilcrow">¶</a></p>
@@ -1287,9 +1318,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>, bullet b ("BGP speaker advertises the route
         to an external peer").<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">
+        An EBGP-OAD speaker MUST support four-octet AS numbers and avertize the
+        "support for four-octet AS number capability" <span>[<a href="#RFC6793" class="cite xref">RFC6793</a>]</span> .<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">
         The following sections describe modifications to route advertisements
         and path attribute announcements that are specific to the EBGP-OAD
-        peering.<a href="#section-3-6" class="pilcrow">¶</a></p>
+        peering.<a href="#section-3-7" class="pilcrow">¶</a></p>
 <section id="section-3.1">
         <h3 id="name-next-hop-handling">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-next-hop-handling" class="section-name selfRef">Next Hop Handling</a>
@@ -1300,6 +1334,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             Next Hop in the MP_REACH_NLRI attribute  <span>[<a href="#RFC4760" class="cite xref">RFC4760</a>]</span>
             MAY be left unchanged.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 </section>
+<div id="MED">
 <section id="section-3.2">
         <h3 id="name-multi_exit_disc-med-handlin">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-multi_exit_disc-med-handlin" class="section-name selfRef">MULTI_EXIT_DISC (MED) Handling</a>
@@ -1308,8 +1343,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
           The determination of the neighboring AS for the purpose of BGP Route
           Selection <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> MAY also consider the ASN of the
           EBGP-OAD peer.  If so, all the peers in the receiving ASN MUST be
-          conifigured to use the same criteria.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+          configured to use the same criteria.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
+</div>
 <section id="section-3.3">
         <h3 id="name-route-reflection">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-route-reflection" class="section-name selfRef">Route Reflection</a>
@@ -1318,12 +1354,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
          BGP Route Reflection <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span> is an alternative to
          full-mesh IBGP.  The ORIGINATOR_ID and CLUSTER_LIST attributes MUST
          NOT be advertised over an EBGP-OAD session.  If received, the
-         procedure in <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> applies.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-</section>
-<section id="section-3.4">
-        <h3 id="name-label-allocation-and-label-">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-label-allocation-and-label-" class="section-name selfRef">Label Allocation and Label Handling</a>
-      </h3>
+         procedures in <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> apply.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </section>
 <section id="section-4">
@@ -1331,19 +1362,38 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-deployment-and-operational-" class="section-name selfRef">Deployment and Operational Considerations</a>
       </h2>
 <p id="section-4-1">
-        For the EBGP-OAD session to operate as expected, both BGP speakers MUST be configured with the same session type.  If only one BGP speaker is configured that way, and the other uses an EBGP session, the result is that some path attributes may be ignored and others will be discarded, but the BGP session will remain operational.<a href="#section-4-1" class="pilcrow">¶</a></p>
+        For the EBGP-OAD session to operate as expected, both BGP speakers MUST
+        be configured with the same session type.  If only one BGP speaker is
+        configured that way, and the other uses an EBGP session, the result is
+        that some path attributes may be ignored and others will be discarded,
+        but the BGP session will remain operational.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">
-        If multiple peerings exist between two autonomous systems that belong to OAD, all SHOULD be configured consistently.  Improper configuration may result in inconsistent or unexpected forwarding.  The inconsistent use of EBGP-OAD sessions is out of scope of this document.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">
-        BGP Confederations <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span> provide similar behavior, on a session by session basis, as what is specified in this document.  The use of confederations with an EBGP-OAD peering is out of scope of this document.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">
         The default BGP peering type for a session that is across autonomous
         systems SHOULD be EBGP.  BGP implementation SHOULD provide a
-        configuration-time option to enable the EBGP-OAD session type.  The
-        configuration can be in the form of a global statement listing the ASNs
-        that belong to the OAD.  Or, the configuration can be specified as a
-        type on per-peer basis.  An implementation may also choose to support
-        this peering type option per AFI/SAFI.<a href="#section-4-4" class="pilcrow">¶</a></p>
+        configuration-time option to enable the EBGP-OAD session type.  If the
+        session type is changed once the BGP connection has been established,
+        the BGP speaker MUST readvertise its entire Adj-RIB-Out to its peer.
+        Requesting a route refresh <span>[<a href="#RFC7313" class="cite xref">RFC7313</a>]</span> is RECOMMENDED.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">
+        The requirement that Import and Export Policies exist
+        <span>[<a href="#RFC8212" class="cite xref">RFC8212</a>]</span> SHOULD be disabled if both peers are
+        configured with the EBGP-OAD session type.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">
+        If multiple peerings exist between two autonomous systems that belong
+        to OAD, all SHOULD be configured consistently.  Improper configuration
+        may result in inconsistent or unexpected forwarding.  The inconsistent
+        use of EBGP-OAD sessions is out of scope of this document.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">
+        BGP Confederations <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span> provide similar behavior,
+        on a session by session basis, as what is specified in this document.
+        The use of confederations with an EBGP-OAD peering is out of scope of
+        this document.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">
+        The consideration of the ASN of the EBGP-OAD peer to determine the
+        neighboring AS for MED comparison <a href="#MED" class="auto internal xref">Section 3.2</a> may result in
+        the creation persistent route oscillations, similar to the Type II
+        Churn described in <span>[<a href="#RFC3345" class="cite xref">RFC3345</a>]</span>.  <span>[<a href="#RFC7964" class="cite xref">RFC7964</a>]</span>
+        provides solutions and recommendations to address this issue.<a href="#section-4-6" class="pilcrow">¶</a></p>
 </section>
 <div id="IANA">
 <section id="section-5">
@@ -1402,13 +1452,25 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Traina, P.</span>, <span class="refAuthor">McPherson, D.</span>, and <span class="refAuthor">J. Scudder</span>, <span class="refTitle">"Autonomous System Confederations for BGP"</span>, <span class="seriesInfo">RFC 5065</span>, <span class="seriesInfo">DOI 10.17487/RFC5065</span>, <time datetime="2007-08" class="refDate">August 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5065">https://www.rfc-editor.org/info/rfc5065</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC6793">[RFC6793]</dt>
+        <dd>
+<span class="refAuthor">Vohra, Q.</span> and <span class="refAuthor">E. Chen</span>, <span class="refTitle">"BGP Support for Four-Octet Autonomous System (AS) Number Space"</span>, <span class="seriesInfo">RFC 6793</span>, <span class="seriesInfo">DOI 10.17487/RFC6793</span>, <time datetime="2012-12" class="refDate">December 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6793">https://www.rfc-editor.org/info/rfc6793</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7313">[RFC7313]</dt>
+        <dd>
+<span class="refAuthor">Patel, K.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">B. Venkatachalapathy</span>, <span class="refTitle">"Enhanced Route Refresh Capability for BGP-4"</span>, <span class="seriesInfo">RFC 7313</span>, <span class="seriesInfo">DOI 10.17487/RFC7313</span>, <time datetime="2014-07" class="refDate">July 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7313">https://www.rfc-editor.org/info/rfc7313</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7606">[RFC7606]</dt>
         <dd>
 <span class="refAuthor">Chen, E., Ed.</span>, <span class="refAuthor">Scudder, J., Ed.</span>, <span class="refAuthor">Mohapatra, P.</span>, and <span class="refAuthor">K. Patel</span>, <span class="refTitle">"Revised Error Handling for BGP UPDATE Messages"</span>, <span class="seriesInfo">RFC 7606</span>, <span class="seriesInfo">DOI 10.17487/RFC7606</span>, <time datetime="2015-08" class="refDate">August 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7606">https://www.rfc-editor.org/info/rfc7606</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8212">[RFC8212]</dt>
+      <dd>
+<span class="refAuthor">Mauch, J.</span>, <span class="refAuthor">Snijders, J.</span>, and <span class="refAuthor">G. Hankins</span>, <span class="refTitle">"Default External BGP (EBGP) Route Propagation Behavior without Policies"</span>, <span class="seriesInfo">RFC 8212</span>, <span class="seriesInfo">DOI 10.17487/RFC8212</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8212">https://www.rfc-editor.org/info/rfc8212</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1417,6 +1479,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="RFC3345">[RFC3345]</dt>
+        <dd>
+<span class="refAuthor">McPherson, D.</span>, <span class="refAuthor">Gill, V.</span>, <span class="refAuthor">Walton, D.</span>, and <span class="refAuthor">A. Retana</span>, <span class="refTitle">"Border Gateway Protocol (BGP) Persistent Route Oscillation Condition"</span>, <span class="seriesInfo">RFC 3345</span>, <span class="seriesInfo">DOI 10.17487/RFC3345</span>, <time datetime="2002-08" class="refDate">August 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3345">https://www.rfc-editor.org/info/rfc3345</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC4272">[RFC4272]</dt>
         <dd>
 <span class="refAuthor">Murphy, S.</span>, <span class="refTitle">"BGP Security Vulnerabilities Analysis"</span>, <span class="seriesInfo">RFC 4272</span>, <span class="seriesInfo">DOI 10.17487/RFC4272</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4272">https://www.rfc-editor.org/info/rfc4272</a>&gt;</span>. </dd>
@@ -1428,6 +1494,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt id="RFC4760">[RFC4760]</dt>
         <dd>
 <span class="refAuthor">Bates, T.</span>, <span class="refAuthor">Chandra, R.</span>, <span class="refAuthor">Katz, D.</span>, and <span class="refAuthor">Y. Rekhter</span>, <span class="refTitle">"Multiprotocol Extensions for BGP-4"</span>, <span class="seriesInfo">RFC 4760</span>, <span class="seriesInfo">DOI 10.17487/RFC4760</span>, <time datetime="2007-01" class="refDate">January 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4760">https://www.rfc-editor.org/info/rfc4760</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7964">[RFC7964]</dt>
+        <dd>
+<span class="refAuthor">Walton, D.</span>, <span class="refAuthor">Retana, A.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">J. Scudder</span>, <span class="refTitle">"Solutions for BGP Persistent Route Oscillation"</span>, <span class="seriesInfo">RFC 7964</span>, <span class="seriesInfo">DOI 10.17487/RFC7964</span>, <time datetime="2016-09" class="refDate">September 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7964">https://www.rfc-editor.org/info/rfc7964</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8277">[RFC8277]</dt>
       <dd>
@@ -1442,30 +1512,76 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
       </h2>
 <p id="appendix-A-1">
-        The authors would like to thank ...  for ...<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+        TBD<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">fullname [REPLACE] (<span class="role">editor</span>)</span></div>
-<div dir="auto" class="left"><span class="org">Organization [REPLACE/DELETE]</span></div>
-<div dir="auto" class="left"><span class="street-address">Street [REPLACE/DELETE]</span></div>
-<div dir="auto" class="left"><span class="locality">City [REPLACE/DELETE]</span></div>
-<div class="tel">
-<span>Phone:</span>
-<a href="tel:Phone%20%5BREPLACE/DELETE%5D" class="tel">Phone [REPLACE/DELETE]</a>
-</div>
+        <div dir="auto" class="left"><span class="fn nameRole">Jim Uttaro</span></div>
+<div dir="auto" class="left"><span class="org">AT&amp;T</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:Email%20%5BREPLACE/DELETE%5D" class="email">Email [REPLACE/DELETE]</a>
+<a href="mailto:ju1738@att.com" class="email">ju1738@att.com</a>
 </div>
-<div class="url">
-<span>URI:</span>
-<a href="URI%20%5BREPLACE/DELETE%5D" class="url">URI [REPLACE/DELETE]</a>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Avinash Lingala</span></div>
+<div dir="auto" class="left"><span class="org">AT&amp;T</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ar977m@att.com" class="email">ar977m@att.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Keyur Patel</span></div>
+<div dir="auto" class="left"><span class="org">Arrcus, Inc.</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:keyur@arrcus.com" class="email">keyur@arrcus.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Dhananjaya Rao</span></div>
+<div dir="auto" class="left"><span class="org">Cisco Systems</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dhrao@cisco.com" class="email">dhrao@cisco.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Bin Wen</span></div>
+<div dir="auto" class="left"><span class="org">Comcast</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:bin_wen@comcast.com" class="email">bin_wen@comcast.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Alvaro Retana</span></div>
+<div dir="auto" class="left"><span class="org">Futurewei Technologies, Inc.</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:alvaro.retana@futurewei.com" class="email">alvaro.retana@futurewei.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Srihari Sangli</span></div>
+<div dir="auto" class="left"><span class="org">Juniper Networks</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ssangli@juniper.net" class="email">ssangli@juniper.net</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Pradosh Mohapatra</span></div>
+<div dir="auto" class="left"><span class="org">Sproute Networks</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:pradosh@sproute.com" class="email">pradosh@sproute.com</a>
 </div>
 </address>
 </section>
