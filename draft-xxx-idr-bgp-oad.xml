@@ -57,8 +57,8 @@
     <abstract>
       <t>
         This document defines a new External BGP (EBGP) peering type known as
-        BGP-OAD. BGP-OAD peering is used between two EBGP peers that are part
-        of the same One Administrative Domain (OAD).
+        EBGP-OAD. EBGP-OAD peering is used between two EBGP peers that belong to
+        One Administrative Domain (OAD).
       </t>
     </abstract>
 
@@ -68,20 +68,20 @@
     <section>
       <name>Introduction</name>
       <t>
-	At each EBGP boundary, BGP path
-	attributes are modified as
-	per standard BGP rules <xref target="RFC4271"/>.  This includes prepending the AS_PATH
-	attribute with the autonomous-system number of the BGP speaker
-	and stripping any IBGP-only attibutes.
+        At each EBGP boundary, BGP path attributes are modified as per standard
+        BGP rules <xref target="RFC4271"/>.  This includes prepending the
+        AS_PATH attribute with the autonomous-system number of the BGP speaker
+        and stripping any IBGP-only attibutes.
       </t>
       <t>
-	Some networks span more than one autonomous sytem and require more
-  flexibility in the propagation of path attributes. These networks are said to
-  belong to One Administrative Domain (OAD). It is desiable to carry IBGP
-  attributes across EBGP peering when the peers are part on OAD. This document
-  defines a new EBGP peering type known as BGP-OAD. BGP-OAD peering is used
-  between two EBGP peers that are part of the same OAD. This document also
-  defines rules for route announcement and processing for EBGP-OAD peers.
+        Some networks span more than one autonomous sytem and require more
+        flexibility in the propagation of path attributes. These networks are
+        said to belong to One Administrative Domain (OAD). It is desiable to
+        carry IBGP-only attributes across EBGP peering when the peers belong to
+        OAD. This document defines a new EBGP peering type known as EBGP-OAD.
+        EBGP-OAD peering is used between two EBGP peers that beong to OAD. This
+        document also defines rules for route announcement and processing for
+        EBGP-OAD peers.
       </t>
 
       <section>
@@ -98,91 +98,76 @@
     <section>
       <name>Discussion</name>
       <t>
-        Networks have traditionally been demarcated by a BGP border which
-        correlates to an administrative boundary. This paradigm no longer
-        serves the needs of network designers or customers due to the
-        decoupling of IGP from BGP, BGP LU in the underlay, the use of BGP to
-        facilitate multiple service overlays ( L2 VPN, L3VPN ...) where said
-        overlays span multiple regions and AS domains, and the instantiation of
-        customer sites on multiple CSPs. For a given service i.e RFC 4364 a
-        customer may have VPN sites distributed across different AS domains, in
-        some cases the administrator of said VPN prefer that some attributes
-        which by default are non-transitive become transitive. An example could
-        be Local-Pref which is a non-transitive attribute, for a VPN spanning
-        multiple AS domains under a given administrative authority the
-        administrator of said VPN may desire LP setting to be honored across
-        eBGP boundaries.
+        Networks have traditionally been demarcated by an autonomous system/BGP
+        border which correlates to an administrative boundary. This paradigm no
+        longer serves the needs of network designers or customers due to the
+        decoupling of IGP from BGP, BGP LU <xref target="RFC8277"/> in the
+        underlay, the use of BGP to facilitate multiple service overlays (e.g.,
+        L2VPN, L3VPN, etc.) spanning multiple regions and autonomous systems,
+        and the instantiation of customer sites on multiple content service
+        providers (CSPs).
+      </t>
+      <t>
+        For example, sites in a BGP/MPLS VPN <xref target="RFC4364"/> may be
+        distributed across the provider's different autonomous systems. In some
+        cases, the administrator of the VPN may prefer that some attributes be
+        propagated to all their sites. An example could be LOCAL_PREF, which is
+        ignored if received on an EBGP session <xref target="RFC4271"/>.
       </t>
     </section>
 
     <section>
       <name>Operation</name>
       <t>
-	<xref target="RFC4271"/> defines two types of BGP peering
-	used during a BGP protocol session. As part of the
-	extensions defined in this document, the EBGP peering
-  is divided into two groups:
+        <xref target="RFC4271"/> defines two types of BGP peerings used during
+        a BGP protocol session. This document divides EBGP peering into two
+        types:
       </t>
       <ol>
-	<li>
-	  EBGP as defined in <xref target="RFC4271"/>.
-	</li>
-	<li>
-	  EBGP-OAD used by two External BGP peers that are part of a same OAD
-	</li>
+	    <li>EBGP as defined in <xref target="RFC4271"/>.</li>
+	    <li>EBGP-OAD as defined below.</li>
       </ol>
       <t>
-	The EBGP-OAD speaker has a BGP connection between two external
-	peers in different Autonomous Systems that are part of a same OAD.
-	These EBGP-OAD speakers follow the route advertisement, route
-	processing, EBGP path attribute announcement and EBGP path attribute
-	processing rules of the EBGP speakers as defined in
-	<xref target="RFC4271"/>.
-	However, the extensions defined in this document also allow EBGP-OAD
-	speakers to announce and receive any IBGP-only attributes that
-	were restricted to remain within an Autonomous System <xref target="RFC4271"/>.
-      </t>
-      <t>
-	The only IBGP feature extension that is not permitted across EBGP-OAD
-	peers and is outside the scope of this document is the support for
-	the Confederations <xref target="RFC5065"/>. Both the
-	AS_CONFED_SEQUENCE and AS_CONFED_SET <xref target="RFC5065"/>
-	MUST NOT be used by members of an OAD.
-      </t>
-      <t>
-        [Route Reflectors -- MUST NOT Cluster_List.]
+        The EBGP-OAD session is a BGP connection between two external peers in
+        different Autonomous Systems that belong to OAD. In general, the EBGP-
+        OAD speakers follow the EBGP route advertisement, route processing,
+        path attribute announcement and processing rules as defined in
+        <xref target="RFC4271"/>. However, EBGP-OAD speakers are also allowed
+        to announce and receive any IBGP-only attributes that were restricted
+        to remain within an Autonomous System <xref target="RFC4271"/>.
       </t>
       <t>
         Unless explicitly specified, all path attributes MAY be advertised over
         an EBGP-OAD session.  The reception of any path atrribute over an
         EBGP-OAD session MUST NOT result in an error, unless it is malformed.
-        It SHOULD NOT be ignored by the receiver, unless directed to by local
-        policy.
-
+        Received path attributes SHOULD NOT be ignored by the receiver, unless
+        directed to by local policy.
       </t>
       <t>
-        Unless explicitly specified, the modification of path attributes sent
-        through an EBGP session remains unchanged when advertised through an
-        EBGP-OAD peering.  For example, the AS_PATH is modified as specified in
-        <xref target="RFC4271"/>.
+        Unless explicitly specified, the current processes for the
+        advertisement of path attributes remains unchanged when advertised
+        through an EBGP-OAD peering.  The process for EBGP advertisement MUST
+        take priority over the process for IBGP advertisement.  For example,
+        the AS_PATH attribute is modified as specified in Section 5.1.2 of
+        <xref target="RFC4271"/>, bullet b ("BGP speaker advertises the route
+        to an external peer").
       </t>
       <t>
-  The following sections describe modifications to route advertisements
-	and path attribute announcements that are specific to
-	the EBGP-OAD peering.
+        The following sections describe modifications to route advertisements
+        and path attribute announcements that are specific to the EBGP-OAD
+        peering.
       </t>
 
         <section>
-          <name>Nexthop Handling</name>
+          <name>Next Hop Handling</name>
           <t>
-            It is reasonable for EBGP-OAD peers
-	    to share a common Interior Gateway
-	    Protocol (IGP).  In such
-	    a case, NEXT_HOP attribute and the Next Hop in the
-	    MP_REACH_NLRI attribute  <xref target="RFC4760"/> MAY be left unchanged.
+            It is reasonable for EBGP-OAD peers to share a common Interior
+            Gateway Protocol (IGP).  In such a case, NEXT_HOP attribute and the
+            Next Hop in the MP_REACH_NLRI attribute  <xref target="RFC4760"/>
+            MAY be left unchanged.
           </t>
       </section>
-
+<!--
       <section>
         <name>MULTI_EXIT_DISC (MED) Handling</name>
         <t>
@@ -194,12 +179,18 @@
           [Clarify + Example]
         </t>
      </section>
+   -->
      <section>
-       <name>ORIGINATOR_ID Handling</name>
+       <name>Route Reflection</name>
+       <t>
+         BGP Route Reflection <xref target="RFC4456"/> is an alternative to
+         full-mesh IBGP.  The ORIGINATOR_ID and CLUSTER_LIST attributes MUST
+         NOT be advertised over an EBGP-OAD session.  If received, the
+         procedure in <xref target="RFC7606"/> applies.
+       </t>
      </section>
      <section>
         <name>Label Allocation and Label Handling</name>
-
      </section>
 
    </section>
@@ -207,13 +198,13 @@
     <section>
       <name>Deployment Considerations</name>
       <t>
-        If multiple peerings exist between two autonomous systems in the same
-        OAD, all SHOULD be configued consistently.  Improper configuration may
-        result in inconsistent or unexpected forwarding.  The inconsistent use
-        of EBGP-OAD sessions is out of scope of this document.
+        For the EBGP-OAD session to operate as expected, both BGP speakers MUST be configured with the same session type.  If only one BGP speaker is configured that way, and the other uses an EBGP session, the result is that some path attributes may be ignored and others will be discarded, but the BGP session will remain operational.
       </t>
       <t>
-        [Management / Configuration Text needed.]
+        If multiple peerings exist between two autonomous systems that belong to OAD, all SHOULD be configued consistently.  Improper configuration may result in inconsistent or unexpected forwarding.  The inconsistent use of EBGP-OAD sessions is out of scope of this document.
+      </t>
+      <t>
+        BGP Confederations <xref target="RFC5065"/> provide similar behavior, on a session by session basis, as what is specified in this document.  The use of confederations with an EBGP-OAD peering is out of scope of this document.
       </t>
     </section>
 
@@ -230,7 +221,19 @@
           <xref target="RFC4271"/> and <xref target="RFC4272"/>.
         </t>
         <t>
-          [Add more.  Backwards -- one sided!]
+          This document defines a new BGP session type which combines the path
+          attribute propagation rules for EBGP and IBGP peering.  Any existing
+          security considerations related to existing path attributes apply to
+          the new EBGP-OAD session type.
+        </t>
+        <t>
+          By combining the path attribute propagation rules, IBGP information
+          may now be propagated to another autonomous system.  However, it is
+          expected that the new session type will only be enabled when peering
+          with a router that also belongs to OAD.  If misconfigured, the impact
+          is minimal due to the fact that both <xref target="RFC4271"/> and
+          <xref target="RFC7606"/> define mechanisms to deal with unexpected
+          path attributes.
         </t>
     </section>
 
@@ -245,15 +248,19 @@
 
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5065.xml"/>
-	        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
+	      <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
       </references>
 
       <references>
         <name>Informative References</name>
 
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4272.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4364.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4760.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8277.xml"/>
       </references>
 
     </references>
