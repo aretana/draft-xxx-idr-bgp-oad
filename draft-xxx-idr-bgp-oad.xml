@@ -22,28 +22,52 @@
 
     <seriesInfo name="Internet-Draft" value="draft-xxx-idr-bgp-oad-00"/>
 
-    <author fullname="fullname [REPLACE]" initials="Initials [REPLACE]" role="editor" surname="Surname [REPLACE]">
-      <!-- [CHECK]
-             * initials should not include an initial for the surname
-             * role="editor" is optional -->
-    <!-- Can have more than one author -->
-
-    <!-- all of the following elements are optional -->
-      <organization>Organization [REPLACE/DELETE]</organization>
+    <author fullname="Jim Uttaro" initials="J." surname="Uttaro">
+      <organization>AT&amp;T</organization>
       <address>
-        <postal>
-          <!-- Reorder these if your country does things differently -->
-          <street>Street [REPLACE/DELETE]</street>
-          <city>City [REPLACE/DELETE]</city>
-          <region>Region [REPLACE/DELETE]</region>
-          <code>Postal code [REPLACE/DELETE]</code>
-          <country>Country [REPLACE/DELETE]</country>
-          <!-- Uses two letter country code -->
-        </postal>
-        <phone>Phone [REPLACE/DELETE]</phone>
-        <email>Email [REPLACE/DELETE]</email>
-        <!-- Can have more than one <email> element -->
-        <uri>URI [REPLACE/DELETE]</uri>
+        <email>ju1738@att.com</email>
+      </address>
+    </author>
+    <author fullname="Avinash Lingala" initials="A." surname="Lingala">
+      <organization>AT&amp;T</organization>
+      <address>
+        <email>ar977m@att.com</email>
+      </address>
+    </author>
+    <author fullname="Keyur Patel" initials="K." surname="Patel">
+      <organization>Arrcus, Inc.</organization>
+      <address>
+        <email>keyur@arrcus.com</email>
+      </address>
+    </author>
+      <author fullname="Dhananjaya Rao" initials="D." surname="Rao">
+        <organization>Cisco Systems</organization>
+        <address>
+          <email>dhrao@cisco.com</email>
+        </address>
+      </author>
+    <author fullname="Bin Wen" initials="B." surname="Wen">
+      <organization>Comcast</organization>
+      <address>
+        <email>bin_wen@comcast.com</email>
+      </address>
+    </author>
+    <author fullname="Alvaro Retana" initials="A." surname="Retana">
+      <organization>Futurewei Technologies, Inc.</organization>
+      <address>
+        <email>alvaro.retana@futurewei.com</email>
+      </address>
+    </author>
+    <author fullname="Srihari Sangli" initials="S." surname="Sangli">
+      <organization>Juniper Networks</organization>
+      <address>
+        <email>ssangli@juniper.net</email>
+      </address>
+    </author>
+    <author fullname="Pradosh Mohapatra" initials="P." surname="Mohapatra">
+      <organization>Sproute Networks</organization>
+      <address>
+        <email>pradosh@sproute.com</email>
       </address>
     </author>
 
@@ -71,7 +95,7 @@
         At each EBGP boundary, BGP path attributes are modified as per standard
         BGP rules <xref target="RFC4271"/>.  This includes prepending the
         AS_PATH attribute with the autonomous-system number of the BGP speaker
-        and stripping any IBGP-only attibutes.
+        and stripping any IBGP-only attributes.
       </t>
       <t>
         Some networks span more than one autonomous system and require more
@@ -134,13 +158,13 @@
         EBGP-OAD speakers follow the EBGP route advertisement, route
         processing, path attribute announcement and processing rules as defined
         in <xref target="RFC4271"/>. However, EBGP-OAD speakers are also
-        allowed to announce and receive any IBGP-only attributes that were
-        restricted to remain within an Autonomous System
+        allowed to announce and receive any IBGP-only or non-transitive
+        attributes that were restricted to remain within an Autonomous System
         <xref target="RFC4271"/>.
       </t>
       <t>
         Unless explicitly specified, all path attributes MAY be advertised over
-        an EBGP-OAD session.  The reception of any path atrribute over an
+        an EBGP-OAD session.  The reception of any path attribute over an
         EBGP-OAD session MUST NOT result in an error, unless it is malformed.
         Received path attributes SHOULD NOT be ignored by the receiver, unless
         directed to by local policy.
@@ -153,6 +177,10 @@
         the AS_PATH attribute is modified as specified in Section 5.1.2 of
         <xref target="RFC4271"/>, bullet b ("BGP speaker advertises the route
         to an external peer").
+      </t>
+      <t>
+        An EBGP-OAD speaker MUST support four-octet AS numbers and avertize the
+        "support for four-octet AS number capability" <xref target="RFC6793"/> .
       </t>
       <t>
         The following sections describe modifications to route advertisements
@@ -169,13 +197,13 @@
             MAY be left unchanged.
           </t>
       </section>
-      <section>
+      <section anchor="MED">
         <name>MULTI_EXIT_DISC (MED) Handling</name>
         <t>
           The determination of the neighboring AS for the purpose of BGP Route
           Selection <xref target="RFC4271"/> MAY also consider the ASN of the
           EBGP-OAD peer.  If so, all the peers in the receiving ASN MUST be
-          conifigured to use the same criteria.
+          configured to use the same criteria.
         </t>
      </section>
      <section>
@@ -184,34 +212,51 @@
          BGP Route Reflection <xref target="RFC4456"/> is an alternative to
          full-mesh IBGP.  The ORIGINATOR_ID and CLUSTER_LIST attributes MUST
          NOT be advertised over an EBGP-OAD session.  If received, the
-         procedure in <xref target="RFC7606"/> applies.
+         procedures in <xref target="RFC7606"/> apply.
        </t>
      </section>
-     <section>
-        <name>Label Allocation and Label Handling</name>
-     </section>
-
    </section>
 
     <section>
       <name>Deployment and Operational Considerations</name>
       <t>
-        For the EBGP-OAD session to operate as expected, both BGP speakers MUST be configured with the same session type.  If only one BGP speaker is configured that way, and the other uses an EBGP session, the result is that some path attributes may be ignored and others will be discarded, but the BGP session will remain operational.
-      </t>
-      <t>
-        If multiple peerings exist between two autonomous systems that belong to OAD, all SHOULD be configured consistently.  Improper configuration may result in inconsistent or unexpected forwarding.  The inconsistent use of EBGP-OAD sessions is out of scope of this document.
-      </t>
-      <t>
-        BGP Confederations <xref target="RFC5065"/> provide similar behavior, on a session by session basis, as what is specified in this document.  The use of confederations with an EBGP-OAD peering is out of scope of this document.
+        For the EBGP-OAD session to operate as expected, both BGP speakers MUST
+        be configured with the same session type.  If only one BGP speaker is
+        configured that way, and the other uses an EBGP session, the result is
+        that some path attributes may be ignored and others will be discarded,
+        but the BGP session will remain operational.
       </t>
       <t>
         The default BGP peering type for a session that is across autonomous
         systems SHOULD be EBGP.  BGP implementation SHOULD provide a
-        configuration-time option to enable the EBGP-OAD session type.  The
-        configuration can be in the form of a global statement listing the ASNs
-        that belong to the OAD.  Or, the configuration can be specified as a
-        type on per-peer basis.  An implementation may also choose to support
-        this peering type option per AFI/SAFI.
+        configuration-time option to enable the EBGP-OAD session type.  If the
+        session type is changed once the BGP connection has been established,
+        the BGP speaker MUST readvertise its entire Adj-RIB-Out to its peer.
+        Requesting a route refresh <xref target="RFC7313"/> is RECOMMENDED.
+      </t>
+      <t>
+        The requirement that Import and Export Policies exist
+        <xref target="RFC8212"/> SHOULD be disabled if both peers are
+        configured with the EBGP-OAD session type.
+      </t>
+      <t>
+        If multiple peerings exist between two autonomous systems that belong
+        to OAD, all SHOULD be configured consistently.  Improper configuration
+        may result in inconsistent or unexpected forwarding.  The inconsistent
+        use of EBGP-OAD sessions is out of scope of this document.
+      </t>
+      <t>
+        BGP Confederations <xref target="RFC5065"/> provide similar behavior,
+        on a session by session basis, as what is specified in this document.
+        The use of confederations with an EBGP-OAD peering is out of scope of
+        this document.
+      </t>
+      <t>
+        The consideration of the ASN of the EBGP-OAD peer to determine the
+        neighboring AS for MED comparison <xref target="MED"/> may result in
+        the creation persistent route oscillations, similar to the Type II
+        Churn described in <xref target="RFC3345"/>.  <xref target="RFC7964"/>
+        provides solutions and recommendations to address this issue.
       </t>
     </section>
 
@@ -257,16 +302,20 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5065.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6793.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7313.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
 	      <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8212.xml"/>
       </references>
 
       <references>
         <name>Informative References</name>
-
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3345.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4272.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4364.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4760.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7964.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8277.xml"/>
       </references>
 
@@ -276,7 +325,7 @@
       <!-- [REPLACE/DELETE] an Acknowledgements section is optional -->
       <name>Acknowledgements</name>
       <t>
-        The authors would like to thank ...  for ...
+        TBD
       </t>
     </section>
 
