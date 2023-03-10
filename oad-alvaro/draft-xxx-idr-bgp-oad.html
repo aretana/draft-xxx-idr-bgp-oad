@@ -9,8 +9,8 @@
 <meta content="
        
         This document defines a new External BGP (EBGP) peering type known as
-        BGP-OAD. BGP-OAD peering is used between two EBGP peers that are part
-        of the same One Administrative Domain (OAD).
+        EBGP-OAD. EBGP-OAD peering is used between two EBGP peers that belong to
+        One Administrative Domain (OAD).
        
     " name="description">
 <meta content="xml2rfc 3.16.0" name="generator">
@@ -1055,7 +1055,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Surname [REPLACE]</td>
-<td class="center">Expires 9 September 2023</td>
+<td class="center">Expires 11 September 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-xxx-idr-bgp-oad-00</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-03-08" class="published">8 March 2023</time>
+<time datetime="2023-03-10" class="published">10 March 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-09-09">9 September 2023</time></dd>
+<dd class="expires"><time datetime="2023-09-11">11 September 2023</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1089,8 +1089,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">
         This document defines a new External BGP (EBGP) peering type known as
-        BGP-OAD. BGP-OAD peering is used between two EBGP peers that are part
-        of the same One Administrative Domain (OAD).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+        EBGP-OAD. EBGP-OAD peering is used between two EBGP peers that belong to
+        One Administrative Domain (OAD).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1155,16 +1155,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-operation" class="internal xref">Operation</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-nexthop-handling" class="internal xref">Nexthop Handling</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-next-hop-handling" class="internal xref">Next Hop Handling</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-multi_exit_disc-med-handlin" class="internal xref">MULTI_EXIT_DISC (MED) Handling</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-route-reflection" class="internal xref">Route Reflection</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-originator_id-handling" class="internal xref">ORIGINATOR_ID Handling</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-label-allocation-and-label-" class="internal xref">Label Allocation and Label Handling</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-label-allocation-and-label-" class="internal xref">Label Allocation and Label Handling</a></p>
 </li>
             </ul>
 </li>
@@ -1203,19 +1200,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">
- At each EBGP boundary, BGP path
- attributes are modified as
- per standard BGP rules <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.  This includes prepending the AS_PATH
- attribute with the autonomous-system number of the BGP speaker
- and stripping any IBGP-only attibutes.<a href="#section-1-1" class="pilcrow">¶</a></p>
+        At each EBGP boundary, BGP path attributes are modified as per standard
+        BGP rules <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.  This includes prepending the
+        AS_PATH attribute with the autonomous-system number of the BGP speaker
+        and stripping any IBGP-only attibutes.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">
- Some networks span more than one autonomous sytem and require more
-  flexibility in the propagation of path attributes. These networks are said to
-  belong to One Administrative Domain (OAD). It is desiable to carry IBGP
-  attributes across EBGP peering when the peers are part on OAD. This document
-  defines a new EBGP peering type known as BGP-OAD. BGP-OAD peering is used
-  between two EBGP peers that are part of the same OAD. This document also
-  defines rules for route announcement and processing for EBGP-OAD peers.<a href="#section-1-2" class="pilcrow">¶</a></p>
+        Some networks span more than one autonomous sytem and require more
+        flexibility in the propagation of path attributes. These networks are
+        said to belong to One Administrative Domain (OAD). It is desiable to
+        carry IBGP-only attributes across EBGP peering when the peers belong to
+        OAD. This document defines a new EBGP peering type known as EBGP-OAD.
+        EBGP-OAD peering is used between two EBGP peers that beong to OAD. This
+        document also defines rules for route announcement and processing for
+        EBGP-OAD peers.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <section id="section-1.1">
         <h3 id="name-requirements-language">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements-language" class="section-name selfRef">Requirements Language</a>
@@ -1233,102 +1230,84 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-discussion" class="section-name selfRef">Discussion</a>
       </h2>
 <p id="section-2-1">
-        Networks have traditionally been demarcated by a BGP border which
-        correlates to an administrative boundary. This paradigm no longer
-        serves the needs of network designers or customers due to the
-        decoupling of IGP from BGP, BGP LU in the underlay, the use of BGP to
-        facilitate multiple service overlays ( L2 VPN, L3VPN ...) where said
-        overlays span multiple regions and AS domains, and the instantiation of
-        customer sites on multiple CSPs. For a given service i.e RFC 4364 a
-        customer may have VPN sites distributed across different AS domains, in
-        some cases the administrator of said VPN prefer that some attributes
-        which by default are non-transitive become transitive. An example could
-        be Local-Pref which is a non-transitive attribute, for a VPN spanning
-        multiple AS domains under a given administrative authority the
-        administrator of said VPN may desire LP setting to be honored across
-        eBGP boundaries.<a href="#section-2-1" class="pilcrow">¶</a></p>
+        Networks have traditionally been demarcated by an autonomous system/BGP
+        border which correlates to an administrative boundary. This paradigm no
+        longer serves the needs of network designers or customers due to the
+        decoupling of IGP from BGP, BGP LU <span>[<a href="#RFC8277" class="cite xref">RFC8277</a>]</span> in the
+        underlay, the use of BGP to facilitate multiple service overlays (e.g.,
+        L2VPN, L3VPN, etc.) spanning multiple regions and autonomous systems,
+        and the instantiation of customer sites on multiple content service
+        providers (CSPs).<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">
+        For example, sites in a BGP/MPLS VPN <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span> may be
+        distributed across the provider's different autonomous systems. In some
+        cases, the administrator of the VPN may prefer that some attributes be
+        propagated to all their sites. An example could be LOCAL_PREF, which is
+        ignored if received on an EBGP session <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3">
       <h2 id="name-operation">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-operation" class="section-name selfRef">Operation</a>
       </h2>
 <p id="section-3-1">
- <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> defines two types of BGP peering
- used during a BGP protocol session. As part of the
- extensions defined in this document, the EBGP peering
-  is divided into two groups:<a href="#section-3-1" class="pilcrow">¶</a></p>
+        <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> defines two types of BGP peerings used during
+        a BGP protocol session. This document divides EBGP peering into two
+        types:<a href="#section-3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-2">
- <li id="section-3-2.1">
-   EBGP as defined in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-3-2.1" class="pilcrow">¶</a>
+     <li id="section-3-2.1">EBGP as defined in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-3-2.1" class="pilcrow">¶</a>
 </li>
-        <li id="section-3-2.2">
-   EBGP-OAD used by two External BGP peers that are part of a same OAD<a href="#section-3-2.2" class="pilcrow">¶</a>
+        <li id="section-3-2.2">EBGP-OAD as defined below.<a href="#section-3-2.2" class="pilcrow">¶</a>
 </li>
       </ol>
 <p id="section-3-3">
- The EBGP-OAD speaker has a BGP connection between two external
- peers in different Autonomous Systems that are part of a same OAD.
- These EBGP-OAD speakers follow the route advertisement, route
- processing, EBGP path attribute announcement and EBGP path attribute
- processing rules of the EBGP speakers as defined in
- <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.
- However, the extensions defined in this document also allow EBGP-OAD
- speakers to announce and receive any IBGP-only attributes that
- were restricted to remain within an Autonomous System <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-3-3" class="pilcrow">¶</a></p>
+        The EBGP-OAD session is a BGP connection between two external peers in
+        different Autonomous Systems that belong to OAD. In general, the EBGP-
+        OAD speakers follow the EBGP route advertisement, route processing,
+        path attribute announcement and processing rules as defined in
+        <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>. However, EBGP-OAD speakers are also allowed
+        to announce and receive any IBGP-only attributes that were restricted
+        to remain within an Autonomous System <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">
- The only IBGP feature extension that is not permitted across EBGP-OAD
- peers and is outside the scope of this document is the support for
- the Confederations <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span>. Both the
- AS_CONFED_SEQUENCE and AS_CONFED_SET <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span>
- MUST NOT be used by members of an OAD.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">
-        [Route Reflectors -- MUST NOT Cluster_List.]<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">
         Unless explicitly specified, all path attributes MAY be advertised over
         an EBGP-OAD session.  The reception of any path atrribute over an
         EBGP-OAD session MUST NOT result in an error, unless it is malformed.
-        It SHOULD NOT be ignored by the receiver, unless directed to by local
-        policy.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">
-        Unless explicitly specified, the modification of path attributes sent
-        through an EBGP session remains unchanged when advertised through an
-        EBGP-OAD peering.  For example, the AS_PATH is modified as specified in
-        <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">
-  The following sections describe modifications to route advertisements
- and path attribute announcements that are specific to
- the EBGP-OAD peering.<a href="#section-3-8" class="pilcrow">¶</a></p>
+        Received path attributes SHOULD NOT be ignored by the receiver, unless
+        directed to by local policy.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">
+        Unless explicitly specified, the current processes for the
+        advertisement of path attributes remains unchanged when advertised
+        through an EBGP-OAD peering.  The process for EBGP advertisement MUST
+        take priority over the process for IBGP advertisement.  For example,
+        the AS_PATH attribute is modified as specified in Section 5.1.2 of
+        <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>, bullet b ("BGP speaker advertises the route
+        to an external peer").<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">
+        The following sections describe modifications to route advertisements
+        and path attribute announcements that are specific to the EBGP-OAD
+        peering.<a href="#section-3-6" class="pilcrow">¶</a></p>
 <section id="section-3.1">
-        <h3 id="name-nexthop-handling">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-nexthop-handling" class="section-name selfRef">Nexthop Handling</a>
+        <h3 id="name-next-hop-handling">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-next-hop-handling" class="section-name selfRef">Next Hop Handling</a>
         </h3>
 <p id="section-3.1-1">
-            It is reasonable for EBGP-OAD peers
-     to share a common Interior Gateway
-     Protocol (IGP).  In such
-     a case, NEXT_HOP attribute and the Next Hop in the
-     MP_REACH_NLRI attribute  <span>[<a href="#RFC4760" class="cite xref">RFC4760</a>]</span> MAY be left unchanged.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+            It is reasonable for EBGP-OAD peers to share a common Interior
+            Gateway Protocol (IGP).  In such a case, NEXT_HOP attribute and the
+            Next Hop in the MP_REACH_NLRI attribute  <span>[<a href="#RFC4760" class="cite xref">RFC4760</a>]</span>
+            MAY be left unchanged.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.2">
-        <h3 id="name-multi_exit_disc-med-handlin">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-multi_exit_disc-med-handlin" class="section-name selfRef">MULTI_EXIT_DISC (MED) Handling</a>
+        <h3 id="name-route-reflection">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-route-reflection" class="section-name selfRef">Route Reflection</a>
         </h3>
 <p id="section-3.2-1">
-          The determination of the neighboring AS for the purpose of BGP Route
-          Selection <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> MAY also consider the ASN of the
-          EBGP-OAD peer.  If so, all the peers in the receiving ASN MUST be
-          conifigured to use the same criteria.
-
-          [Clarify + Example]<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+         BGP Route Reflection <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span> is an alternative to
+         full-mesh IBGP.  The ORIGINATOR_ID and CLUSTER_LIST attributes MUST
+         NOT be advertised over an EBGP-OAD session.  If received, the
+         procedure in <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> applies.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3">
-        <h3 id="name-originator_id-handling">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-originator_id-handling" class="section-name selfRef">ORIGINATOR_ID Handling</a>
-      </h3>
-</section>
-<section id="section-3.4">
         <h3 id="name-label-allocation-and-label-">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-label-allocation-and-label-" class="section-name selfRef">Label Allocation and Label Handling</a>
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-label-allocation-and-label-" class="section-name selfRef">Label Allocation and Label Handling</a>
       </h3>
 </section>
 </section>
@@ -1337,12 +1316,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-deployment-considerations" class="section-name selfRef">Deployment Considerations</a>
       </h2>
 <p id="section-4-1">
-        If multiple peerings exist between two autonomous systems in the same
-        OAD, all SHOULD be configued consistently.  Improper configuration may
-        result in inconsistent or unexpected forwarding.  The inconsistent use
-        of EBGP-OAD sessions is out of scope of this document.<a href="#section-4-1" class="pilcrow">¶</a></p>
+        For the EBGP-OAD session to operate as expected, both BGP speakers MUST be configured with the same session type.  If only one BGP speaker is configured that way, and the other uses an EBGP session, the result is that some path attributes may be ignored and others will be discarded, but the BGP session will remain operational.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">
-        [Management / Configuration Text needed.]<a href="#section-4-2" class="pilcrow">¶</a></p>
+        If multiple peerings exist between two autonomous systems that belong to OAD, all SHOULD be configued consistently.  Improper configuration may result in inconsistent or unexpected forwarding.  The inconsistent use of EBGP-OAD sessions is out of scope of this document.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">
+        BGP Confederations <span>[<a href="#RFC5065" class="cite xref">RFC5065</a>]</span> provide similar behavior, on a session by session basis, as what is specified in this document.  The use of confederations with an EBGP-OAD peering is out of scope of this document.<a href="#section-4-3" class="pilcrow">¶</a></p>
 </section>
 <div id="IANA">
 <section id="section-5">
@@ -1362,7 +1340,18 @@ svg :is([fill="white"], [fill^="#fff"]) {
           inherent in the existing BGP protocol, such as those described in
           <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> and <span>[<a href="#RFC4272" class="cite xref">RFC4272</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">
-          [Add more.  Backwards -- one sided!]<a href="#section-6-2" class="pilcrow">¶</a></p>
+          This document defines a new BGP session type which combines the path
+          attribute propagation rules for EBGP and IBGP peering.  Any existing
+          security considerations related to existing path attributes apply to
+          the new EBGP-OAD session type.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">
+          By combining the path attribute propagation rules, IBGP information
+          may now be propagated to another autonomous system.  However, it is
+          expected that the new session type will only be enabled when peering
+          with a router that also belongs to OAD.  If misconfigured, the impact
+          is minimal due to the fact that both <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> and
+          <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span> define mechanisms to deal with unexpected
+          path attributes.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-7">
@@ -1382,9 +1371,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Rekhter, Y., Ed.</span>, <span class="refAuthor">Li, T., Ed.</span>, and <span class="refAuthor">S. Hares, Ed.</span>, <span class="refTitle">"A Border Gateway Protocol 4 (BGP-4)"</span>, <span class="seriesInfo">RFC 4271</span>, <span class="seriesInfo">DOI 10.17487/RFC4271</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4271">https://www.rfc-editor.org/info/rfc4271</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC4456">[RFC4456]</dt>
+        <dd>
+<span class="refAuthor">Bates, T.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">R. Chandra</span>, <span class="refTitle">"BGP Route Reflection: An Alternative to Full Mesh Internal BGP (IBGP)"</span>, <span class="seriesInfo">RFC 4456</span>, <span class="seriesInfo">DOI 10.17487/RFC4456</span>, <time datetime="2006-04" class="refDate">April 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4456">https://www.rfc-editor.org/info/rfc4456</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5065">[RFC5065]</dt>
         <dd>
 <span class="refAuthor">Traina, P.</span>, <span class="refAuthor">McPherson, D.</span>, and <span class="refAuthor">J. Scudder</span>, <span class="refTitle">"Autonomous System Confederations for BGP"</span>, <span class="seriesInfo">RFC 5065</span>, <span class="seriesInfo">DOI 10.17487/RFC5065</span>, <time datetime="2007-08" class="refDate">August 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5065">https://www.rfc-editor.org/info/rfc5065</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7606">[RFC7606]</dt>
+        <dd>
+<span class="refAuthor">Chen, E., Ed.</span>, <span class="refAuthor">Scudder, J., Ed.</span>, <span class="refAuthor">Mohapatra, P.</span>, and <span class="refAuthor">K. Patel</span>, <span class="refTitle">"Revised Error Handling for BGP UPDATE Messages"</span>, <span class="seriesInfo">RFC 7606</span>, <span class="seriesInfo">DOI 10.17487/RFC7606</span>, <time datetime="2015-08" class="refDate">August 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7606">https://www.rfc-editor.org/info/rfc7606</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
       <dd>
@@ -1401,9 +1398,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Murphy, S.</span>, <span class="refTitle">"BGP Security Vulnerabilities Analysis"</span>, <span class="seriesInfo">RFC 4272</span>, <span class="seriesInfo">DOI 10.17487/RFC4272</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4272">https://www.rfc-editor.org/info/rfc4272</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC4364">[RFC4364]</dt>
+        <dd>
+<span class="refAuthor">Rosen, E.</span> and <span class="refAuthor">Y. Rekhter</span>, <span class="refTitle">"BGP/MPLS IP Virtual Private Networks (VPNs)"</span>, <span class="seriesInfo">RFC 4364</span>, <span class="seriesInfo">DOI 10.17487/RFC4364</span>, <time datetime="2006-02" class="refDate">February 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4364">https://www.rfc-editor.org/info/rfc4364</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC4760">[RFC4760]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Bates, T.</span>, <span class="refAuthor">Chandra, R.</span>, <span class="refAuthor">Katz, D.</span>, and <span class="refAuthor">Y. Rekhter</span>, <span class="refTitle">"Multiprotocol Extensions for BGP-4"</span>, <span class="seriesInfo">RFC 4760</span>, <span class="seriesInfo">DOI 10.17487/RFC4760</span>, <time datetime="2007-01" class="refDate">January 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4760">https://www.rfc-editor.org/info/rfc4760</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8277">[RFC8277]</dt>
+      <dd>
+<span class="refAuthor">Rosen, E.</span>, <span class="refTitle">"Using BGP to Bind MPLS Labels to Address Prefixes"</span>, <span class="seriesInfo">RFC 8277</span>, <span class="seriesInfo">DOI 10.17487/RFC8277</span>, <time datetime="2017-10" class="refDate">October 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8277">https://www.rfc-editor.org/info/rfc8277</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
