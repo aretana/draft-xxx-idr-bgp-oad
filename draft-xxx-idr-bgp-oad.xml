@@ -74,14 +74,14 @@
         and stripping any IBGP-only attibutes.
       </t>
       <t>
-        Some networks span more than one autonomous sytem and require more
+        Some networks span more than one autonomous system and require more
         flexibility in the propagation of path attributes. These networks are
-        said to belong to One Administrative Domain (OAD). It is desiable to
+        said to belong to One Administrative Domain (OAD). It is desirable to
         carry IBGP-only attributes across EBGP peering when the peers belong to
         OAD. This document defines a new EBGP peering type known as EBGP-OAD.
-        EBGP-OAD peering is used between two EBGP peers that beong to OAD. This
-        document also defines rules for route announcement and processing for
-        EBGP-OAD peers.
+        EBGP-OAD peering is used between two EBGP peers that belong to OAD.
+        This document also defines rules for route announcement and processing
+        for EBGP-OAD peers.
       </t>
 
       <section>
@@ -101,18 +101,19 @@
         Networks have traditionally been demarcated by an autonomous system/BGP
         border which correlates to an administrative boundary. This paradigm no
         longer serves the needs of network designers or customers due to the
-        decoupling of IGP from BGP, BGP LU <xref target="RFC8277"/> in the
-        underlay, the use of BGP to facilitate multiple service overlays (e.g.,
-        L2VPN, L3VPN, etc.) spanning multiple regions and autonomous systems,
-        and the instantiation of customer sites on multiple content service
-        providers (CSPs).
+        decoupling of IGP from BGP, BGP-free core in the underlay (e.g. using
+        BGP labeled unicast <xref target="RFC8277"/>), the use of BGP to
+        facilitate multiple service overlays (e.g., L2VPN, L3VPN, etc.)
+        spanning multiple regions and AS domains, and the instantiation of
+        customer sites on multiple content service providers (CSPs).
       </t>
       <t>
         For example, sites in a BGP/MPLS VPN <xref target="RFC4364"/> may be
-        distributed across the provider's different autonomous systems. In some
-        cases, the administrator of the VPN may prefer that some attributes be
-        propagated to all their sites. An example could be LOCAL_PREF, which is
-        ignored if received on an EBGP session <xref target="RFC4271"/>.
+        distributed across different AS domains. In some
+        cases, the administrator of the VPN may prefer that some attributes are
+        propagated to all their sites to influence the BGP decision process. An
+        example could be LOCAL_PREF which is ignored if received on an EBGP
+        session <xref target="RFC4271"/>.
       </t>
     </section>
 
@@ -120,8 +121,8 @@
       <name>Operation</name>
       <t>
         <xref target="RFC4271"/> defines two types of BGP peerings used during
-        a BGP protocol session. This document divides EBGP peering into two
-        types:
+        a BGP protocol session. As part of the extensions defined in this
+        document, the EBGP peering is divided into two types:
       </t>
       <ol>
 	    <li>EBGP as defined in <xref target="RFC4271"/>.</li>
@@ -129,12 +130,13 @@
       </ol>
       <t>
         The EBGP-OAD session is a BGP connection between two external peers in
-        different Autonomous Systems that belong to OAD. In general, the EBGP-
-        OAD speakers follow the EBGP route advertisement, route processing,
-        path attribute announcement and processing rules as defined in
-        <xref target="RFC4271"/>. However, EBGP-OAD speakers are also allowed
-        to announce and receive any IBGP-only attributes that were restricted
-        to remain within an Autonomous System <xref target="RFC4271"/>.
+        different Autonomous Systems that belong to OAD. In general, the
+        EBGP-OAD speakers follow the EBGP route advertisement, route
+        processing, path attribute announcement and processing rules as defined
+        in <xref target="RFC4271"/>. However, EBGP-OAD speakers are also
+        allowed to announce and receive any IBGP-only attributes that were
+        restricted to remain within an Autonomous System
+        <xref target="RFC4271"/>.
       </t>
       <t>
         Unless explicitly specified, all path attributes MAY be advertised over
@@ -167,7 +169,6 @@
             MAY be left unchanged.
           </t>
       </section>
-<!--
       <section>
         <name>MULTI_EXIT_DISC (MED) Handling</name>
         <t>
@@ -175,11 +176,8 @@
           Selection <xref target="RFC4271"/> MAY also consider the ASN of the
           EBGP-OAD peer.  If so, all the peers in the receiving ASN MUST be
           conifigured to use the same criteria.
-
-          [Clarify + Example]
         </t>
      </section>
-   -->
      <section>
        <name>Route Reflection</name>
        <t>
@@ -196,15 +194,24 @@
    </section>
 
     <section>
-      <name>Deployment Considerations</name>
+      <name>Deployment and Operational Considerations</name>
       <t>
         For the EBGP-OAD session to operate as expected, both BGP speakers MUST be configured with the same session type.  If only one BGP speaker is configured that way, and the other uses an EBGP session, the result is that some path attributes may be ignored and others will be discarded, but the BGP session will remain operational.
       </t>
       <t>
-        If multiple peerings exist between two autonomous systems that belong to OAD, all SHOULD be configued consistently.  Improper configuration may result in inconsistent or unexpected forwarding.  The inconsistent use of EBGP-OAD sessions is out of scope of this document.
+        If multiple peerings exist between two autonomous systems that belong to OAD, all SHOULD be configured consistently.  Improper configuration may result in inconsistent or unexpected forwarding.  The inconsistent use of EBGP-OAD sessions is out of scope of this document.
       </t>
       <t>
         BGP Confederations <xref target="RFC5065"/> provide similar behavior, on a session by session basis, as what is specified in this document.  The use of confederations with an EBGP-OAD peering is out of scope of this document.
+      </t>
+      <t>
+        The default BGP peering type for a session that is across autonomous
+        systems SHOULD be EBGP.  BGP implementation SHOULD provide a
+        configuration-time option to enable the EBGP-OAD session type.  The
+        configuration can be in the form of a global statement listing the ASNs
+        that belong to the OAD.  Or, the configuration can be specified as a
+        type on per-peer basis.  An implementation may also choose to support
+        this peering type option per AFI/SAFI.
       </t>
     </section>
 
