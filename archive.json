@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-03-09T01:51:23.849602+00:00",
+  "timestamp": "2023-03-12T01:48:13.695585+00:00",
   "repo": "aretana/draft-xxx-idr-bgp-oad",
   "labels": [
     {
@@ -103,6 +103,68 @@
       "mergedBy": "aretana",
       "mergeCommit": {
         "oid": "80956f7e0f246c9262d0e8febd20ef05f495ed6c"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOIVB7-s5LwO6k",
+      "title": "Add more text in the deployment section",
+      "url": "https://github.com/aretana/draft-xxx-idr-bgp-oad/pull/3",
+      "state": "CLOSED",
+      "author": "pmohapat",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Also:\r\n\r\n- Attempt at a merge of email diffs\r\n\r\n- Fix a few typos",
+      "createdAt": "2023-03-10T10:20:56Z",
+      "updatedAt": "2023-03-10T17:19:17Z",
+      "baseRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "baseRefName": "main",
+      "baseRefOid": "200d0a17bae93fbcb5c2387ee077bfa0aebc07dc",
+      "headRepository": "pmohapat/draft-xxx-idr-bgp-oad",
+      "headRefName": "main",
+      "headRefOid": "9fc8832fbb1c55946483bfc7ab9ce29fb9da443c",
+      "closedAt": "2023-03-10T17:19:17Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "aretana",
+          "authorAssociation": "OWNER",
+          "body": "Manually commited.",
+          "createdAt": "2023-03-10T17:19:17Z",
+          "updatedAt": "2023-03-10T17:19:17Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOIVB7-s5LxqOu",
+      "title": "Updates before submission",
+      "url": "https://github.com/aretana/draft-xxx-idr-bgp-oad/pull/4",
+      "state": "MERGED",
+      "author": "aretana",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "formating and some text updates.",
+      "createdAt": "2023-03-10T15:15:39Z",
+      "updatedAt": "2023-03-10T15:16:49Z",
+      "baseRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "baseRefName": "main",
+      "baseRefOid": "200d0a17bae93fbcb5c2387ee077bfa0aebc07dc",
+      "headRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "headRefName": "oad-alvaro",
+      "headRefOid": "09d8bd3fd8e9bd22c4cf68c1a1af6fa76c87fdd0",
+      "closedAt": "2023-03-10T15:16:49Z",
+      "mergedAt": "2023-03-10T15:16:49Z",
+      "mergedBy": "aretana",
+      "mergeCommit": {
+        "oid": "8459cc9e7833bb28254ea08516c3664bfe9004ed"
       },
       "comments": [],
       "reviews": []
