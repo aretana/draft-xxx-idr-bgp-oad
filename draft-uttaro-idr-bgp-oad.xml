@@ -179,7 +179,7 @@
         to an external peer").
       </t>
       <t>
-        An EBGP-OAD speaker MUST support four-octet AS numbers and avertize the
+        An EBGP-OAD speaker MUST support four-octet AS numbers and advertise the
         "support for four-octet AS number capability" <xref target="RFC6793"/> .
       </t>
       <t>
@@ -192,9 +192,9 @@
           <name>Next Hop Handling</name>
           <t>
             It is reasonable for EBGP-OAD peers to share a common Interior
-            Gateway Protocol (IGP).  In such a case, NEXT_HOP attribute and the
-            Next Hop in the MP_REACH_NLRI attribute  <xref target="RFC4760"/>
-            MAY be left unchanged.
+            Gateway Protocol (IGP).  In such a case, the NEXT_HOP attribute and
+            the Next Hop in the MP_REACH_NLRI attribute
+            <xref target="RFC4760"/> MAY be left unchanged.
           </t>
       </section>
       <section anchor="MED">
@@ -254,7 +254,7 @@
       <t>
         The consideration of the ASN of the EBGP-OAD peer to determine the
         neighboring AS for MED comparison <xref target="MED"/> may result in
-        the creation persistent route oscillations, similar to the Type II
+        the creation of persistent route oscillations, similar to the Type II
         Churn described in <xref target="RFC3345"/>.  <xref target="RFC7964"/>
         provides solutions and recommendations to address this issue.
       </t>
