@@ -9,7 +9,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-uttaro-idr-bgp-oad-00"
+  docName="draft-uttaro-idr-bgp-oad-01"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -20,7 +20,7 @@
   <front>
     <title abbrev="One Administrative Domain">One Administrative Domain using BGP</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-01"/>
 
     <author fullname="Jim Uttaro" initials="J." surname="Uttaro">
       <organization>AT&amp;T</organization>
@@ -99,13 +99,14 @@
       </t>
       <t>
         Some networks span more than one autonomous system and require more
-        flexibility in the propagation of path attributes. These networks are
-        said to belong to One Administrative Domain (OAD). It is desirable to
-        carry IBGP-only attributes across EBGP peering when the peers belong to
-        OAD. This document defines a new EBGP peering type known as EBGP-OAD.
-        EBGP-OAD peering is used between two EBGP peers that belong to OAD.
-        This document also defines rules for route announcement and processing
-        for EBGP-OAD peers.
+        flexibility in the propagation of path attributes. It is worth noting
+        that these multi-AS networks have a common or single administrative
+        entity. These networks are said to belong to One Administrative Domain
+        (OAD). It is desirable to carry IBGP-only attributes across EBGP peering
+        when the peers belong to OAD. This document defines a new EBGP peering
+        type known as EBGP-OAD. EBGP-OAD peering is used between two EBGP peers
+        that belong to OAD. This document also defines rules for route
+        announcement and processing for EBGP-OAD peers.
       </t>
 
       <section>
@@ -157,7 +158,10 @@
         different Autonomous Systems that belong to OAD. In general, the
         EBGP-OAD speakers follow the EBGP route advertisement, route
         processing, path attribute announcement and processing rules as defined
-        in <xref target="RFC4271"/>. However, EBGP-OAD speakers are also
+        in <xref target="RFC4271"/>. In particular, the handling of all
+        attributes with the Transitive bit set should be done in accordance to
+        the announcement and processing rules defined in
+        <xref target="RFC4271"/>. However, EBGP-OAD speakers are also
         allowed to announce and receive any IBGP-only or non-transitive
         attributes that were restricted to remain within an Autonomous System
         <xref target="RFC4271"/>.
@@ -215,6 +219,51 @@
          procedures in <xref target="RFC7606"/> apply.
        </t>
      </section>
+     <section>
+       <name>Tunnel Encapsulation Attribute Handling</name>
+       <t>
+         The Tunnel Encapsulation attribute <xref target="RFC9012"/> provides
+         information needed to create tunnels and their corresponding tunnel
+         headers. <xref target="RFC9012"/> resticts the scope of the attribute
+         announcement within a set of ASes that belong to a single adminstrative
+         entity. Since EBGP-OAD peers belong to a single adminstrative entity,
+         EBGP-OAD peers MUST implement the EBGP-related Tunnel Encapsulation
+         attribute procedures defined in <xref target="RFC9012"/>.
+       </t>
+     </section>
+
+     <section>
+       <name>PMSI Tunnel Attribute Handling</name>
+       <t>
+         The P-Multicast Service Interface Tunnel (PMSI Tunnel) attribute
+         <xref target="RFC6514"/> provides information needed to create
+         multicast tunnels and their corresponding tunnel headers. EBGP-OAD
+         peers MUST impement the EBGP-related PMSI Tunnel attribute procedures
+         defined in <xref target="RFC6514"/>.
+       </t>
+     </section>
+
+     <section>
+       <name>PE Distinguisher Labels Attribute Handling</name>
+       <t>
+         PE Distinguisher Labels Attribute attribute <xref target="RFC6514"/>
+         provides information needed to carry upstream assigned Label values
+         that identifies another PE multicast router.  As such, this attribute
+         is only defined to be used inside an AS <xref target="RFC6513"/>.
+         EBGP-OAD peers MUST implement the procedures defined in
+         <xref target="RFC6513"/> and <xref target="RFC6514"/>.
+       </t>
+     </section>
+
+     <section>
+     <name>BGPsec_PATH Attribute Handling</name>
+     <t>
+       BGPsec_PATH attribute <xref target="RFC8025"/> provides security for the
+       path of Autonomous systems through which a BGP UPDATE message passes.
+       EBGP-OAD peers MUST implement the EBGP-related procedures defined in
+       <xref target="RFC8025"/>.
+     </t>
+   </section>
    </section>
 
     <section>
@@ -302,11 +351,15 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5065.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6513.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6514.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6793.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7313.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8025.xml"/>
 	      <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8212.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9012.xml"/>
       </references>
 
       <references>
