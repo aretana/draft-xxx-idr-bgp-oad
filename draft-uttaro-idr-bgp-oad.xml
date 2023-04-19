@@ -161,17 +161,16 @@
         in <xref target="RFC4271"/>. In particular, the handling of all
         attributes with the Transitive bit set should be done in accordance to
         the announcement and processing rules defined in
-        <xref target="RFC4271"/>. However, EBGP-OAD speakers are also
-        allowed to announce and receive any IBGP-only or non-transitive
-        attributes that were restricted to remain within an Autonomous System
         <xref target="RFC4271"/>.
       </t>
       <t>
-        Unless explicitly specified, all path attributes MAY be advertised over
-        an EBGP-OAD session.  The reception of any path attribute over an
-        EBGP-OAD session MUST NOT result in an error, unless it is malformed.
-        Received path attributes SHOULD NOT be ignored by the receiver, unless
-        directed to by local policy.
+        EBGP-OAD speakers are also allowed to announce and receive any IBGP-only
+        or non-transitive attributes  <xref target="RFC4271"/>. Unless
+        explicitly specified, all non-transitive path attributes MAY be
+        advertised over an EBGP-OAD session.  The reception of any path
+        attribute over an EBGP-OAD session MUST NOT result in an error, unless
+        it is malformed. Received path attributes SHOULD NOT be ignored by the
+        receiver, unless directed to by local policy.
       </t>
       <t>
         Unless explicitly specified, the current processes for the
@@ -264,6 +263,92 @@
        <xref target="RFC8025"/>.
      </t>
    </section>
+
+     <section>
+       <name>BGP COMMUNITIES Attribute</name>
+       <t>
+         BGP COMMUNITIES <xref target="RFC1997"/> is a transitive attribute used
+         to pass additional information to BGP peers.  The advertisement
+         semantics do not change.  In particular, routes received carrying the
+         COMMUNITIES attribute containing the well-known NO_EXPORT value MUST
+         NOT be advertised across an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>Extended Communities Attribute Handling</name>
+       <t>
+         The Extended Communities Attribute <xref target="RFC4360"/> is a
+         transitive attribute that provides a mechanism for labeling information
+         carried in BGP.  The Transitive bit is used to indicate whether a
+         particular community is transitive or non-transitive across an
+         Autonomous System (AS) boundary.  As described in
+         <xref target="RFC4360"/>, the advertisement of transitive extended
+         communities is subject to local policy for EBGP-OAD peerings.
+         Non-transitive extended communities MAY be advertised to peers over an
+         EBGP-OAD session.  For example, the Origin Validation State Extended
+         Community <xref target="RFC8097"/> can be advertised to peers in the
+         same OAD.
+       </t>
+     </section>
+
+     <section>
+       <name>Traffic Engineering Attribute Handling</name>
+       <t>
+         The Traffic Engineering attribute is a non-transitive attribute that
+         enables BGP to carry Traffic Engineering information
+         <xref target="RFC5543"/>. This attribute MAY be advertised to peers
+         over an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>IPv6 Address Specific Extended Community Attribute Handling</name>
+       <t>
+         The IPv6 Address Specific Extended Community Attribute is a transitive
+         attribute that carries address information to be used in IPv6-only
+         environments <xref target="RFC5701"/>.  Modeled after Extended
+         Communities <xref target="RFC4360"/>, a particular community in this
+         attribute can be transitive or non-transitive across an Autonomous
+         System (AS) boundary.  Non-transitive extended communities MAY be
+         advertised to peers over an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>Accumulated IGP Metric Attribute Handling</name>
+       <t>
+         The Accumulated IGP Metric (AIGP) Attribute allows the advertisement
+         of an accumulated internal routing metric across AS boundaries in an
+         "AIGP administrative domain" <xref target="RFC7311"/>.  The AIGP
+         attribute is enabled or dissabled on a session by the AIGP_SESSION
+         configuration item.  For EBGP-OAD sessions, the default value of
+         AIGP_SESSION SHOULD be "enabled".
+       </t>
+     </section>
+
+     <section>
+       <name>BGP-LS Attribute Handling</name>
+       <t>
+         The BGP Link-State (BGP-LS) attribute is used to carry link, node, and
+         prefix parameters and attributes when distributing link-state and TE
+         information using BGP <xref target="I-D.ietf-idr-rfc7752bis"/>.  This
+         attribute MAY be advertised to peers over an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>BGP Role Negotiation</name>
+       <t>
+         Given the intent of OAD, the BGP Role negotiation and OTC
+         Attribute-based procedures specified in <xref target="RFC9234"/> are
+         NOT RECOMMENDED to be used between peers in an EBGP-OAD session.  The
+         OTC attribute, if present, MUST be preserved unchanged through an
+         EBGP-OAD session.  The use and negotiation of BGP Roles between
+         EBGP-OAD peers is outside the scope of this document.
+       </t>
+     </section>
+
    </section>
 
     <section>
@@ -347,19 +432,26 @@
       <references>
         <name>Normative References</name>
 
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-idr-rfc7752bis.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.1997.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4360.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5065.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5543.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5701.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6513.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6514.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6793.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7311.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7313.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8025.xml"/>
 	      <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8212.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9012.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9234.xml"/>
       </references>
 
       <references>
@@ -369,6 +461,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4364.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4760.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7964.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8097.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8277.xml"/>
       </references>
 
