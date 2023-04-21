@@ -34,10 +34,28 @@
         <email>ar977m@att.com</email>
       </address>
     </author>
+    <author fullname="Alvaro Retana" initials="A." surname="Retana">
+      <organization>Futurewei Technologies, Inc.</organization>
+      <address>
+        <email>alvaro.retana@futurewei.com</email>
+      </address>
+    </author>
+    <author fullname="Pradosh Mohapatra" initials="P." surname="Mohapatra">
+      <organization>Google</organization>
+      <address>
+        <email>pradosh@google.com</email>
+      </address>
+    </author>
     <author fullname="Keyur Patel" initials="K." surname="Patel">
       <organization>Arrcus, Inc.</organization>
       <address>
         <email>keyur@arrcus.com</email>
+      </address>
+    </author>
+    <author fullname="Bin Wen" initials="B." surname="Wen">
+      <organization>Comcast</organization>
+      <address>
+        <email>bin_wen@comcast.com</email>
       </address>
     </author>
       <author fullname="Dhananjaya Rao" initials="D." surname="Rao">
@@ -46,28 +64,10 @@
           <email>dhrao@cisco.com</email>
         </address>
       </author>
-    <author fullname="Bin Wen" initials="B." surname="Wen">
-      <organization>Comcast</organization>
-      <address>
-        <email>bin_wen@comcast.com</email>
-      </address>
-    </author>
-    <author fullname="Alvaro Retana" initials="A." surname="Retana">
-      <organization>Futurewei Technologies, Inc.</organization>
-      <address>
-        <email>alvaro.retana@futurewei.com</email>
-      </address>
-    </author>
     <author fullname="Srihari Sangli" initials="S." surname="Sangli">
       <organization>Juniper Networks</organization>
       <address>
         <email>ssangli@juniper.net</email>
-      </address>
-    </author>
-    <author fullname="Pradosh Mohapatra" initials="P." surname="Mohapatra">
-      <organization>Google</organization>
-      <address>
-        <email>pradosh@google.com</email>
       </address>
     </author>
 
