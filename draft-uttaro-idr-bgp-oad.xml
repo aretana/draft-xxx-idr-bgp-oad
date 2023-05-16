@@ -9,7 +9,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-xxx-idr-bgp-oad-latest"
+  docName="draft-uttaro-idr-bgp-oad-02"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -20,7 +20,7 @@
   <front>
     <title abbrev="One Administrative Domain">One Administrative Domain using BGP</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-xxx-idr-bgp-oad-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-02"/>
 
     <author fullname="Jim Uttaro" initials="J." surname="Uttaro">
       <organization>AT&amp;T</organization>
@@ -34,10 +34,28 @@
         <email>ar977m@att.com</email>
       </address>
     </author>
+    <author fullname="Alvaro Retana" initials="A." surname="Retana">
+      <organization>Futurewei Technologies, Inc.</organization>
+      <address>
+        <email>alvaro.retana@futurewei.com</email>
+      </address>
+    </author>
+    <author fullname="Pradosh Mohapatra" initials="P." surname="Mohapatra">
+      <organization>Google</organization>
+      <address>
+        <email>pradosh@google.com</email>
+      </address>
+    </author>
     <author fullname="Keyur Patel" initials="K." surname="Patel">
       <organization>Arrcus, Inc.</organization>
       <address>
         <email>keyur@arrcus.com</email>
+      </address>
+    </author>
+    <author fullname="Bin Wen" initials="B." surname="Wen">
+      <organization>Comcast</organization>
+      <address>
+        <email>bin_wen@comcast.com</email>
       </address>
     </author>
       <author fullname="Dhananjaya Rao" initials="D." surname="Rao">
@@ -46,28 +64,10 @@
           <email>dhrao@cisco.com</email>
         </address>
       </author>
-    <author fullname="Bin Wen" initials="B." surname="Wen">
-      <organization>Comcast</organization>
-      <address>
-        <email>bin_wen@comcast.com</email>
-      </address>
-    </author>
-    <author fullname="Alvaro Retana" initials="A." surname="Retana">
-      <organization>Futurewei Technologies, Inc.</organization>
-      <address>
-        <email>alvaro.retana@futurewei.com</email>
-      </address>
-    </author>
     <author fullname="Srihari Sangli" initials="S." surname="Sangli">
       <organization>Juniper Networks</organization>
       <address>
         <email>ssangli@juniper.net</email>
-      </address>
-    </author>
-    <author fullname="Pradosh Mohapatra" initials="P." surname="Mohapatra">
-      <organization>Sproute Networks</organization>
-      <address>
-        <email>pradosh@sproute.com</email>
       </address>
     </author>
 
@@ -99,13 +99,14 @@
       </t>
       <t>
         Some networks span more than one autonomous system and require more
-        flexibility in the propagation of path attributes. These networks are
-        said to belong to One Administrative Domain (OAD). It is desirable to
-        carry IBGP-only attributes across EBGP peering when the peers belong to
-        OAD. This document defines a new EBGP peering type known as EBGP-OAD.
-        EBGP-OAD peering is used between two EBGP peers that belong to OAD.
-        This document also defines rules for route announcement and processing
-        for EBGP-OAD peers.
+        flexibility in the propagation of path attributes. It is worth noting
+        that these multi-AS networks have a common or single administrative
+        entity. These networks are said to belong to One Administrative Domain
+        (OAD). It is desirable to carry IBGP-only attributes across EBGP peering
+        when the peers belong to OAD. This document defines a new EBGP peering
+        type known as EBGP-OAD. EBGP-OAD peering is used between two EBGP peers
+        that belong to OAD. This document also defines rules for route
+        announcement and processing for EBGP-OAD peers.
       </t>
 
       <section>
@@ -157,17 +158,19 @@
         different Autonomous Systems that belong to OAD. In general, the
         EBGP-OAD speakers follow the EBGP route advertisement, route
         processing, path attribute announcement and processing rules as defined
-        in <xref target="RFC4271"/>. However, EBGP-OAD speakers are also
-        allowed to announce and receive any IBGP-only or non-transitive
-        attributes that were restricted to remain within an Autonomous System
+        in <xref target="RFC4271"/>. In particular, the handling of all
+        attributes with the Transitive bit set should be done in accordance to
+        the announcement and processing rules defined in
         <xref target="RFC4271"/>.
       </t>
       <t>
-        Unless explicitly specified, all path attributes MAY be advertised over
-        an EBGP-OAD session.  The reception of any path attribute over an
-        EBGP-OAD session MUST NOT result in an error, unless it is malformed.
-        Received path attributes SHOULD NOT be ignored by the receiver, unless
-        directed to by local policy.
+        EBGP-OAD speakers are also allowed to announce and receive any IBGP-only
+        or non-transitive attributes  <xref target="RFC4271"/>. Unless
+        explicitly specified, all non-transitive path attributes MAY be
+        advertised over an EBGP-OAD session.  The reception of any path
+        attribute over an EBGP-OAD session MUST NOT result in an error, unless
+        it is malformed. Received path attributes SHOULD NOT be ignored by the
+        receiver, unless directed to by local policy.
       </t>
       <t>
         Unless explicitly specified, the current processes for the
@@ -179,7 +182,7 @@
         to an external peer").
       </t>
       <t>
-        An EBGP-OAD speaker MUST support four-octet AS numbers and avertize the
+        An EBGP-OAD speaker MUST support four-octet AS numbers and advertise the
         "support for four-octet AS number capability" <xref target="RFC6793"/> .
       </t>
       <t>
@@ -192,9 +195,9 @@
           <name>Next Hop Handling</name>
           <t>
             It is reasonable for EBGP-OAD peers to share a common Interior
-            Gateway Protocol (IGP).  In such a case, NEXT_HOP attribute and the
-            Next Hop in the MP_REACH_NLRI attribute  <xref target="RFC4760"/>
-            MAY be left unchanged.
+            Gateway Protocol (IGP).  In such a case, the NEXT_HOP attribute and
+            the Next Hop in the MP_REACH_NLRI attribute
+            <xref target="RFC4760"/> MAY be left unchanged.
           </t>
       </section>
       <section anchor="MED">
@@ -215,6 +218,139 @@
          procedures in <xref target="RFC7606"/> apply.
        </t>
      </section>
+     <section>
+       <name>Tunnel Encapsulation Attribute Handling</name>
+       <t>
+         The Tunnel Encapsulation attribute <xref target="RFC9012"/> provides
+         information needed to create tunnels and their corresponding tunnel
+         headers. <xref target="RFC9012"/> restricts the scope of the attribute
+         announcement within a set of ASes that belong to a single
+         administrative entity. Since EBGP-OAD peers belong to a single
+         administrative entity, EBGP-OAD peers MUST comply with the EBGP-related
+         Tunnel Encapsulation attribute procedures defined in
+         <xref target="RFC9012"/>.
+       </t>
+     </section>
+
+     <section>
+       <name>PMSI Tunnel Attribute Handling</name>
+       <t>
+         The P-Multicast Service Interface Tunnel (PMSI Tunnel) attribute
+         <xref target="RFC6514"/> provides information needed to create
+         multicast tunnels and their corresponding tunnel headers. EBGP-OAD
+         peers MUST comply with the EBGP-related PMSI Tunnel attribute
+         procedures defined in <xref target="RFC6514"/>.
+       </t>
+     </section>
+
+     <section>
+       <name>PE Distinguisher Labels Attribute Handling</name>
+       <t>
+         The PE Distinguisher Labels Attribute attribute
+         <xref target="RFC6514"/> provides information needed to carry upstream
+         assigned label values that identify another PE multicast router.  As
+         such, this attribute is only defined to be used inside an AS
+         <xref target="RFC6513"/>.  EBGP-OAD peers MUST comply with the
+         procedures defined in <xref target="RFC6513"/> and
+         <xref target="RFC6514"/>.
+       </t>
+     </section>
+
+     <section>
+     <name>BGPsec_PATH Attribute Handling</name>
+     <t>
+       The BGPsec_PATH attribute <xref target="RFC8025"/> provides security for
+       the path of Autonomous Systems through which a BGP UPDATE message passes.
+       EBGP-OAD peers MUST comply with the EBGP-related procedures defined in
+       <xref target="RFC8025"/>.
+     </t>
+   </section>
+
+     <section>
+       <name>BGP COMMUNITIES Attribute</name>
+       <t>
+         BGP COMMUNITIES <xref target="RFC1997"/> is a transitive attribute used
+         to pass additional information to BGP peers.  The advertisement
+         semantics do not change.  In particular, routes received carrying the
+         COMMUNITIES attribute containing the well-known NO_EXPORT value MUST
+         NOT be advertised across an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>Extended Communities Attribute Handling</name>
+       <t>
+         The Extended Communities Attribute <xref target="RFC4360"/> is a
+         transitive attribute that provides a mechanism for labeling information
+         carried in BGP.  The Transitive bit is used to indicate whether a
+         particular community is transitive or non-transitive across an
+         Autonomous System (AS) boundary.  As described in
+         <xref target="RFC4360"/>, the advertisement of transitive extended
+         communities is subject to local policy for EBGP-OAD peerings.
+         Non-transitive extended communities MAY be advertised to peers over an
+         EBGP-OAD session.  For example, the Origin Validation State Extended
+         Community <xref target="RFC8097"/> can be advertised to peers in the
+         same OAD.
+       </t>
+     </section>
+
+     <section>
+       <name>Traffic Engineering Attribute Handling</name>
+       <t>
+         The Traffic Engineering attribute is a non-transitive attribute that
+         enables BGP to carry Traffic Engineering information
+         <xref target="RFC5543"/>. This attribute MAY be advertised to peers
+         over an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>IPv6 Address Specific Extended Community Attribute Handling</name>
+       <t>
+         The IPv6 Address Specific Extended Community Attribute is a transitive
+         attribute that carries address information to be used in IPv6-only
+         environments <xref target="RFC5701"/>.  Modeled after Extended
+         Communities <xref target="RFC4360"/>, a particular community in this
+         attribute can be transitive or non-transitive across an Autonomous
+         System (AS) boundary.  Non-transitive extended communities MAY be
+         advertised to peers over an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>Accumulated IGP Metric Attribute Handling</name>
+       <t>
+         The Accumulated IGP Metric (AIGP) Attribute allows the advertisement
+         of an accumulated internal routing metric across AS boundaries in an
+         "AIGP administrative domain" <xref target="RFC7311"/>.  The AIGP
+         attribute is enabled or dissabled on a session by the AIGP_SESSION
+         configuration item.  For EBGP-OAD sessions, the default value of
+         AIGP_SESSION SHOULD be "enabled".
+       </t>
+     </section>
+
+     <section>
+       <name>BGP-LS Attribute Handling</name>
+       <t>
+         The BGP Link-State (BGP-LS) attribute is used to carry link, node, and
+         prefix parameters and attributes when distributing link-state and TE
+         information using BGP <xref target="I-D.ietf-idr-rfc7752bis"/>.  This
+         attribute MAY be advertised to peers over an EBGP-OAD session.
+       </t>
+     </section>
+
+     <section>
+       <name>BGP Role Negotiation</name>
+       <t>
+         Given the intent of OAD, the BGP Role negotiation and OTC
+         Attribute-based procedures specified in <xref target="RFC9234"/> are
+         NOT RECOMMENDED to be used between peers in an EBGP-OAD session.  The
+         OTC attribute, if present, MUST be preserved unchanged through an
+         EBGP-OAD session.  The use and negotiation of BGP Roles between
+         EBGP-OAD peers is outside the scope of this document.
+       </t>
+     </section>
+
    </section>
 
     <section>
@@ -254,7 +390,7 @@
       <t>
         The consideration of the ASN of the EBGP-OAD peer to determine the
         neighboring AS for MED comparison <xref target="MED"/> may result in
-        the creation persistent route oscillations, similar to the Type II
+        the creation of persistent route oscillations, similar to the Type II
         Churn described in <xref target="RFC3345"/>.  <xref target="RFC7964"/>
         provides solutions and recommendations to address this issue.
       </t>
@@ -298,15 +434,26 @@
       <references>
         <name>Normative References</name>
 
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-idr-rfc7752bis.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.1997.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4360.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5065.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5543.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5701.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6513.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6514.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6793.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7311.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7313.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8025.xml"/>
 	      <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8212.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9012.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9234.xml"/>
       </references>
 
       <references>
@@ -316,6 +463,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4364.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4760.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7964.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8097.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8277.xml"/>
       </references>
 
