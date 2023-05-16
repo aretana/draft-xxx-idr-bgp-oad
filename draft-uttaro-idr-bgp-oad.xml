@@ -9,7 +9,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-uttaro-idr-bgp-oad-01"
+  docName="draft-uttaro-idr-bgp-oad-02"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -20,7 +20,7 @@
   <front>
     <title abbrev="One Administrative Domain">One Administrative Domain using BGP</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-01"/>
+    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-02"/>
 
     <author fullname="Jim Uttaro" initials="J." surname="Uttaro">
       <organization>AT&amp;T</organization>
@@ -223,11 +223,12 @@
        <t>
          The Tunnel Encapsulation attribute <xref target="RFC9012"/> provides
          information needed to create tunnels and their corresponding tunnel
-         headers. <xref target="RFC9012"/> resticts the scope of the attribute
-         announcement within a set of ASes that belong to a single adminstrative
-         entity. Since EBGP-OAD peers belong to a single adminstrative entity,
-         EBGP-OAD peers MUST implement the EBGP-related Tunnel Encapsulation
-         attribute procedures defined in <xref target="RFC9012"/>.
+         headers. <xref target="RFC9012"/> restricts the scope of the attribute
+         announcement within a set of ASes that belong to a single
+         administrative entity. Since EBGP-OAD peers belong to a single
+         administrative entity, EBGP-OAD peers MUST comply with the EBGP-related
+         Tunnel Encapsulation attribute procedures defined in
+         <xref target="RFC9012"/>.
        </t>
      </section>
 
@@ -237,29 +238,30 @@
          The P-Multicast Service Interface Tunnel (PMSI Tunnel) attribute
          <xref target="RFC6514"/> provides information needed to create
          multicast tunnels and their corresponding tunnel headers. EBGP-OAD
-         peers MUST impement the EBGP-related PMSI Tunnel attribute procedures
-         defined in <xref target="RFC6514"/>.
+         peers MUST comply with the EBGP-related PMSI Tunnel attribute
+         procedures defined in <xref target="RFC6514"/>.
        </t>
      </section>
 
      <section>
        <name>PE Distinguisher Labels Attribute Handling</name>
        <t>
-         PE Distinguisher Labels Attribute attribute <xref target="RFC6514"/>
-         provides information needed to carry upstream assigned Label values
-         that identifies another PE multicast router.  As such, this attribute
-         is only defined to be used inside an AS <xref target="RFC6513"/>.
-         EBGP-OAD peers MUST implement the procedures defined in
-         <xref target="RFC6513"/> and <xref target="RFC6514"/>.
+         The PE Distinguisher Labels Attribute attribute
+         <xref target="RFC6514"/> provides information needed to carry upstream
+         assigned label values that identify another PE multicast router.  As
+         such, this attribute is only defined to be used inside an AS
+         <xref target="RFC6513"/>.  EBGP-OAD peers MUST comply with the
+         procedures defined in <xref target="RFC6513"/> and
+         <xref target="RFC6514"/>.
        </t>
      </section>
 
      <section>
      <name>BGPsec_PATH Attribute Handling</name>
      <t>
-       BGPsec_PATH attribute <xref target="RFC8025"/> provides security for the
-       path of Autonomous systems through which a BGP UPDATE message passes.
-       EBGP-OAD peers MUST implement the EBGP-related procedures defined in
+       The BGPsec_PATH attribute <xref target="RFC8025"/> provides security for
+       the path of Autonomous Systems through which a BGP UPDATE message passes.
+       EBGP-OAD peers MUST comply with the EBGP-related procedures defined in
        <xref target="RFC8025"/>.
      </t>
    </section>
