@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-05-16T01:35:51.651009+00:00",
+  "timestamp": "2023-05-18T01:34:05.351549+00:00",
   "repo": "aretana/draft-xxx-idr-bgp-oad",
   "labels": [
     {
@@ -165,6 +165,34 @@
       "mergedBy": "aretana",
       "mergeCommit": {
         "oid": "8459cc9e7833bb28254ea08516c3664bfe9004ed"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOIVB7-s5QpnP1",
+      "title": "Catch up with main",
+      "url": "https://github.com/aretana/draft-xxx-idr-bgp-oad/pull/5",
+      "state": "MERGED",
+      "author": "aretana",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "To work on attribute list.",
+      "createdAt": "2023-05-16T20:10:54Z",
+      "updatedAt": "2023-05-16T20:11:44Z",
+      "baseRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "baseRefName": "oad-alvaro",
+      "baseRefOid": "09d8bd3fd8e9bd22c4cf68c1a1af6fa76c87fdd0",
+      "headRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "headRefName": "main",
+      "headRefOid": "a581fddc359b939bb2efb60132c0a9e6f5ec3691",
+      "closedAt": "2023-05-16T20:11:43Z",
+      "mergedAt": "2023-05-16T20:11:43Z",
+      "mergedBy": "aretana",
+      "mergeCommit": {
+        "oid": "5f2e2473fee9f95d5d0b5f1a09704b850af7ade2"
       },
       "comments": [],
       "reviews": []
