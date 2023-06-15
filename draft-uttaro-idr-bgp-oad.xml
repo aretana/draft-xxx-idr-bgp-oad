@@ -843,10 +843,11 @@
      <dl indent="4" newline="false">
        <dt>d)</dt>
        <dd>
-         If at least one of the candidate routes was received via EBGP-OAD,
-         remove from consideration all routes that were received via IBGP.  If
-         at least one of the candidate routes was received via EBGP, remove
-         from consideration all routes that were received via EBGP-OAD.
+         If at least one of the candidate routes was received via EBGP, remove
+         from consideration all routes that were received via EBGP-OAD and
+         IBGP. If at least one of the candidate routes was received via
+         EBGP-OAD, remove from consideration all routes that were received via
+         IBGP.
        </dd>
      </dl>
      <t>
@@ -901,7 +902,11 @@
 
     <section anchor="IANA">
       <name>IANA Considerations</name>
-      <t>This memo includes no request to IANA.</t>
+      <t>
+        IANA is requested to update the BGP Path Attributes registry as shown
+        in <xref target="SummaryTable"/>.  Also, IANA is requested to add [this
+        document] as a reference in the registry.
+      </t>
     </section>
 
     <section anchor="Security">
