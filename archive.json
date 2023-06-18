@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-06-15T01:42:54.617524+00:00",
+  "timestamp": "2023-06-18T01:57:49.564189+00:00",
   "repo": "aretana/draft-xxx-idr-bgp-oad",
   "labels": [
     {
@@ -193,6 +193,34 @@
       "mergedBy": "aretana",
       "mergeCommit": {
         "oid": "5f2e2473fee9f95d5d0b5f1a09704b850af7ade2"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOIVB7-s5THIZ9",
+      "title": "Merge attribute list, decision process changes and other...",
+      "url": "https://github.com/aretana/draft-xxx-idr-bgp-oad/pull/6",
+      "state": "MERGED",
+      "author": "aretana",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-15T15:40:33Z",
+      "updatedAt": "2023-06-15T15:40:52Z",
+      "baseRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "baseRefName": "main",
+      "baseRefOid": "a581fddc359b939bb2efb60132c0a9e6f5ec3691",
+      "headRepository": "aretana/draft-xxx-idr-bgp-oad",
+      "headRefName": "oad-alvaro",
+      "headRefOid": "c128e81de5207622d8854b13f9713ef6cab4ed2a",
+      "closedAt": "2023-06-15T15:40:51Z",
+      "mergedAt": "2023-06-15T15:40:51Z",
+      "mergedBy": "aretana",
+      "mergeCommit": {
+        "oid": "595f44556ff9a6133a51302b750d73f461fc1ade"
       },
       "comments": [],
       "reviews": []
