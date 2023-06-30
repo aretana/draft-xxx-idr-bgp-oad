@@ -1232,6 +1232,10 @@
   </middle>
 
   <back>
+  <displayreference target="I-D.ietf-idr-rfc7752bis" to="RFC7752bis"/>
+  <displayreference target="I-D.ietf-idr-entropy-label" to="ENTROPY"/>
+  <displayreference target="I-D.ietf-idr-wide-bgp-communities" to="WIDE"/>
+  <displayreference target="I-D.ietf-bess-evpn-ipvpn-interworking" to="IPVPN"/>
     <references>
       <name>References</name>
       <references>
