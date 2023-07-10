@@ -23,15 +23,9 @@
     <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-02"/>
 
     <author fullname="Jim Uttaro" initials="J." surname="Uttaro">
-      <organization>AT&amp;T</organization>
+      <organization>Individual Contributor</organization>
       <address>
-        <email>ju1738@att.com</email>
-      </address>
-    </author>
-    <author fullname="Avinash Lingala" initials="A." surname="Lingala">
-      <organization>AT&amp;T</organization>
-      <address>
-        <email>ar977m@att.com</email>
+        <email>juttaro@ieee.org</email>
       </address>
     </author>
     <author fullname="Alvaro Retana" initials="A." surname="Retana">
@@ -56,18 +50,6 @@
       <organization>Comcast</organization>
       <address>
         <email>bin_wen@comcast.com</email>
-      </address>
-    </author>
-      <author fullname="Dhananjaya Rao" initials="D." surname="Rao">
-        <organization>Cisco Systems</organization>
-        <address>
-          <email>dhrao@cisco.com</email>
-        </address>
-      </author>
-    <author fullname="Srihari Sangli" initials="S." surname="Sangli">
-      <organization>Juniper Networks</organization>
-      <address>
-        <email>ssangli@juniper.net</email>
       </address>
     </author>
 
@@ -1296,8 +1278,38 @@
       <!-- [REPLACE/DELETE] an Acknowledgements section is optional -->
       <name>Acknowledgements</name>
       <t>
-        TBD
+        The authors would like to thank everyone who has commented on 
+        this work, including (in alphabetical order) Donatas Abraitis, 
+        Randy Bush, Gert Doering, Jeff Haas, Jakob Heitz, Nick 
+        Hilliard, Igor Malyushkin, Gyan Mishra, Robert Raszuk, John 
+        Scudder, and Shyam Sethuram.
       </t>
+    </section>
+
+    <section anchor="Contributors" numbered="false">
+      <name>Contributors</name>
+      <t>
+        The following people have made significant contributions to the 
+        content of this document.
+      </t>
+      <contact fullname="Avinash Lingala" initials="A." surname="Lingala">
+        <organization>AT&amp;T</organization>
+        <address>
+          <email>ar977m@att.com</email>
+        </address>
+      </contact>
+      <contact fullname="Dhananjaya Rao" initials="D." surname="Rao">
+        <organization>Cisco Systems</organization>
+        <address>
+          <email>dhrao@cisco.com</email>
+        </address>
+      </contact>
+      <contact fullname="Srihari Sangli" initials="S." surname="Sangli">
+        <organization>Juniper Networks</organization>
+        <address>
+          <email>ssangli@juniper.net</email>
+        </address>
+      </contact>
     </section>
 
  </back>
