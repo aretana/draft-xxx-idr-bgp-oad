@@ -608,8 +608,8 @@
        <thead>
          <tr>
            <th align="center" colspan="1" rowspan="1">Path Attribute</th>
-           <th align="center" colspan="1" rowspan="1">IBGP</th>
            <th align="center" colspan="1" rowspan="1">EBGP</th>
+           <th align="center" colspan="1" rowspan="1">IBGP</th>
            <th align="center" colspan="1" rowspan="1">EBGP-OAD</th>
            <th align="center" colspan="1" rowspan="1">Reference</th>
          </tr>
@@ -916,8 +916,8 @@
          <tr>
            <th align="center" colspan="1" rowspan="1">Value</th>
            <th align="center" colspan="1" rowspan="1">Code</th>
-           <th align="center" colspan="1" rowspan="1">IBGP</th>
            <th align="center" colspan="1" rowspan="1">EBGP</th>
+           <th align="center" colspan="1" rowspan="1">IBGP</th>
            <th align="center" colspan="1" rowspan="1">EBGP-OAD</th>
            <th align="center" colspan="1" rowspan="1">Reference</th>
          </tr>
