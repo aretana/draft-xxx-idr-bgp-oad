@@ -76,7 +76,8 @@
       <t>
         At each EBGP boundary, BGP path attributes are modified as per 
         <xref target="RFC4271"/>, which includes stripping any 
-        IBGP-only attributes.
+        attributes not allowed over an EBGP session.  An example is the 
+        LOCAL_PREF attribute.
       </t>
       <t>
         Some networks span more than one autonomous system and require 
@@ -84,8 +85,8 @@
         worth noting that these multi-AS networks have a common or 
         single administrative entity.  These networks are said to 
         belong to One Administrative Domain (OAD).  It is desirable to 
-        carry IBGP-only attributes across EBGP peerings when the peers 
-        belong to an OAD. 
+        carry all attributes across EBGP peerings when the peers belong 
+        to an OAD. 
       </t>
       <t>
         This document defines a new EBGP peering type known as 
@@ -141,22 +142,34 @@
 	    <li>EBGP-OAD as defined below.</li>
       </ol>
       <t>
-        The EBGP-OAD session is a BGP connection between two external 
+        The EBGP-OAD session is a BGP connection between  
         peers in different Autonomous Systems that belong to an OAD.  
         By default, the EBGP-OAD speakers follow the EBGP route 
         advertisement, route processing, path attribute announcement, 
         and processing rules as defined in <xref target="RFC4271"/>.
       </t>
       <t>
-        EBGP-OAD speakers are also allowed to announce and receive any 
-        IBGP-only or non-transitive attributes 
-        <xref target="RFC4271"/>.  Unless explicitly specified, a BGP 
-        speaker can advertise any non-transitive path attribute over an 
-        EBGP-OAD session.  EBGP-OAD sessions MUST comply with the 
-        behavior specified in <xref target="RFC8212"/>.  Furthermore, 
-        the propagation of IBGP-only or non-transitive attributes MUST 
-        be explicitly allowed by an Export Policy, and their reception 
-        SHOULD be explicitly allowed by an Import Policy.
+        EBGP-OAD peers handle receiving optional transitive attributes 
+        as specified in <xref target="RFC4271"/>.  Unrecognized 
+        non-transitive optional attributes MUST be quietly ignored and 
+        not passed along to other BGP peers.
+      </t>
+      <t>    
+        Unless explicitly specifed, EBGP-OAD speakers are allowed to 
+        announce and receive any attributes over an EBGP-OAD session.  
+        Receiving any attribute over an EBGP-OAD session MUST NOT 
+        result in an error.  For example, the ORIGINATOR_ID 
+        (<xref target="originator"/>) and the CLUSTER_LIST 
+        (<xref target="cluster"/>) are not allowed over EBGP-OAD 
+        sessions.
+      </t>
+      <t>
+        EBGP-OAD sessions MUST comply with the behavior specified in 
+        <xref target="RFC8212"/>.  Furthermore, the propagation of 
+        attributes not allowed over EBGP sessions (see 
+        <xref target="SummaryTable"/>) MUST be explicitly allowed by an 
+        Export Policy, and their reception SHOULD be explicitly allowed 
+        by an Import Policy.
       </t>
       <t>
         An EBGP-OAD speaker MUST support four-octet AS numbers and 
@@ -356,16 +369,17 @@
         <t>
           The EXTENDED COMMUNITIES attribute is a transitive optional 
           BGP path attribute <xref target="RFC4360"/> that MAY be 
-          advertised over an EBGP-OAD session.  In particular, 
-          non-transitive extended communities MAY be advertised over an 
-          EBGP-OAD session if allowed by explicit policy 
-          configuration.  If allowed, all the members of the OAD SHOULD 
-          be configured to use the same criteria.
+          advertised over an EBGP-OAD session.
         </t>
         <t>
-          For example, the Origin Validation State Extended Community, 
-          defined as non-transitive in <xref target="RFC8097"/>, can be 
-          advertised to peers in the same OAD.
+          Extended communities which are non-transitive across an AS 
+          boundary MAY be advertised over an EBGP-OAD session if 
+          allowed by explicit policy configuration.  If allowed, all 
+          the members of the OAD SHOULD be configured to use the same 
+          criteria.  For example, the Origin Validation State Extended 
+          Community, defined as non-transitive in 
+          <xref target="RFC8097"/>, can be advertised to peers in the 
+          same OAD.
         </t>
       </section>
 
@@ -430,10 +444,13 @@
          The IPv6 Address Specific Extended Community attribute is an 
          optional transitive BGP path attribute 
          <xref target="RFC5701"/> that MAY be advertised over an 
-         EBGP-OAD session.  In particular, non-transitive extended 
-         communities MAY be advertised over an EBGP-OAD session if 
-         allowed by explicit policy configuration.  If allowed, all the 
-         members of the OAD SHOULD be configured to use the same 
+         EBGP-OAD session.  
+       </t>
+       <t>
+         Extended communities which are non-transitive across 
+         Autonomous Systems MAY be advertised over an EBGP-OAD session 
+         if allowed by explicit policy configuration.  If allowed, all 
+         the members of the OAD SHOULD be configured to use the same 
          criteria.
        </t>
      </section>
@@ -1200,13 +1217,15 @@
           sessions.
         </t>
         <t>
-          IBGP-only or non-transitive attributes may now be propagated 
-          to another autonomous system.  However, it is expected that 
-          the new session type will only be enabled when peering with a 
-          router that also belongs to the OAD.  If misconfigured, the 
-          impact is minimal due to the fact that both 
-          <xref target="RFC4271"/> and <xref target="RFC7606"/> define 
-          mechanisms to deal with unexpected path attributes.
+          All BGP attributes may now be propagated to another 
+          autonomous system.  However, it is expected that the new 
+          session type will only be enabled when peering with a router 
+          that also belongs to the OAD.  If misconfigured, the impact 
+          is minimal due to the fact that both <xref target="RFC4271"/> 
+          and <xref target="RFC7606"/> define mechanisms to deal with 
+          unexpected path attributes.  Also, the use of the Import and 
+          Export Policy mechanisms speficied in 
+          <xref target="RFC8212"/> are REQUIRED.
         </t>
     </section>
 
