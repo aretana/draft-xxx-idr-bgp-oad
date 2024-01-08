@@ -485,10 +485,9 @@
        <t>
          The BGP Link-State (BGP-LS) attribute is an optional 
          non-transitive BGP path attribute 
-         <xref target="I-D.ietf-idr-rfc7752bis"/> that MAY be 
-         advertised over an EBGP-OAD session.  The use of the BGP-LS 
-         Attribute MUST comply with the specification in
-         <xref target="I-D.ietf-idr-rfc7752bis"/>.
+         <xref target="RFC9552"/> that MAY be advertised over an 
+         EBGP-OAD session.  The use of the BGP-LS Attribute MUST comply 
+         with the specification in <xref target="RFC9552"/>.
        </t>
      </section>
 
@@ -1114,7 +1113,7 @@
          <td align="left" colspan="1" rowspan="1">Not Allowed</td>
          <td align="left" colspan="1" rowspan="1">Optional</td>
          <td align="left" colspan="1" rowspan="1">Optional</td>
-         <td align="left" colspan="1" rowspan="1"><xref target="I-D.ietf-idr-rfc7752bis"/></td>
+         <td align="left" colspan="1" rowspan="1"><xref target="RFC9552"/></td>
        </tr>
        <tr>
          <td align="left" colspan="1" rowspan="1">32</td>
@@ -1233,7 +1232,6 @@
   </middle>
 
   <back>
-  <displayreference target="I-D.ietf-idr-rfc7752bis" to="RFC7752bis"/>
   <displayreference target="I-D.ietf-idr-entropy-label" to="ENTROPY"/>
   <displayreference target="I-D.ietf-idr-wide-bgp-communities" to="WIDE"/>
   <displayreference target="I-D.ietf-bess-evpn-ipvpn-interworking" to="IPVPN"/>
@@ -1241,8 +1239,6 @@
       <name>References</name>
       <references>
         <name>Normative References</name>
-
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-idr-rfc7752bis.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-idr-entropy-label.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-idr-wide-bgp-communities.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-bess-evpn-ipvpn-interworking.xml"/>
@@ -1270,6 +1266,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9015.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9026.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9234.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9552.xml"/>
       </references>
 
       <references>
