@@ -641,16 +641,16 @@
          </tr>
          <tr>
            <td align="left" colspan="1" rowspan="1">AS_PATH</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
            <td align="left" colspan="1" rowspan="1"><xref target="AS_PATH"/></td>
          </tr>
          <tr>
            <td align="left" colspan="1" rowspan="1">NEXT_HOP</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
            <td align="left" colspan="1" rowspan="1"><xref target="NH"/></td>
          </tr>
          <tr>
@@ -951,18 +951,20 @@
          <tr>
            <td align="left" colspan="1" rowspan="1">2</td>
            <td align="left" colspan="1" rowspan="1">AS_PATH</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1"><xref target="RFC4271"/></td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1"><xref target="RFC4271"/>
+           <xref target="RFC8205"/></td>
          </tr>
          <tr>
            <td align="left" colspan="1" rowspan="1">3</td>
            <td align="left" colspan="1" rowspan="1">NEXT_HOP</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1">Mandatory</td>
-           <td align="left" colspan="1" rowspan="1"><xref target="RFC4271"/></td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1">Optional</td>
+           <td align="left" colspan="1" rowspan="1"><xref target="RFC4271"/>
+           <xref target="RFC4760"/></td>
          </tr>
          <tr>
            <td align="left" colspan="1" rowspan="1">4</td>
