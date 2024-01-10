@@ -85,8 +85,8 @@
         worth noting that these multi-AS networks have a common or 
         single administrative entity.  These networks are said to 
         belong to One Administrative Domain (OAD).  It is desirable to 
-        carry all attributes across EBGP peerings when the peers belong 
-        to an OAD. 
+        have the ability to carry any attribute across EBGP peerings 
+        when the peers belong to an OAD. 
       </t>
       <t>
         This document defines a new EBGP peering type known as 
@@ -156,7 +156,7 @@
       </t>
       <t>    
         Unless explicitly specifed, EBGP-OAD speakers are allowed to 
-        announce and receive any attributes over an EBGP-OAD session.  
+        announce and receive any attribute over an EBGP-OAD session.  
         Receiving any attribute over an EBGP-OAD session MUST NOT 
         result in an error.  For example, the ORIGINATOR_ID 
         (<xref target="originator"/>) and the CLUSTER_LIST 
@@ -237,8 +237,9 @@
         <t>
           The MULTI_EXIT_DISC attribute is an optional non-transitive 
           BGP path attribute <xref target="RFC4271"/> that MAY be 
-          present in UPDATE messages sent over EBGP-OAD sessions.  The 
-          use of the MULTI_EXIT_DISC attribute MUST comply with the 
+          present in UPDATE messages sent over EBGP-OAD sessions, even 
+          if it has been received from a neighboring AS.  Otherwise, 
+          the use of the MULTI_EXIT_DISC attribute MUST comply with the 
           specification in <xref target="RFC4271"/>.
         </t>
         <t>
