@@ -206,7 +206,7 @@
         <name>AS_PATH</name>
         <t>
           The AS_PATH attribute is a well-known mandatory BGP path 
-          attribute <xref target="RFC4271"/>.  It MUST be present in 
+          attribute <xref target="RFC4271"/>.  It SHOULD be present in 
           UPDATE messages sent over EBGP-OAD sessions unless it has 
           been replaced by the BGPsec_PATH attribute 
           <xref target="RFC8205"/>.  The origination and modification 
@@ -219,11 +219,11 @@
           <name>NEXT_HOP</name>
           <t>
             The NEXT_HOP attribute is a well-known mandatory BGP path 
-            attribute <xref target="RFC4271"/> that MUST be present in 
-            UPDATE messages sent over EBGP-OAD sessions.  The 
-            origination and modification of the NEXT_HOP attribute MUST 
-            comply with the EBGP-related specification in 
-            <xref target="RFC4271"/>.
+            attribute <xref target="RFC4271"/> that MAY be present in 
+            UPDATE messages sent over EBGP-OAD sessions 
+            <xref target="RFC4760"/>.  The origination and modification 
+            of the NEXT_HOP attribute MUST comply with the EBGP-related 
+            specification in <xref target="RFC4271"/>.
           </t>
           <t>
             It is reasonable for members of an OAD to share a common 
