@@ -219,8 +219,8 @@
           <name>NEXT_HOP</name>
           <t>
             The NEXT_HOP attribute is a well-known mandatory BGP path 
-            attribute <xref target="RFC4271"/> that MAY be present in 
-            UPDATE messages sent over EBGP-OAD sessions 
+            attribute <xref target="RFC4271"/> that SHOULD be present 
+            in UPDATE messages sent over EBGP-OAD sessions 
             <xref target="RFC4760"/>.  The origination and modification 
             of the NEXT_HOP attribute MUST comply with the EBGP-related 
             specification in <xref target="RFC4271"/>.
