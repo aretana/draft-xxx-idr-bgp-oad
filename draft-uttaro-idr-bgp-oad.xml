@@ -9,7 +9,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-uttaro-idr-bgp-oad-03"
+  docName="draft-uttaro-idr-bgp-oad-04"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -20,7 +20,7 @@
   <front>
     <title abbrev="One Administrative Domain">One Administrative Domain using BGP</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-03"/>
+    <seriesInfo name="Internet-Draft" value="draft-uttaro-idr-bgp-oad-04"/>
 
     <author fullname="Jim Uttaro" initials="J." surname="Uttaro">
       <organization>Individual Contributor</organization>
