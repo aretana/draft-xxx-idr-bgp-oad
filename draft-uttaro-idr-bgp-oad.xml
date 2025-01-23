@@ -62,8 +62,8 @@
 
     <abstract>
       <t>
-        This document defines a new External BGP (EBGP) peering type 
-        known as EBGP-OAD, which is used between two EBGP peers that 
+        This document defines a new External BGP (EBGP) peering type
+        known as EBGP-OAD, which is used between two EBGP peers that
         belong to One Administrative Domain (OAD).
       </t>
     </abstract>
@@ -74,24 +74,24 @@
     <section>
       <name>Introduction</name>
       <t>
-        At each EBGP boundary, BGP path attributes are modified as per 
-        <xref target="RFC4271"/>, which includes stripping any 
-        attributes not allowed over an EBGP session.  An example is the 
+        At each EBGP boundary, BGP path attributes are modified as per
+        <xref target="RFC4271"/>, which includes stripping any
+        attributes not allowed over an EBGP session.  An example is the
         LOCAL_PREF attribute.
       </t>
       <t>
-        Some networks span more than one autonomous system and require 
-        more flexibility in the propagation of path attributes. It is 
-        worth noting that these multi-AS networks have a common or 
-        single administrative entity.  These networks are said to 
-        belong to One Administrative Domain (OAD).  It is desirable to 
-        have the ability to carry any attribute across EBGP peerings 
-        when the peers belong to an OAD. 
+        Some networks span more than one autonomous system and require
+        more flexibility in the propagation of path attributes. It is
+        worth noting that these multi-AS networks have a common or
+        single administrative entity.  These networks are said to
+        belong to One Administrative Domain (OAD).  It is desirable to
+        have the ability to carry any attribute across EBGP peerings
+        when the peers belong to an OAD.
       </t>
       <t>
-        This document defines a new EBGP peering type known as 
-        EBGP-OAD, which is used between two EBGP peers that belong to 
-        an OAD. This document also defines rules for route announcement 
+        This document defines a new EBGP peering type known as
+        EBGP-OAD, which is used between two EBGP peers that belong to
+        an OAD. This document also defines rules for route announcement
         and processing for EBGP-OAD peers.
       </t>
 
@@ -109,32 +109,32 @@
     <section>
       <name>Discussion</name>
       <t>
-        Networks have traditionally been demarcated by an autonomous 
-        system/BGP border, which correlates to an administrative 
-        boundary. This paradigm no longer serves the needs of network 
-        designers or customers due to the decoupling of the Interior 
-        Gateway Protocol (IGP) from BGP, BGP-free core in the underlay 
-        (e.g., using BGP labeled unicast <xref target="RFC8277"/>), the 
-        use of BGP to facilitate multiple service overlays (e.g., 
-        L2VPN, L3VPN, etc.) spanning multiple regions and AS domains, 
-        and the instantiation of customer sites on multiple content 
+        Networks have traditionally been demarcated by an autonomous
+        system/BGP border, which correlates to an administrative
+        boundary. This paradigm no longer serves the needs of network
+        designers or customers due to the decoupling of the Interior
+        Gateway Protocol (IGP) from BGP, BGP-free core in the underlay
+        (e.g., using BGP labeled unicast <xref target="RFC8277"/>), the
+        use of BGP to facilitate multiple service overlays (e.g.,
+        L2VPN, L3VPN, etc.) spanning multiple regions and AS domains,
+        and the instantiation of customer sites on multiple content
         service providers (CSPs).
       </t>
       <t>
-        For example, sites in a BGP/MPLS VPN <xref target="RFC4364"/> 
-        may be distributed across different AS domains. In some cases, 
-        the administrator of the VPN may prefer that some attributes 
-        are propagated to all their sites to influence the BGP decision 
-        process. 
+        For example, sites in a BGP/MPLS VPN <xref target="RFC4364"/>
+        may be distributed across different AS domains. In some cases,
+        the administrator of the VPN may prefer that some attributes
+        are propagated to all their sites to influence the BGP decision
+        process.
       </t>
     </section>
 
     <section>
       <name>Operation</name>
       <t>
-        <xref target="RFC4271"/> defines two types of BGP peerings used 
-        during a BGP protocol session. As part of the extensions 
-        defined in this document, EBGP peering is divided into two 
+        <xref target="RFC4271"/> defines two types of BGP peerings used
+        during a BGP protocol session. As part of the extensions
+        defined in this document, EBGP peering is divided into two
         types:
       </t>
       <ol>
@@ -142,62 +142,62 @@
 	    <li>EBGP-OAD as defined below.</li>
       </ol>
       <t>
-        The EBGP-OAD session is a BGP connection between  
-        peers in different Autonomous Systems that belong to an OAD.  
-        By default, the EBGP-OAD speakers follow the EBGP route 
-        advertisement, route processing, path attribute announcement, 
+        The EBGP-OAD session is a BGP connection between
+        peers in different Autonomous Systems that belong to an OAD.
+        By default, the EBGP-OAD speakers follow the EBGP route
+        advertisement, route processing, path attribute announcement,
         and processing rules as defined in <xref target="RFC4271"/>.
       </t>
       <t>
-        EBGP-OAD peers handle receiving optional transitive attributes 
-        as specified in <xref target="RFC4271"/>.  Unrecognized 
-        non-transitive optional attributes MUST be quietly ignored and 
+        EBGP-OAD peers handle receiving optional transitive attributes
+        as specified in <xref target="RFC4271"/>.  Unrecognized
+        non-transitive optional attributes MUST be quietly ignored and
         not passed along to other BGP peers.
       </t>
-      <t>    
-        Unless explicitly specifed, EBGP-OAD speakers are allowed to 
-        announce and receive any attribute over an EBGP-OAD session.  
-        Receiving any attribute over an EBGP-OAD session MUST NOT 
-        result in an error.  For example, the ORIGINATOR_ID 
-        (<xref target="originator"/>) and the CLUSTER_LIST 
-        (<xref target="cluster"/>) are not allowed over EBGP-OAD 
+      <t>
+        Unless explicitly specifed, EBGP-OAD speakers are allowed to
+        announce and receive any attribute over an EBGP-OAD session.
+        Receiving any attribute over an EBGP-OAD session MUST NOT
+        result in an error.  For example, the ORIGINATOR_ID
+        (<xref target="originator"/>) and the CLUSTER_LIST
+        (<xref target="cluster"/>) are not allowed over EBGP-OAD
         sessions.
       </t>
       <t>
-        EBGP-OAD sessions MUST comply with the behavior specified in 
-        <xref target="RFC8212"/>.  Furthermore, the propagation of 
-        attributes not allowed over EBGP sessions (see 
-        <xref target="SummaryTable"/>) MUST be explicitly allowed by an 
-        Export Policy, and their reception SHOULD be explicitly allowed 
+        EBGP-OAD sessions MUST comply with the behavior specified in
+        <xref target="RFC8212"/>.  Furthermore, the propagation of
+        attributes not allowed over EBGP sessions (see
+        <xref target="SummaryTable"/>) MUST be explicitly allowed by an
+        Export Policy, and their reception SHOULD be explicitly allowed
         by an Import Policy.
       </t>
       <t>
-        An EBGP-OAD speaker MUST support four-octet AS numbers and 
-        advertise the "support for four-octet AS number capability" 
+        An EBGP-OAD speaker MUST support four-octet AS numbers and
+        advertise the "support for four-octet AS number capability"
         <xref target="RFC6793"/>.
       </t>
       <t>
-        This section addresses all path attributes defined at the time 
-        of this writing that are not marked as "deprecated" in the "BGP 
-        Path Attributes" registry <xref target="IANA-BGP-ATTRS"/>.  The 
-        following subsections specify the behavior for each path 
-        attribute as related to an EBGP-OAD session.  
-        <xref target="SummaryTable"/> summarizes the behavior for all 
+        This section addresses all path attributes defined at the time
+        of this writing that are not marked as "deprecated" in the "BGP
+        Path Attributes" registry <xref target="IANA-BGP-ATTRS"/>.  The
+        following subsections specify the behavior for each path
+        attribute as related to an EBGP-OAD session.
+        <xref target="SummaryTable"/> summarizes the behavior for all
         session types.
       </t>
       <t>
-        Documents specifying new path attributes MUST indicate whether 
-        they are allowed for each session type: IBGP, EBGP, and 
+        Documents specifying new path attributes MUST indicate whether
+        they are allowed for each session type: IBGP, EBGP, and
         EBGP-OAD.
       </t>
 
       <section anchor="ORIGIN">
         <name>ORIGIN</name>
         <t>
-          The ORIGIN attribute is a well-known mandatory BGP path 
-          attribute <xref target="RFC4271"/> that MUST be present in 
-          UPDATE messages sent over EBGP-OAD sessions.  Its origination 
-          and value MUST comply with the specification in 
+          The ORIGIN attribute is a well-known mandatory BGP path
+          attribute <xref target="RFC4271"/> that MUST be present in
+          UPDATE messages sent over EBGP-OAD sessions.  Its origination
+          and value MUST comply with the specification in
           <xref target="RFC4271"/>.
         </t>
       </section>
@@ -205,12 +205,12 @@
       <section anchor="AS_PATH">
         <name>AS_PATH</name>
         <t>
-          The AS_PATH attribute is a well-known mandatory BGP path 
-          attribute <xref target="RFC4271"/>.  It SHOULD be present in 
-          UPDATE messages sent over EBGP-OAD sessions unless it has 
-          been replaced by the BGPsec_PATH attribute 
-          <xref target="RFC8205"/>.  The origination and modification 
-          of the AS_PATH attribute MUST comply with the EBGP-related 
+          The AS_PATH attribute is a well-known mandatory BGP path
+          attribute <xref target="RFC4271"/>.  It SHOULD be present in
+          UPDATE messages sent over EBGP-OAD sessions unless it has
+          been replaced by the BGPsec_PATH attribute
+          <xref target="RFC8205"/>.  The origination and modification
+          of the AS_PATH attribute MUST comply with the EBGP-related
           specification in <xref target="RFC4271"/>.
         </t>
         </section>
@@ -218,16 +218,16 @@
         <section anchor="NH">
           <name>NEXT_HOP</name>
           <t>
-            The NEXT_HOP attribute is a well-known mandatory BGP path 
-            attribute <xref target="RFC4271"/> that SHOULD be present 
-            in UPDATE messages sent over EBGP-OAD sessions 
-            <xref target="RFC4760"/>.  The origination and modification 
-            of the NEXT_HOP attribute MUST comply with the EBGP-related 
+            The NEXT_HOP attribute is a well-known mandatory BGP path
+            attribute <xref target="RFC4271"/> that SHOULD be present
+            in UPDATE messages sent over EBGP-OAD sessions
+            <xref target="RFC4760"/>.  The origination and modification
+            of the NEXT_HOP attribute MUST comply with the EBGP-related
             specification in <xref target="RFC4271"/>.
           </t>
           <t>
-            It is reasonable for members of an OAD to share a common 
-            reachability domain.  In such a case, the NEXT_HOP 
+            It is reasonable for members of an OAD to share a common
+            reachability domain.  In such a case, the NEXT_HOP
             attribute MAY be left unchanged.
           </t>
         </section>
@@ -235,23 +235,23 @@
       <section anchor="MED">
         <name>MULTI_EXIT_DISC</name>
         <t>
-          The MULTI_EXIT_DISC attribute is an optional non-transitive 
-          BGP path attribute <xref target="RFC4271"/> that MAY be 
-          present in UPDATE messages sent over EBGP-OAD sessions, even 
-          if it has been received from a neighboring AS.  Otherwise, 
-          the use of the MULTI_EXIT_DISC attribute MUST comply with the 
+          The MULTI_EXIT_DISC attribute is an optional non-transitive
+          BGP path attribute <xref target="RFC4271"/> that MAY be
+          present in UPDATE messages sent over EBGP-OAD sessions, even
+          if it has been received from a neighboring AS.  Otherwise,
+          the use of the MULTI_EXIT_DISC attribute MUST comply with the
           specification in <xref target="RFC4271"/>.
         </t>
         <t>
-          The determination of the neighboring AS for the purpose of 
-          BGP Route Selection <xref target="RFC4271"/> MAY ignore the 
-          ASNs of other members of the OAD.  If so, all the members of 
-          the OAD SHOULD be configured to use the same criteria.  
-          Failure to do so may result in inconsistent forwarding 
-          between members of the OAD.  Care should also be taken to 
-          avoid the creation of persistent route oscillations, similar 
-          to the Type II Churn described in <xref target="RFC3345"/>.  
-          <xref target="RFC7964"/> provides solutions and 
+          The determination of the neighboring AS for the purpose of
+          BGP Route Selection <xref target="RFC4271"/> MAY ignore the
+          ASNs of other members of the OAD.  If so, all the members of
+          the OAD SHOULD be configured to use the same criteria.
+          Failure to do so may result in inconsistent forwarding
+          between members of the OAD.  Care should also be taken to
+          avoid the creation of persistent route oscillations, similar
+          to the Type II Churn described in <xref target="RFC3345"/>.
+          <xref target="RFC7964"/> provides solutions and
           recommendations to address this issue.
        </t>
       </section>
@@ -260,9 +260,9 @@
         <name>LOCAL_PREF</name>
         <t>
           The LOCAL_PREF attribute is a well-known BGP path attribute
-          <xref target="RFC4271"/> that MAY be present in UPDATE 
-          messages sent over EBGP-OAD sessions.  The use of the 
-          LOCAL_PREF attribute MUST comply with the specification in 
+          <xref target="RFC4271"/> that MAY be present in UPDATE
+          messages sent over EBGP-OAD sessions.  The use of the
+          LOCAL_PREF attribute MUST comply with the specification in
           <xref target="RFC4271"/>.
         </t>
       </section>
@@ -270,10 +270,10 @@
       <section anchor="atomic">
         <name>ATOMIC_AGGREGATE</name>
         <t>
-          The ATOMIC_AGGREGATE attribute is a well-known discretionary 
-          BGP path attribute <xref target="RFC4271"/> that MAY be 
-          present in UPDATE messages sent over EBGP-OAD sessions.  The 
-          use of the ATOMIC_AGGREGATE attribute MUST comply with the 
+          The ATOMIC_AGGREGATE attribute is a well-known discretionary
+          BGP path attribute <xref target="RFC4271"/> that MAY be
+          present in UPDATE messages sent over EBGP-OAD sessions.  The
+          use of the ATOMIC_AGGREGATE attribute MUST comply with the
           specification in <xref target="RFC4271"/>.
         </t>
       </section>
@@ -281,10 +281,10 @@
       <section anchor="aggregator">
         <name>AGGREGATOR</name>
         <t>
-          The AGGREGATOR attribute is an optional transitive BGP path 
-          attribute <xref target="RFC4271"/> that MAY be present in 
-          UPDATE messages sent over EBGP-OAD sessions.  The use of the 
-          AGGREGATOR attribute MUST comply with the specification in 
+          The AGGREGATOR attribute is an optional transitive BGP path
+          attribute <xref target="RFC4271"/> that MAY be present in
+          UPDATE messages sent over EBGP-OAD sessions.  The use of the
+          AGGREGATOR attribute MUST comply with the specification in
           <xref target="RFC4271"/>.
         </t>
       </section>
@@ -292,24 +292,24 @@
       <section anchor="communities">
         <name>COMMUNITIES</name>
         <t>
-          The COMMUNITIES attribute is an optional transitive BGP path 
-          attribute <xref target="RFC1997"/> that MAY be present in 
-          UPDATE messages sent over EBGP-OAD sessions.  The 
-          advertisement semantics MUST comply with the specification in 
+          The COMMUNITIES attribute is an optional transitive BGP path
+          attribute <xref target="RFC1997"/> that MAY be present in
+          UPDATE messages sent over EBGP-OAD sessions.  The
+          advertisement semantics MUST comply with the specification in
           <xref target="RFC1997"/>.
         </t>
         <t>
-          Routes with a COMMUNITIES attribute containing the well-known 
-          NO_EXPORT community <xref target="RFC1997"/> SHOULD NOT be 
-          advertised across an EBGP-OAD session unless allowed by 
-          explicit policy configuration.  If allowed, all the members 
-          of the OAD SHOULD be configured to use the same criteria.  
-          Failure to do so may result in inconsistent forwarding 
+          Routes with a COMMUNITIES attribute containing the well-known
+          NO_EXPORT community <xref target="RFC1997"/> SHOULD NOT be
+          advertised across an EBGP-OAD session unless allowed by
+          explicit policy configuration.  If allowed, all the members
+          of the OAD SHOULD be configured to use the same criteria.
+          Failure to do so may result in inconsistent forwarding
           between members of the OAD.
         </t>
         <t>
           Routes with a COMMUNITIES attribute containing the well-known
-          NO_EXPORT_SUBCONFED community <xref target="RFC1997"/> MUST 
+          NO_EXPORT_SUBCONFED community <xref target="RFC1997"/> MUST
           NOT be advertised across an EBGP-OAD session.
         </t>
       </section>
@@ -317,11 +317,11 @@
       <section anchor="originator">
         <name>ORIGINATOR_ID</name>
         <t>
-          The ORIGINATOR_ID attribute is an optional non-transitive BGP 
-          path attribute <xref target="RFC4456"/> that MUST NOT be 
-          advertised over an EBGP-OAD session.  If received from an 
-          EBGP-OAD neighbor, it SHALL be discarded using the "attribute 
-          discard" approach <xref target="RFC7606"/>.  An 
+          The ORIGINATOR_ID attribute is an optional non-transitive BGP
+          path attribute <xref target="RFC4456"/> that MUST NOT be
+          advertised over an EBGP-OAD session.  If received from an
+          EBGP-OAD neighbor, it SHALL be discarded using the "attribute
+          discard" approach <xref target="RFC7606"/>.  An
           implementation MAY log an error message for further analysis.
         </t>
       </section>
@@ -329,11 +329,11 @@
       <section anchor="cluster">
         <name>CLUSTER_LIST</name>
         <t>
-          The CLUSTER_LIST attribute is an optional non-transitive BGP 
-          path attribute <xref target="RFC4456"/> that MUST NOT be 
-          advertised over an EBGP-OAD session.  If received from an 
-          EBGP-OAD neighbor, it SHALL be discarded using the "attribute 
-          discard" approach <xref target="RFC7606"/>.  An 
+          The CLUSTER_LIST attribute is an optional non-transitive BGP
+          path attribute <xref target="RFC4456"/> that MUST NOT be
+          advertised over an EBGP-OAD session.  If received from an
+          EBGP-OAD neighbor, it SHALL be discarded using the "attribute
+          discard" approach <xref target="RFC7606"/>.  An
           implementation MAY log an error message for further analysis.
         </t>
       </section>
@@ -341,15 +341,15 @@
       <section anchor="MP">
         <name>MP_REACH_NLRI</name>
         <t>
-          The MP_REACH_NLRI attribute is an optional non-transitive BGP 
-          path attribute <xref target="RFC4760"/> that MAY be 
-          advertised over an EBGP-OAD session.  The use of the 
-          MP_REACH_NLRI attribute MUST comply with the EBGP-related 
+          The MP_REACH_NLRI attribute is an optional non-transitive BGP
+          path attribute <xref target="RFC4760"/> that MAY be
+          advertised over an EBGP-OAD session.  The use of the
+          MP_REACH_NLRI attribute MUST comply with the EBGP-related
           specification in <xref target="RFC4760"/>.
         </t>
         <t>
-          It is reasonable for members of an OAD to share a common 
-          reachability domain.  In such a case, the Next Hop in the 
+          It is reasonable for members of an OAD to share a common
+          reachability domain.  In such a case, the Next Hop in the
           MP_REACH_NLRI attribute MAY be left unchanged.
         </t>
       </section>
@@ -357,10 +357,10 @@
       <section anchor="MPU">
         <name>MP_UNREACH_NLRI</name>
         <t>
-          The MP_UNREACH_NLRI attribute is an optional non-transitive 
-          BGP path attribute <xref target="RFC4760"/> that MAY be 
-          advertised over an EBGP-OAD session.  The use of the 
-          MP_UNREACH_NLRI attribute MUST comply with the specification 
+          The MP_UNREACH_NLRI attribute is an optional non-transitive
+          BGP path attribute <xref target="RFC4760"/> that MAY be
+          advertised over an EBGP-OAD session.  The use of the
+          MP_UNREACH_NLRI attribute MUST comply with the specification
           in <xref target="RFC4760"/>.
         </t>
       </section>
@@ -368,18 +368,18 @@
       <section anchor="extended">
         <name>EXTENDED COMMUNITIES</name>
         <t>
-          The EXTENDED COMMUNITIES attribute is a transitive optional 
-          BGP path attribute <xref target="RFC4360"/> that MAY be 
+          The EXTENDED COMMUNITIES attribute is a transitive optional
+          BGP path attribute <xref target="RFC4360"/> that MAY be
           advertised over an EBGP-OAD session.
         </t>
         <t>
-          Extended communities which are non-transitive across an AS 
-          boundary MAY be advertised over an EBGP-OAD session if 
-          allowed by explicit policy configuration.  If allowed, all 
-          the members of the OAD SHOULD be configured to use the same 
-          criteria.  For example, the Origin Validation State Extended 
-          Community, defined as non-transitive in 
-          <xref target="RFC8097"/>, can be advertised to peers in the 
+          Extended communities which are non-transitive across an AS
+          boundary MAY be advertised over an EBGP-OAD session if
+          allowed by explicit policy configuration.  If allowed, all
+          the members of the OAD SHOULD be configured to use the same
+          criteria.  For example, the Origin Validation State Extended
+          Community, defined as non-transitive in
+          <xref target="RFC8097"/>, can be advertised to peers in the
           same OAD.
         </t>
       </section>
@@ -387,10 +387,10 @@
       <section anchor="as4path">
         <name>AS4_PATH</name>
         <t>
-          The AS4_PATH attribute is an optional transitive BGP path 
-          attribute <xref target="RFC6793"/> that MAY be advertised 
-          over an EBGP-OAD session.  The use of the AS4_PATH attribute 
-          MUST comply with the specification in 
+          The AS4_PATH attribute is an optional transitive BGP path
+          attribute <xref target="RFC6793"/> that MAY be advertised
+          over an EBGP-OAD session.  The use of the AS4_PATH attribute
+          MUST comply with the specification in
           <xref target="RFC6793"/>.
         </t>
       </section>
@@ -398,10 +398,10 @@
       <section anchor="as4aggregator">
         <name>AS4_AGGREGATOR</name>
         <t>
-          The AS4_AGGREGATOR attribute is an optional transitive BGP 
-          path attribute <xref target="RFC6793"/> that MAY be 
-          advertised over an EBGP-OAD session.  The use of the 
-          AS4_AGGREGATOR attribute MUST comply with the specification 
+          The AS4_AGGREGATOR attribute is an optional transitive BGP
+          path attribute <xref target="RFC6793"/> that MAY be
+          advertised over an EBGP-OAD session.  The use of the
+          AS4_AGGREGATOR attribute MUST comply with the specification
           in <xref target="RFC6793"/>.
         </t>
       </section>
@@ -409,10 +409,10 @@
       <section anchor="PMSI_TUNNEL">
         <name>PMSI_TUNNEL</name>
         <t>
-          The PMSI_TUNNEL attribute is an optional transitive BGP path 
-          attribute <xref target="RFC6514"/> that MAY be advertised 
-          over an EBGP-OAD session.  The use of the PMSI_TUNNEL 
-          attribute MUST comply with the EBGP-related specification in 
+          The PMSI_TUNNEL attribute is an optional transitive BGP path
+          attribute <xref target="RFC6514"/> that MAY be advertised
+          over an EBGP-OAD session.  The use of the PMSI_TUNNEL
+          attribute MUST comply with the EBGP-related specification in
           <xref target="RFC6514"/>.
         </t>
       </section>
@@ -420,10 +420,10 @@
      <section anchor="tunnel">
        <name>Tunnel Encapsulation</name>
        <t>
-         The Tunnel Encapsulation attribute is an optional transitive 
-         BGP path attribute <xref target="RFC9012"/> that MAY be 
-         advertised over an EBGP-OAD session.  The use of the Tunnel 
-         Encapsulation attribute MUST comply with the EBGP-related 
+         The Tunnel Encapsulation attribute is an optional transitive
+         BGP path attribute <xref target="RFC9012"/> that MAY be
+         advertised over an EBGP-OAD session.  The use of the Tunnel
+         Encapsulation attribute MUST comply with the EBGP-related
          specification in <xref target="RFC9012"/>.
        </t>
      </section>
@@ -431,10 +431,10 @@
      <section anchor="TE">
        <name>Traffic Engineering</name>
        <t>
-         The Traffic Engineering attribute is an optional 
-         non-transitive BGP path attribute <xref target="RFC5543"/> 
-         that MAY be advertised over an EBGP-OAD session.  The use of 
-         the Traffic Engineering attribute MUST comply with the 
+         The Traffic Engineering attribute is an optional
+         non-transitive BGP path attribute <xref target="RFC5543"/>
+         that MAY be advertised over an EBGP-OAD session.  The use of
+         the Traffic Engineering attribute MUST comply with the
          specification in <xref target="RFC5543"/>.
        </t>
      </section>
@@ -442,16 +442,16 @@
      <section anchor="IPv6">
        <name>IPv6 Address Specific Extended Community</name>
        <t>
-         The IPv6 Address Specific Extended Community attribute is an 
-         optional transitive BGP path attribute 
-         <xref target="RFC5701"/> that MAY be advertised over an 
-         EBGP-OAD session.  
+         The IPv6 Address Specific Extended Community attribute is an
+         optional transitive BGP path attribute
+         <xref target="RFC5701"/> that MAY be advertised over an
+         EBGP-OAD session.
        </t>
        <t>
-         Extended communities which are non-transitive across 
-         Autonomous Systems MAY be advertised over an EBGP-OAD session 
-         if allowed by explicit policy configuration.  If allowed, all 
-         the members of the OAD SHOULD be configured to use the same 
+         Extended communities which are non-transitive across
+         Autonomous Systems MAY be advertised over an EBGP-OAD session
+         if allowed by explicit policy configuration.  If allowed, all
+         the members of the OAD SHOULD be configured to use the same
          criteria.
        </t>
      </section>
@@ -459,24 +459,24 @@
      <section anchor="AIGP">
        <name>AIGP</name>
        <t>
-        The AIGP attribute is an optional non-transitive BGP path 
-        attribute <xref target="RFC7311"/> that MAY be advertised over 
-        an EBGP-OAD session.  The default value of AIGP_SESSION 
-        <xref target="RFC7311"/> MUST be "disabled" and it MAY be 
-        "enabled" by explicit policy configuration.  The use of the 
-        AIGP attribute MUST comply with the specification in 
-        <xref target="RFC7311"/>. 
+        The AIGP attribute is an optional non-transitive BGP path
+        attribute <xref target="RFC7311"/> that MAY be advertised over
+        an EBGP-OAD session.  The default value of AIGP_SESSION
+        <xref target="RFC7311"/> MUST be "disabled" and it MAY be
+        "enabled" by explicit policy configuration.  The use of the
+        AIGP attribute MUST comply with the specification in
+        <xref target="RFC7311"/>.
        </t>
      </section>
 
      <section anchor="PE">
        <name>PE Distinguisher Labels</name>
        <t>
-         The PE Distinguisher Labels attribute is an optional 
-         transitive BGP path attribute <xref target="RFC6514"/> that 
-         MAY be advertised over an EBGP-OAD session.  The use of the PE 
-         Distinguisher Labels attribute MUST comply with the 
-         specification in <xref target="RFC6513"/> and 
+         The PE Distinguisher Labels attribute is an optional
+         transitive BGP path attribute <xref target="RFC6514"/> that
+         MAY be advertised over an EBGP-OAD session.  The use of the PE
+         Distinguisher Labels attribute MUST comply with the
+         specification in <xref target="RFC6513"/> and
          <xref target="RFC6514"/>.
        </t>
      </section>
@@ -484,10 +484,10 @@
      <section anchor="BGP-LS">
        <name>BGP-LS Attribute</name>
        <t>
-         The BGP Link-State (BGP-LS) attribute is an optional 
-         non-transitive BGP path attribute 
-         <xref target="RFC9552"/> that MAY be advertised over an 
-         EBGP-OAD session.  The use of the BGP-LS Attribute MUST comply 
+         The BGP Link-State (BGP-LS) attribute is an optional
+         non-transitive BGP path attribute
+         <xref target="RFC9552"/> that MAY be advertised over an
+         EBGP-OAD session.  The use of the BGP-LS Attribute MUST comply
          with the specification in <xref target="RFC9552"/>.
        </t>
      </section>
@@ -495,10 +495,10 @@
      <section anchor="LARGE_COMMUNITY">
        <name>LARGE_COMMUNITY</name>
        <t>
-         The LARGE_COMMUNITY attribute is an optional transitive BGP 
-         path attribute <xref target="RFC8092"/> that MAY be advertised 
-         over an EBGP-OAD session.  The use of the LARGE_COMMUNITY 
-         attribute MUST comply with the specification in 
+         The LARGE_COMMUNITY attribute is an optional transitive BGP
+         path attribute <xref target="RFC8092"/> that MAY be advertised
+         over an EBGP-OAD session.  The use of the LARGE_COMMUNITY
+         attribute MUST comply with the specification in
          <xref target="RFC8092"/>.
        </t>
      </section>
@@ -506,10 +506,10 @@
      <section anchor="BGPsec_PATH">
        <name>BGPsec_PATH</name>
        <t>
-         The BGPsec_PATH attribute is an optional non-transitive BGP 
-         path attribute <xref target="RFC8205"/> that MAY be advertised 
-         over an EBGP-OAD session.  The use of the BGPsec_PATH 
-         attribute MUST comply with the specification in 
+         The BGPsec_PATH attribute is an optional non-transitive BGP
+         path attribute <xref target="RFC8205"/> that MAY be advertised
+         over an EBGP-OAD session.  The use of the BGPsec_PATH
+         attribute MUST comply with the specification in
          <xref target="RFC8205"/>.
        </t>
      </section>
@@ -517,22 +517,22 @@
      <section anchor="Community_Container">
        <name>BGP Community Container</name>
        <t>
-         The BGP Community Container attribute is an optional 
-         transitive BGP path attribute 
-         <xref target="I-D.ietf-idr-wide-bgp-communities"/> that MAY be 
+         The BGP Community Container attribute is an optional
+         transitive BGP path attribute
+         <xref target="I-D.ietf-idr-wide-bgp-communities"/> that MAY be
          advertised over an EBGP-OAD session.
        </t>
        <t>
-         In particular, communities with the T bit 
-         <xref target="I-D.ietf-idr-wide-bgp-communities"/> not set MAY 
-         be advertised over an EBGP-OAD session if allowed by explicit 
-         policy configuration.  Communities with the T bit set MUST be 
-         advertised over an EBGP-OAD session.  Communities with the C 
-         bit <xref target="I-D.ietf-idr-wide-bgp-communities"/> not set 
-         MUST NOT be advertised over an EBGP-OAD session.  Communities 
-         with the C bit set MAY be advertised over an EBGP-OAD session 
-         if allowed by explicit policy configuration.  In all cases, 
-         all the members of the OAD SHOULD be configured to use the 
+         In particular, communities with the T bit
+         <xref target="I-D.ietf-idr-wide-bgp-communities"/> not set MAY
+         be advertised over an EBGP-OAD session if allowed by explicit
+         policy configuration.  Communities with the T bit set MUST be
+         advertised over an EBGP-OAD session.  Communities with the C
+         bit <xref target="I-D.ietf-idr-wide-bgp-communities"/> not set
+         MUST NOT be advertised over an EBGP-OAD session.  Communities
+         with the C bit set MAY be advertised over an EBGP-OAD session
+         if allowed by explicit policy configuration.  In all cases,
+         all the members of the OAD SHOULD be configured to use the
          same criteria.
        </t>
      </section>
@@ -540,13 +540,13 @@
      <section anchor="OTC">
        <name>Only to Customer</name>
        <t>
-         The Only to Customer (OTC) attribute is an optional transitive 
-         BGP path attribute <xref target="RFC9234"/> that MAY be 
-         advertised over an EBGP-OAD session.  However, the BGP Role 
-         negotiation and OTC Attribute-based procedures specified in 
-         <xref target="RFC9234"/> are NOT RECOMMENDED to be used 
-         between peers using an EBGP-OAD session.  If received, the OTC 
-         attribute MUST be preserved unchanged.  The use and 
+         The Only to Customer (OTC) attribute is an optional transitive
+         BGP path attribute <xref target="RFC9234"/> that MAY be
+         advertised over an EBGP-OAD session.  However, the BGP Role
+         negotiation and OTC Attribute-based procedures specified in
+         <xref target="RFC9234"/> are NOT RECOMMENDED to be used
+         between peers using an EBGP-OAD session.  If received, the OTC
+         attribute MUST be preserved unchanged.  The use and
          negotiation of BGP Roles between EBGP-OAD peers is outside the
          scope of this document.
        </t>
@@ -555,10 +555,10 @@
      <section anchor="D-PATH">
        <name>D-PATH</name>
        <t>
-         The Domain Path (D-PATH) attribute is an optional transitive 
-         BGP path attribute 
-         <xref target="I-D.ietf-bess-evpn-ipvpn-interworking"/> that 
-         MAY be advertised over an EBGP-OAD session.  The use of the 
+         The Domain Path (D-PATH) attribute is an optional transitive
+         BGP path attribute
+         <xref target="I-D.ietf-bess-evpn-ipvpn-interworking"/> that
+         MAY be advertised over an EBGP-OAD session.  The use of the
          D-PATH attribute MUST comply with the specification in
          <xref target="I-D.ietf-bess-evpn-ipvpn-interworking"/>.
        </t>
@@ -567,10 +567,10 @@
      <section anchor="SFP">
        <name>SFP</name>
        <t>
-         The Service Function Path (SFP) attribute is an optional 
-         transitive BGP path attribute <xref target="RFC9015"/> that 
-         MAY be advertised over an EBGP-OAD session.  The use of the 
-         SFP attribute MUST comply with the specification in 
+         The Service Function Path (SFP) attribute is an optional
+         transitive BGP path attribute <xref target="RFC9015"/> that
+         MAY be advertised over an EBGP-OAD session.  The use of the
+         SFP attribute MUST comply with the specification in
          <xref target="RFC9015"/>.
        </t>
      </section>
@@ -578,10 +578,10 @@
      <section anchor="BFD">
        <name>BFD Discriminator</name>
        <t>
-         The BFD Discriminator attribute is an optional transitive BGP 
-         path attribute <xref target="RFC9026"/> that MAY be advertised 
-         over an EBGP-OAD session.  The use of the BFD Discriminator 
-         attribute MUST comply with the specification in 
+         The BFD Discriminator attribute is an optional transitive BGP
+         path attribute <xref target="RFC9026"/> that MAY be advertised
+         over an EBGP-OAD session.  The use of the BFD Discriminator
+         attribute MUST comply with the specification in
          <xref target="RFC9026"/>.
        </t>
      </section>
@@ -589,10 +589,10 @@
      <section anchor="RCA">
        <name>BGP Router Capabilities</name>
        <t>
-         The BGP Router Capabilities attribute (RCA) is an optional 
-         transitive BGP path attribute 
-         <xref target="I-D.ietf-idr-entropy-label"/> that MAY be 
-         advertised over an EBGP-OAD session.  The use of the RCA 
+         The BGP Router Capabilities attribute (RCA) is an optional
+         transitive BGP path attribute
+         <xref target="I-D.ietf-idr-entropy-label"/> that MAY be
+         advertised over an EBGP-OAD session.  The use of the RCA
          attribute MUST comply with the specification in
          <xref target="I-D.ietf-idr-entropy-label"/>.
        </t>
@@ -602,8 +602,8 @@
        <name>BGP Prefix-SID</name>
        <t>
          The BGP Prefix-SID attribute is an optional transitive BGP path
-         attribute <xref target="RFC8669"/> that MAY be advertised over 
-         an EBGP-OAD session.  The use of the BGP Prefix-SID attribute 
+         attribute <xref target="RFC8669"/> that MAY be advertised over
+         an EBGP-OAD session.  The use of the BGP Prefix-SID attribute
          MUST comply with the specification in <xref target="RFC8669"/>.
        </t>
      </section>
@@ -611,9 +611,9 @@
      <section anchor="ATTR_SET">
        <name>ATTR_SET</name>
        <t>
-         The ATTR_SET attribute is an optional transitive BGP path 
-         attribute <xref target="RFC6368"/> that MAY be advertised over 
-         an EBGP-OAD session.  The use of the ATTR_SET attribute MUST 
+         The ATTR_SET attribute is an optional transitive BGP path
+         attribute <xref target="RFC6368"/> that MAY be advertised over
+         an EBGP-OAD session.  The use of the ATTR_SET attribute MUST
          comply with the specification in <xref target="RFC6368"/>.
        </t>
      </section>
@@ -865,26 +865,26 @@
    <section>
      <name>Changes to the Decision Process</name>
      <t>
-       <xref target="RFC4271" section="9"/> describes the BGP Decision 
-       Process to select routes for local forwarding and subsequent 
-       advertisement.  <xref target="RFC4271" section="9.1.2.2"/> 
-       describes tie breaking procedures in cases where a BGP speaker 
-       has several routes to the same destination.  This document 
+       <xref target="RFC4271" section="9"/> describes the BGP Decision
+       Process to select routes for local forwarding and subsequent
+       advertisement.  <xref target="RFC4271" section="9.1.2.2"/>
+       describes tie breaking procedures in cases where a BGP speaker
+       has several routes to the same destination.  This document
        modifies step d) as follows:
      </t>
      <dl indent="4" newline="false">
        <dt>d)</dt>
        <dd>
-         If at least one of the candidate routes was received via EBGP, 
-         remove from consideration all routes that were received via 
-         EBGP-OAD and IBGP. If at least one of the candidate routes was 
-         received via EBGP-OAD, remove from consideration all routes 
+         If at least one of the candidate routes was received via EBGP,
+         remove from consideration all routes that were received via
+         EBGP-OAD and IBGP. If at least one of the candidate routes was
+         received via EBGP-OAD, remove from consideration all routes
          that were received via IBGP.
        </dd>
      </dl>
      <t>
-       The algorithm defined in <xref target="RFC5004"/> to avoid 
-       unnecessary path transitions between external paths MUST be used 
+       The algorithm defined in <xref target="RFC5004"/> to avoid
+       unnecessary path transitions between external paths MUST be used
        when the routes considered were received via EBGP-OAD.
      </t>
    </section>
@@ -892,30 +892,30 @@
     <section>
       <name>Deployment and Operational Considerations</name>
       <t>
-        For the Import and Export Policies to behave as expected, both 
-        EBGP-OADGP speakers must be configured with the same session 
-        type.  If only one BGP speaker is configured that way, and the 
-        other uses an EBGP session, the result is that some path 
+        For the Import and Export Policies to behave as expected, both
+        EBGP-OADGP speakers must be configured with the same session
+        type.  If only one BGP speaker is configured that way, and the
+        other uses an EBGP session, the result is that some path
         attributes may be ignored and others will be discarded.
       </t>
       <t>
-        The default BGP peering type for a session that is across 
-        autonomous systems SHOULD be EBGP.  A BGP implementation SHOULD 
-        provide a configuration-time option to enable the EBGP-OAD 
-        session type.  The session type may be changed once the BGP 
+        The default BGP peering type for a session that is across
+        autonomous systems SHOULD be EBGP.  A BGP implementation SHOULD
+        provide a configuration-time option to enable the EBGP-OAD
+        session type.  The session type may be changed once the BGP
         connection has been established.
       </t>
       <t>
-        If multiple peerings exist between autonomous systems that 
-        belong to an OAD, all SHOULD be configured consistently.  
-        Improper configuration may result in inconsistent or unexpected 
-        forwarding.  The inconsistent use of EBGP-OAD sessions is out 
+        If multiple peerings exist between autonomous systems that
+        belong to an OAD, all SHOULD be configured consistently.
+        Improper configuration may result in inconsistent or unexpected
+        forwarding.  The inconsistent use of EBGP-OAD sessions is out
         of scope of this document.
       </t>
       <t>
-        BGP Confederations <xref target="RFC5065"/> provide similar 
-        behavior, on a session by session basis, as what is specified 
-        in this document. The use of confederations with an EBGP-OAD 
+        BGP Confederations <xref target="RFC5065"/> provide similar
+        behavior, on a session by session basis, as what is specified
+        in this document. The use of confederations with an EBGP-OAD
         peering is out of scope of this document.
       </t>
     </section>
@@ -923,8 +923,8 @@
     <section anchor="IANA">
       <name>IANA Considerations</name>
       <t>
-        IANA is requested to update the BGP Path Attributes registry as 
-        shown in <xref target="NewRegistry"/>.  Also, IANA is requested 
+        IANA is requested to update the BGP Path Attributes registry as
+        shown in <xref target="NewRegistry"/>.  Also, IANA is requested
         to add [this document] as a reference in the registry.
       </t>
       <table anchor="NewRegistry" align="center">
@@ -1201,9 +1201,9 @@
        </tbody>
      </table>
      <t>
-       <xref target="NewRegistry"/> only includes the path attributes 
-       referenced in this document.  Any Reserved, Deprecated, or 
-       Unassigned values should contain empty IBGP, EBGP, and EBGP-OAD 
+       <xref target="NewRegistry"/> only includes the path attributes
+       referenced in this document.  Any Reserved, Deprecated, or
+       Unassigned values should contain empty IBGP, EBGP, and EBGP-OAD
        columns.
       </t>
     </section>
@@ -1211,22 +1211,22 @@
     <section anchor="Security">
         <name>Security Considerations</name>
         <t>
-          EBGP-OAD peering does not change the underlying security 
-          issues inherent in the existing BGP protocol, such as those 
-          described in <xref target="RFC4271"/> and 
-          <xref target="RFC4272"/>.  Any security considerations 
-          related to existing path attributes apply to EBGP-OAD 
+          EBGP-OAD peering does not change the underlying security
+          issues inherent in the existing BGP protocol, such as those
+          described in <xref target="RFC4271"/> and
+          <xref target="RFC4272"/>.  Any security considerations
+          related to existing path attributes apply to EBGP-OAD
           sessions.
         </t>
         <t>
-          All BGP attributes may now be propagated to another 
-          autonomous system.  However, it is expected that the new 
-          session type will only be enabled when peering with a router 
-          that also belongs to the OAD.  If misconfigured, the impact 
-          is minimal due to the fact that both <xref target="RFC4271"/> 
-          and <xref target="RFC7606"/> define mechanisms to deal with 
-          unexpected path attributes.  Also, the use of the Import and 
-          Export Policy mechanisms speficied in 
+          All BGP attributes may now be propagated to another
+          autonomous system.  However, it is expected that the new
+          session type will only be enabled when peering with a router
+          that also belongs to the OAD.  If misconfigured, the impact
+          is minimal due to the fact that both <xref target="RFC4271"/>
+          and <xref target="RFC7606"/> define mechanisms to deal with
+          unexpected path attributes.  Also, the use of the Import and
+          Export Policy mechanisms speficied in
           <xref target="RFC8212"/> are REQUIRED.
         </t>
     </section>
@@ -1260,6 +1260,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6793.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7311.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7942.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8092.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8205.xml"/>
 	      <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
@@ -1293,14 +1294,29 @@
 
     </references>
 
+    <section title="Implementation Report">
+      <t>
+        According to <xref target="RFC7942"/>, "This will allow reviewers
+        and working groups to assign due consideration to documents that
+        have the benefit of running code, which may serve as evidence of
+        valuable experimentation and feedback that have made the implemented
+        protocols more mature".
+      </t>
+      <t>
+        <eref target="https://github.com/FRRouting/frr/pull/14537/commits/5e81120961d502a25da5a590011ed6dda86024b7">FRRouting</eref>
+        (10.0 and above) implementation.
+        The official documentation is available <eref target="https://docs.frrouting.org/en/stable-10.2/bgp.html#clicmd-neighbor-PEER-oad">here</eref>.
+      </t>
+    </section>
+
     <section anchor="Acknowledgements" numbered="false">
       <!-- [REPLACE/DELETE] an Acknowledgements section is optional -->
       <name>Acknowledgements</name>
       <t>
-        The authors would like to thank everyone who has commented on 
-        this work, including (in alphabetical order) Donatas Abraitis, 
-        Randy Bush, Gert Doering, Jeff Haas, Jakob Heitz, Nick 
-        Hilliard, Igor Malyushkin, Gyan Mishra, Robert Raszuk, John 
+        The authors would like to thank everyone who has commented on
+        this work, including (in alphabetical order) Donatas Abraitis,
+        Randy Bush, Gert Doering, Jeff Haas, Jakob Heitz, Nick
+        Hilliard, Igor Malyushkin, Gyan Mishra, Robert Raszuk, John
         Scudder, and Shyam Sethuram.
       </t>
     </section>
@@ -1308,7 +1324,7 @@
     <section anchor="Contributors" numbered="false">
       <name>Contributors</name>
       <t>
-        The following people have made significant contributions to the 
+        The following people have made significant contributions to the
         content of this document.
       </t>
       <contact fullname="Avinash Lingala" initials="A." surname="Lingala">
@@ -1327,6 +1343,12 @@
         <organization>Juniper Networks</organization>
         <address>
           <email>ssangli@juniper.net</email>
+        </address>
+      </contact>
+      <contact fullname="Donatas Abraitis" initials="D." surname="Abraitis">
+        <organization>Hostinger</organization>
+        <address>
+          <email>donatas.abraitis@gmail.com</email>
         </address>
       </contact>
     </section>
