@@ -180,11 +180,11 @@
         This section addresses only the path attributes defined at the time
         of this writing, which are not marked as "deprecated" in the "BGP
         Path Attributes" registry <xref target="IANA-BGP-ATTRS"/>, whose behavior
-+       over an EBGP-OAD session differs from standard EBGP behavior.
+        over an EBGP-OAD session differs from standard EBGP behavior.
         All other path attributes not listed in this section MUST
-+       follow standard EBGP behavior as specified in
-+       <xref target="RFC4271"/> or in the document in which they are
-+       defined.
+        follow standard EBGP behavior as specified in
+        <xref target="RFC4271"/> or in the document in which they are
+        defined.
         <xref target="SummaryTable"/> summarizes the behavior for all
         session types.
       </t>
