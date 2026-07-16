@@ -603,6 +603,7 @@
         in this document. The use of confederations with an EBGP-OAD
         peering is out of scope of this document.
       </t>
+      <t>
         <xref target="RFC6286"/> requires that the BGP Identifier of a
         BGP speaker be unique within a single Autonomous System.  In case
         of OAD, all the interconnected OAD members are considered
