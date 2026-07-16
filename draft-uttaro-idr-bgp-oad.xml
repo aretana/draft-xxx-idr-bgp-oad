@@ -62,9 +62,11 @@
 
     <abstract>
       <t>
-        This document defines a new External BGP (EBGP) peering type
-        known as EBGP-OAD, which is used between two EBGP peers that
-        belong to One Administrative Domain (OAD).
+        This document defines EBGP-OAD, a form of External BGP (EBGP)
+        peering used between two EBGP peers that belong to One
+        Administrative Domain (OAD), in which explicit policy
+        configuration allows the behavior of certain path attributes
+        to differ from the EBGP default.
       </t>
     </abstract>
 
@@ -89,9 +91,13 @@
         when the peers belong to an OAD.
       </t>
       <t>
-        This document defines a new EBGP peering type known as
-        EBGP-OAD, which is used between two EBGP peers that belong to
-        an OAD. This document also defines rules for route announcement
+        This document defines EBGP-OAD, a form of EBGP peering used
+        between two EBGP peers that belong to an OAD.  EBGP-OAD is
+        not a peering type distinct from EBGP; rather, it is
+        an EBGP session for which explicit policy configuration
+        allows the behavior of certain path attributes (described in
+        <xref target="Operation"/>) to differ from the EBGP default.
+        This document also defines rules for route announcement
         and processing for EBGP-OAD peers.
       </t>
 
@@ -133,24 +139,20 @@
       </t>
     </section>
 
-    <section>
+    <section anchor="Operation">
       <name>Operation</name>
       <t>
-        <xref target="RFC4271"/> defines two types of BGP peerings used
-        during a BGP protocol session. As part of the extensions
-        defined in this document, EBGP peering is divided into two
-        types:
-      </t>
-      <ol>
-	    <li>EBGP as defined in <xref target="RFC4271"/>.</li>
-	    <li>EBGP-OAD as defined below.</li>
-      </ol>
-      <t>
-        The EBGP-OAD session is a BGP connection between
-        peers in different Autonomous Systems that belong to an OAD.
-        By default, the EBGP-OAD speakers follow the EBGP route
-        advertisement, route processing, path attribute announcement,
-        and processing rules as defined in <xref target="RFC4271"/>.
+        <xref target="RFC4271"/> defines two types of BGP peerings
+        used during a BGP protocol session: EBGP and IBGP.  This
+        document does not define a third peering type.  Instead, it
+        defines EBGP-OAD, which is an EBGP session between peers in
+        different Autonomous Systems that belong to an OAD.  By
+        default, EBGP-OAD peers follow the EBGP route advertisement,
+        route processing, path attribute announcement, and processing
+        rules as defined in <xref target="RFC4271"/>; explicit policy
+        configuration MAY enable the behavior of certain path
+        attributes, described in the following subsections, to differ
+        from that default.
       </t>
       <t>
         EBGP-OAD peers handle receiving optional transitive attributes
@@ -189,13 +191,12 @@
         follow standard EBGP behavior as specified in
         <xref target="RFC4271"/> or in the document in which they are
         defined.
-        <xref target="SummaryTable"/> summarizes the behavior for all
-        session types.
+        <xref target="SummaryTable"/> summarizes the behavior for
+        EBGP, IBGP, and EBGP-OAD peerings.
       </t>
       <t>
         Documents specifying new path attributes MUST indicate whether
-        they are allowed for each session type: IBGP, EBGP, and
-        EBGP-OAD.
+        they are allowed for EBGP, IBGP, and EBGP-OAD peerings.
       </t>
 
         <section anchor="NH">
@@ -555,17 +556,20 @@
       <name>Operational Considerations</name>
       <t>
         For the Import and Export Policies to behave as expected, both
-        EBGP-OADGP speakers must be configured with the same session
-        type.  If only one BGP speaker is configured that way, and the
-        other uses an EBGP session, the result is that some path
-        attributes may be ignored and others will be discarded.
+        EBGP-OAD speakers must be configured to use EBGP-OAD.  If
+        only one BGP speaker is so configured, and the other uses a
+        plain EBGP session, the result is that some path attributes
+        may be ignored and others will be discarded.
       </t>
       <t>
-        The default BGP peering type for a session that is across
-        autonomous systems SHOULD be EBGP.  A BGP implementation SHOULD
-        provide a configuration-time option to enable the EBGP-OAD
-        session type.  The session type may be changed once the BGP
-        connection has been established.
+        By default, a BGP session between different autonomous systems SHOULD be
+        a plain EBGP session.  A BGP implementation SHOULD provide a
+        configuration-time option to enable EBGP-OAD on a given
+        session.  Whether a session is configured as a plain EBGP
+        session or as EBGP-OAD may be changed without restarting the
+        BGP session, since EBGP-OAD is, by default, the same as EBGP;
+        the change only affects how path attributes are subsequently
+        processed.
       </t>
       <t>
         If multiple peerings exist between autonomous systems that
@@ -940,8 +944,8 @@
         </t>
         <t>
           All BGP attributes may now be propagated to another
-          autonomous system.  However, it is expected that the new
-          session type will only be enabled when peering with a router
+          autonomous system.  However, it is expected that EBGP-OAD
+          will only be enabled when peering with a router
           that also belongs to the OAD.  If misconfigured, the impact
           is minimal due to the fact that both <xref target="RFC4271"/>
           and <xref target="RFC7606"/> define mechanisms to deal with
