@@ -593,6 +593,18 @@
         route over one received via EBGP-OAD) can use existing BGP
         mechanisms such as LOCAL_PREF.
       </t>
+      <t>
+        Members of an OAD may use a locally-defined community to
+        indicate that a route musto not be advertised across an EBGP-OAD
+        session. In general, this type of community only controls the
+        propagation of the route it is attached to.  It does not affect
+        the propagation of individual path attributes, which continues
+        to be governed by Import/Export Policy configuration.  In
+        particular, an attribute added to the route after the community
+        was set (for example, by an intervening EBGP-OAD peering) is not
+        covered by this community and remains subject to explicit policy
+        configuration.
+      </t>
     </section>
 
     <section anchor="IANA">
