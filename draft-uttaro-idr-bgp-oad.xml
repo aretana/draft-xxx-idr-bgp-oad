@@ -164,10 +164,7 @@
         Unless explicitly specifed, EBGP-OAD speakers are allowed to
         announce and receive any attribute over an EBGP-OAD session.
         Receiving any attribute over an EBGP-OAD session MUST NOT
-        result in an error.  For example, the ORIGINATOR_ID
-        (<xref target="originator"/>) and the CLUSTER_LIST
-        (<xref target="cluster"/>) are not allowed over EBGP-OAD
-        sessions.
+        result in an error.
       </t>
       <t>
         EBGP-OAD sessions MUST comply with the behavior specified in
@@ -335,25 +332,12 @@
         <t>
           Extended communities which are non-transitive across an AS
           boundary MAY be advertised over an EBGP-OAD session if
-          allowed by explicit policy configuration.  If allowed, all
-          the members of the OAD SHOULD be configured to use the same
-          criteria.  For example, the Origin Validation State Extended
-          Community, defined as non-transitive in
-          <xref target="RFC8097"/>, can be advertised to peers in the
-          same OAD.
+          allowed by explicit policy configuration. For example, the
+          Origin Validation State Extended Community, defined as
+          non-transitive in <xref target="RFC8097"/>, can be advertised
+          to peers in the same OAD.
         </t>
       </section>
-
-     <section anchor="TE">
-       <name>Traffic Engineering</name>
-       <t>
-         The Traffic Engineering attribute is an optional
-         non-transitive BGP path attribute <xref target="RFC5543"/>
-         that MAY be advertised over an EBGP-OAD session.  The use of
-         the Traffic Engineering attribute MUST comply with the
-         specification in <xref target="RFC5543"/>.
-       </t>
-     </section>
 
      <section anchor="IPv6">
        <name>IPv6 Address Specific Extended Community</name>
@@ -366,9 +350,7 @@
        <t>
          Extended communities which are non-transitive across
          Autonomous Systems MAY be advertised over an EBGP-OAD session
-         if allowed by explicit policy configuration.  If allowed, all
-         the members of the OAD SHOULD be configured to use the same
-         criteria.
+         if allowed by explicit policy configuration. 
        </t>
      </section>
 
@@ -503,13 +485,6 @@
          <td align="left" colspan="1" rowspan="1">Optional</td>
          <td align="left" colspan="1" rowspan="1">Optional</td>
          <td align="left" colspan="1" rowspan="1"><xref target="extended"/></td>
-       </tr>
-       <tr>
-         <td align="left" colspan="1" rowspan="1">Traffic Engineering</td>
-         <td align="left" colspan="1" rowspan="1">Not Allowed</td>
-         <td align="left" colspan="1" rowspan="1">Optional</td>
-         <td align="left" colspan="1" rowspan="1">Optional</td>
-         <td align="left" colspan="1" rowspan="1"><xref target="TE"/></td>
        </tr>
        <tr>
          <td align="left" colspan="1" rowspan="1">IPv6 Address Specific Extended Community</td>
@@ -979,7 +954,6 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5701.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6286.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6368.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6513.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6514.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6793.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7311.xml"/>
@@ -1024,9 +998,9 @@
       <t>
         The authors would like to thank everyone who has commented on
         this work, including (in alphabetical order) Donatas Abraitis,
-        Randy Bush, Gert Doering, Jeff Haas, Jakob Heitz, Nick
+        Randy Bush, Bruno Decraene, Gert Doering, Jeff Haas, Jakob Heitz, Nick
         Hilliard, Igor Malyushkin, Gyan Mishra, Robert Raszuk, John
-        Scudder, and Shyam Sethuram.
+        Scudder, Shyam Sethuram and Aijun Wang.
       </t>
     </section>
 
