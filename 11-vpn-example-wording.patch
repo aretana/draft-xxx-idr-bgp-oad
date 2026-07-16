@@ -1,0 +1,29 @@
+diff --git a/draft-uttaro-idr-bgp-oad.xml b/draft-uttaro-idr-bgp-oad.xml
+index 26be172..1984c52 100644
+--- a/draft-uttaro-idr-bgp-oad.xml
++++ b/draft-uttaro-idr-bgp-oad.xml
+@@ -121,11 +121,19 @@
+         service providers (CSPs).
+       </t>
+       <t>
+-        For example, sites in a BGP/MPLS VPN <xref target="RFC4364"/>
+-        may be distributed across different AS domains. In some cases,
+-        the administrator of the VPN may prefer that some attributes
+-        are propagated to all their sites to influence the BGP decision
+-        process.
++        For example, an enterprise customer's sites, connected via a
++        BGP/MPLS VPN <xref target="RFC4364"/> operated by a
++        third-party network provider, may themselves be distributed
++        across different AS domains that are all under the customer's
++        own administration (i.e., the customer's sites form an OAD).
++        In such cases, the customer may want certain attributes
++        relevant to their own VPN routes to be propagated consistently
++        among all of their sites, to influence the BGP decision
++        process at each site.  This does not extend to the internal
++        attributes of the VPN provider's network (e.g., LOCAL_PREF or
++        Route Target values used by the provider), which are not
++        intended to be shared with, or influenced by, the customer's
++        sites.
+       </t>
+     </section>
+ 
